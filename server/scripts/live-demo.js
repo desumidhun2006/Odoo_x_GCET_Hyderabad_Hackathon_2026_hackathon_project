@@ -29,7 +29,8 @@ app.use('/api/ledger', ledger);
 app.use(express.static(new URL('../../stitch', import.meta.url).pathname));
 app.get('/', (_req, res) => res.redirect('/dashboard.html'));
 
-// Seed PDF demo flow
+// Seed PDF demo flow (skip with EMPTY_SEED=1 for a fully erased site)
+if (process.env.EMPTY_SEED !== '1') {
 const wh = await Warehouse.create({ name: 'Main Warehouse', code: 'WH-01', locations: ['Main Store', 'Production Rack'] });
 const steel = await Product.create({ name: 'Steel Rods', sku: 'STL-001', category: 'Raw', uom: 'kg', reorderLevel: 20 });
 await Product.create({ name: 'Chairs', sku: 'CHR-010', category: 'Finished', uom: 'units', reorderLevel: 5 });
@@ -37,5 +38,8 @@ const ref = new mongoose.Types.ObjectId();
 await bump(steel._id, wh._id, 'Main Store', 100, { type: 'Receipt', refId: ref, by: 'demo' });
 await bump(steel._id, wh._id, 'Main Store', -30, { type: 'Transfer', refId: ref, by: 'demo' });
 await bump(steel._id, wh._id, 'Production Rack', 30, { type: 'Transfer', refId: ref, by: 'demo' });
-
-app.listen(PORT, () => console.log(`LIVE-DEMO api on :${PORT}, wh=${wh._id} steel=${steel._id}`));
+console.log(`LIVE-DEMO api on :${PORT}, wh=${wh._id} steel=${steel._id}`);
+} else {
+console.log(`LIVE-DEMO api on :${PORT} (EMPTY — all data erased)`);
+}
+app.listen(PORT, () => console.log(`listening on :${PORT}`));
