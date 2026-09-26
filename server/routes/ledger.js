@@ -40,6 +40,7 @@ r.get('/dashboard-summary', async (_req, res) => {
   ]);
   const low = stocks.filter((s) => s.product && s.qty <= (s.product.reorderLevel ?? 10)).length;
   const out = stocks.filter((s) => s.qty <= 0).length;
-  res.json({ totalProducts: products, lowStock: low, outOfStock: out, pendingReceipts: pReceipts, pendingDeliveries: pDeliveries, scheduledTransfers: schedTransfers });
+  const totalUnits = stocks.reduce((a, s) => a + s.qty, 0);
+  res.json({ totalProducts: products, totalUnits, lowStock: low, outOfStock: out, pendingReceipts: pReceipts, pendingDeliveries: pDeliveries, scheduledTransfers: schedTransfers });
 });
 export default r;

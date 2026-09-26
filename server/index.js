@@ -29,6 +29,10 @@ app.use('/api/transfers', transfers);
 app.use('/api/adjustments', adjustments);
 app.use('/api/ledger', ledger);
 
+// Stitch UI (original design screens, wired live via stitch/live.js) — replaces old React client/
+app.use(express.static(new URL('../stitch', import.meta.url).pathname));
+app.get('/', (_req, res) => res.redirect('/dashboard.html'));
+
 const PORT = process.env.PORT || 5000;
 if (process.env.MONGO_URI) {
   connectDB(process.env.MONGO_URI).then(() => {

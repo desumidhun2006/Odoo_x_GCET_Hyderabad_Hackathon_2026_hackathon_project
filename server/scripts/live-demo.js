@@ -26,6 +26,8 @@ app.use('/api/deliveries', deliveries);
 app.use('/api/transfers', transfers);
 app.use('/api/adjustments', adjustments);
 app.use('/api/ledger', ledger);
+app.use(express.static(new URL('../../stitch', import.meta.url).pathname));
+app.get('/', (_req, res) => res.redirect('/dashboard.html'));
 
 // Seed PDF demo flow
 const wh = await Warehouse.create({ name: 'Main Warehouse', code: 'WH-01', locations: ['Main Store', 'Production Rack'] });

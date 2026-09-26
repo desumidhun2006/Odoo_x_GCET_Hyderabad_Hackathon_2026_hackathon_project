@@ -1,0 +1,615 @@
+<!DOCTYPE html>
+
+<html lang="en"><head><meta charset="utf-8"/><meta content="width=device-width, initial-scale=1.0" name="viewport"/><meta content="web_dashboard" name="shell-type"/><link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Geist:wght@100..900&display=swap" rel="stylesheet"/><style>@layer base{html,body{margin:0;padding:0;}body{overscroll-behavior:none;}main>:first-child{margin-top:0!important;}main>:last-child{margin-bottom:0!important;}}::-webkit-scrollbar{display:none;}</style><script src="https://cdn.tailwindcss.com"></script><script id="tailwind-config">tailwind.config = {
+    darkMode: "class",
+    theme: {
+      extend: {
+        "colors": {
+          "on-tertiary": "#ffffff",
+          "secondary-fixed-dim": "#b4c5ff",
+          "on-secondary-fixed-variant": "#003ea8",
+          "surface-container-highest": "#d3e4fe",
+          "surface-tint": "#565e74",
+          "surface-container-high": "#dce9ff",
+          "primary": "#000000",
+          "surface-container-low": "#eff4ff",
+          "surface-container-lowest": "#ffffff",
+          "error-container": "#ffdad6",
+          "inverse-on-surface": "#eaf1ff",
+          "on-secondary": "#ffffff",
+          "secondary-container": "#316bf3",
+          "error": "#ba1a1a",
+          "tertiary-fixed": "#85f8c4",
+          "on-secondary-fixed": "#00174b",
+          "on-error": "#ffffff",
+          "primary-fixed": "#dae2fd",
+          "on-error-container": "#93000a",
+          "surface": "#f8f9ff",
+          "on-tertiary-fixed": "#002114",
+          "secondary": "#0051d5",
+          "primary-fixed-dim": "#bec6e0",
+          "on-primary-container": "#7c839b",
+          "surface-dim": "#cbdbf5",
+          "on-tertiary-container": "#069669",
+          "on-surface-variant": "#45464d",
+          "on-surface": "#0b1c30",
+          "on-tertiary-fixed-variant": "#005137",
+          "primary-container": "#131b2e",
+          "on-background": "#0b1c30",
+          "outline": "#76777d",
+          "tertiary-fixed-dim": "#68dba9",
+          "inverse-surface": "#213145",
+          "on-secondary-container": "#fefcff",
+          "tertiary": "#000000",
+          "outline-variant": "#c6c6cd",
+          "tertiary-container": "#002114",
+          "surface-variant": "#d3e4fe",
+          "surface-bright": "#f8f9ff",
+          "on-primary-fixed": "#131b2e",
+          "on-primary-fixed-variant": "#3f465c",
+          "surface-container": "#e5eeff",
+          "secondary-fixed": "#dbe1ff",
+          "inverse-primary": "#bec6e0",
+          "on-primary": "#ffffff",
+          "background": "#f8f9ff"
+        },
+        "borderRadius": {
+          "DEFAULT": "0.125rem",
+          "lg": "0.25rem",
+          "xl": "0.5rem",
+          "full": "0.75rem"
+        },
+        "spacing": {
+          "gutter-desktop": "1.5rem",
+          "gutter": "1rem",
+          "space-xl": "2rem",
+          "space-md": "0.75rem",
+          "space-lg": "1.25rem",
+          "margin": "1rem",
+          "space-sm": "0.5rem",
+          "margin-desktop": "2rem",
+          "space-xs": "0.25rem"
+        },
+        "fontFamily": {
+          "headline-md": ["Geist"],
+          "body-lg": ["Geist"],
+          "label-md": ["Geist"],
+          "headline-lg": ["Geist"],
+          "headline-sm": ["Geist"],
+          "body-md": ["Geist"],
+          "headline-lg-mobile": ["Geist"],
+          "label-sm": ["Geist"],
+          "label-lg": ["Geist"],
+          "headline-xl-mobile": ["Geist"],
+          "code-data": ["Geist"],
+          "headline-xl": ["Geist"],
+          "body-sm": ["Geist"]
+        },
+        "fontSize": {
+          "headline-md": ["1.125rem", {"lineHeight": "1.5rem", "letterSpacing": "-0.015em", "fontWeight": "600"}],
+          "body-lg": ["1rem", {"lineHeight": "1.5rem", "letterSpacing": "0em", "fontWeight": "400"}],
+          "label-md": ["0.75rem", {"lineHeight": "1rem", "letterSpacing": "0.01em", "fontWeight": "500"}],
+          "headline-lg": ["1.5rem", {"lineHeight": "2rem", "letterSpacing": "-0.02em", "fontWeight": "600"}],
+          "headline-sm": ["1rem", {"lineHeight": "1.375rem", "letterSpacing": "-0.01em", "fontWeight": "600"}],
+          "body-md": ["0.875rem", {"lineHeight": "1.25rem", "letterSpacing": "0em", "fontWeight": "400"}],
+          "headline-lg-mobile": ["1.25rem", {"lineHeight": "1.75rem", "letterSpacing": "-0.015em", "fontWeight": "600"}],
+          "label-sm": ["0.6875rem", {"lineHeight": "0.875rem", "letterSpacing": "0.03em", "fontWeight": "600"}],
+          "label-lg": ["0.875rem", {"lineHeight": "1.25rem", "letterSpacing": "0.005em", "fontWeight": "500"}],
+          "headline-xl-mobile": ["1.5rem", {"lineHeight": "2rem", "letterSpacing": "-0.02em", "fontWeight": "700"}],
+          "code-data": ["0.8125rem", {"lineHeight": "1.125rem", "letterSpacing": "0.02em", "fontWeight": "500"}],
+          "headline-xl": ["2rem", {"lineHeight": "2.5rem", "letterSpacing": "-0.025em", "fontWeight": "700"}],
+          "body-sm": ["0.75rem", {"lineHeight": "1.125rem", "letterSpacing": "0.01em", "fontWeight": "400"}]
+        }
+      }
+    }
+  }</script><link rel="icon" type="image/svg+xml" href="/favicon.svg"></head><body class="bg-surface font-body-md text-on-surface antialiased"><aside class="fixed left-0 top-0 h-screen w-64 bg-primary-container text-on-primary-container z-50 flex flex-col justify-between shadow-[0_1px_8px_rgba(0,0,0,0.04)]"><div class="flex flex-col h-full overflow-y-auto"><div class="p-space-md border-b border-surface-container-highest/10"><div class="flex items-center gap-space-sm mb-space-sm"><img alt="StockSense Brand Logo" class="h-8 w-auto object-contain" src="https://lh3.googleusercontent.com/aida-public/AB6AXuD8HSqAXMLKV8yr1aMGTAv2eTuS5pBowAHpf9nZJnlgitJOt7Jy0lUsrLXB47Mg-tflLRngubwQK0jgbxiIzmlKwiXx3PiiHh6p8BZR0eJxzg0yahIFtkGLTXZFImyMYIDoFWjIvCt-_4joI2jtkIQEdtCUrYIDRG58Qg4CXA3w1sSFtMs6fQ9uA6THsMchXIC0378vnpy8BOfEM8MKBDnchZuhMJzMvPY1QdueM2esLmVUFd0h5kFR"/><div class="flex flex-col"><span class="font-headline-sm text-headline-sm text-surface-container-lowest tracking-tight">StockSense IMS</span><div class="flex items-center gap-space-xs"><span class="w-2 h-2 rounded-full bg-tertiary-fixed"></span><span class="font-label-sm text-label-sm text-tertiary-fixed tracking-wide uppercase">Live • Main DC</span></div></div></div><div class="mt-space-sm"><label class="font-label-sm text-label-sm uppercase tracking-wider text-on-primary-container block mb-1">Active Facility</label><button class="w-full flex items-center justify-between px-space-sm py-1.5 bg-surface-container-lowest/5 hover:bg-surface-container-lowest/10 rounded-lg text-left transition-colors" type="button"><div class="flex items-center gap-space-xs truncate"><span class="material-symbols-outlined text-[18px] text-tertiary-fixed">warehouse</span><span class="font-body-sm text-body-sm text-surface-container-lowest truncate">All Warehouses</span></div><span class="material-symbols-outlined text-[16px] text-on-primary-container">expand_more</span></button></div></div><nav class="flex-1 px-space-sm py-space-md space-y-space-md" data-active-classes="bg-secondary text-on-secondary font-headline-sm rounded-lg"><div class="space-y-1"><div class="px-space-sm font-label-sm text-label-sm uppercase tracking-wider text-on-primary-container/70 mb-1">Overview</div><a class="flex items-center gap-space-sm px-space-sm py-2 rounded-lg text-on-primary-container hover:bg-surface-container-highest/10 hover:text-surface-container-lowest transition-colors" data-path="dashboard" href="#"><span class="material-symbols-outlined text-[20px]">dashboard</span><span class="font-body-md text-body-md">Dashboard</span></a></div><div class="space-y-1"><div class="px-space-sm font-label-sm text-label-sm uppercase tracking-wider text-on-primary-container/70 mb-1">Operations</div><a class="flex items-center justify-between px-space-sm py-2 rounded-lg text-on-primary-container hover:bg-surface-container-highest/10 hover:text-surface-container-lowest transition-colors" data-path="receipts-incoming" href="#"><div class="flex items-center gap-space-sm"><span class="material-symbols-outlined text-[20px]">call_received</span><span class="font-body-md text-body-md">Receipts</span></div><span class="px-1.5 py-0.5 rounded-full bg-secondary-container text-on-secondary-container font-label-sm text-label-sm font-semibold">4 Pending</span></a><a aria-current="page" class="flex items-center justify-between px-space-sm py-2 transition-colors bg-secondary text-on-secondary font-headline-sm rounded-lg" data-path="delivery-orders" href="#"><div class="flex items-center gap-space-sm"><span class="material-symbols-outlined text-[20px]">local_shipping</span><span class="font-body-md text-body-md">Delivery Orders</span></div><span class="px-1.5 py-0.5 rounded-full bg-tertiary-fixed text-on-tertiary-fixed font-label-sm text-label-sm font-semibold">12 Ready</span></a><a class="flex items-center gap-space-sm px-space-sm py-2 rounded-lg text-on-primary-container hover:bg-surface-container-highest/10 hover:text-surface-container-lowest transition-colors" data-path="internal-transfers" href="#"><span class="material-symbols-outlined text-[20px]">swap_horiz</span><span class="font-body-md text-body-md">Internal Transfers</span></a><a class="flex items-center gap-space-sm px-space-sm py-2 rounded-lg text-on-primary-container hover:bg-surface-container-highest/10 hover:text-surface-container-lowest transition-colors" data-path="stock-adjustments" href="#"><span class="material-symbols-outlined text-[20px]">tune</span><span class="font-body-md text-body-md">Stock Adjustments</span></a><a class="flex items-center gap-space-sm px-space-sm py-2 rounded-lg text-on-primary-container hover:bg-surface-container-highest/10 hover:text-surface-container-lowest transition-colors" data-path="move-history-ledger" href="#"><span class="material-symbols-outlined text-[20px]">receipt_long</span><span class="font-body-md text-body-md">Move History</span></a></div><div class="space-y-1"><div class="px-space-sm font-label-sm text-label-sm uppercase tracking-wider text-on-primary-container/70 mb-1">Master Data</div><a class="flex items-center gap-space-sm px-space-sm py-2 rounded-lg text-on-primary-container hover:bg-surface-container-highest/10 hover:text-surface-container-lowest transition-colors" data-path="products-catalog" href="#"><span class="material-symbols-outlined text-[20px]">inventory_2</span><span class="font-body-md text-body-md">Products & Catalog</span></a><a class="flex items-center gap-space-sm px-space-sm py-2 rounded-lg text-on-primary-container hover:bg-surface-container-highest/10 hover:text-surface-container-lowest transition-colors" data-path="warehouses-locations" href="#"><span class="material-symbols-outlined text-[20px]">location_on</span><span class="font-body-md text-body-md">Warehouses & Locs</span></a></div><div class="space-y-1"><div class="px-space-sm font-label-sm text-label-sm uppercase tracking-wider text-on-primary-container/70 mb-1">Configuration</div><a class="flex items-center gap-space-sm px-space-sm py-2 rounded-lg text-on-primary-container hover:bg-surface-container-highest/10 hover:text-surface-container-lowest transition-colors" data-path="settings-reorder-rules" href="#"><span class="material-symbols-outlined text-[20px]">settings</span><span class="font-body-md text-body-md">Settings & Rules</span></a></div></nav><div class="p-space-sm border-t border-surface-container-highest/10 bg-surface-container-lowest/5"><div class="flex items-center justify-between"><div class="flex items-center gap-space-sm min-w-0"><div class="relative flex-shrink-0"><div class="w-9 h-9 rounded-full bg-secondary text-on-secondary flex items-center justify-center font-headline-sm text-headline-sm">ER</div><span class="absolute bottom-0 right-0 w-2.5 h-2.5 rounded-full bg-tertiary-fixed ring-2 ring-primary-container"></span></div><div class="min-w-0"><p class="font-headline-sm text-body-md text-surface-container-lowest truncate leading-tight">Elena Rodriguez</p><p class="font-label-sm text-label-sm text-on-primary-container truncate">Ops Lead</p></div></div><div class="flex items-center gap-0.5"><a class="p-1 text-on-primary-container hover:text-surface-container-lowest hover:bg-surface-container-highest/10 rounded transition-colors" data-path="profile-settings" href="#" title="My Profile"><span class="material-symbols-outlined text-[18px]">person</span></a><a class="p-1 text-on-primary-container hover:text-error-container hover:bg-surface-container-highest/10 rounded transition-colors" data-path="sign-out" href="#" title="Sign Out"><span class="material-symbols-outlined text-[18px]">logout</span></a></div></div></div></div></aside><div class="pl-64"><header class="fixed top-0 left-64 right-0 h-16 bg-surface-container-lowest/90 backdrop-blur-xl shadow-[0_1px_8px_rgba(0,0,0,0.04)] z-40 px-gutter-desktop flex items-center justify-between gap-space-md"><div class="flex items-center gap-space-md flex-1 max-w-2xl"><img alt="StockSense Brand Logo" class="h-8 w-auto object-contain" src="https://lh3.googleusercontent.com/aida-public/AB6AXuD8HSqAXMLKV8yr1aMGTAv2eTuS5pBowAHpf9nZJnlgitJOt7Jy0lUsrLXB47Mg-tflLRngubwQK0jgbxiIzmlKwiXx3PiiHh6p8BZR0eJxzg0yahIFtkGLTXZFImyMYIDoFWjIvCt-_4joI2jtkIQEdtCUrYIDRG58Qg4CXA3w1sSFtMs6fQ9uA6THsMchXIC0378vnpy8BOfEM8MKBDnchZuhMJzMvPY1QdueM2esLmVUFd0h5kFR"/><div class="relative flex-1"><span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-[18px] text-on-surface-variant">search</span><input class="w-full pl-9 pr-12 py-1.5 bg-surface-container-low rounded-lg font-code-data text-code-data text-on-surface placeholder:text-on-surface-variant/70 focus:outline-none focus:ring-2 focus:ring-secondary/50 transition-all" placeholder="Search SKU, Document # (REC-, DEL-, TRF-), Location, or Vendor... [Ctrl+K]" type="text"/><span class="absolute right-2.5 top-1/2 -translate-y-1/2 px-1.5 py-0.5 rounded bg-surface-container font-code-data text-[10px] text-on-surface-variant font-medium">⌘K</span></div></div><div class="hidden xl:flex items-center gap-1.5"><button class="px-2.5 py-1 rounded-full bg-secondary-container text-on-secondary-container font-label-sm text-label-sm font-semibold hover:bg-secondary transition-colors" type="button">Main DC</button><button class="px-2.5 py-1 rounded-full bg-surface-container-low text-on-surface-variant font-label-sm text-label-sm hover:bg-surface-container hover:text-on-surface transition-colors" type="button">North Hub</button><button class="px-2.5 py-1 rounded-full bg-surface-container-low text-on-surface-variant font-label-sm text-label-sm hover:bg-surface-container hover:text-on-surface transition-colors" type="button">Plant 2</button></div><div class="flex items-center gap-space-sm"><div class="inline-flex rounded-lg overflow-hidden"><button class="flex items-center gap-1 px-3 py-1.5 bg-secondary text-on-secondary font-headline-sm text-body-sm hover:bg-secondary/90 transition-colors" type="button"><span class="material-symbols-outlined text-[16px]">add</span><span>New Operation</span></button><button class="px-1.5 py-1.5 bg-secondary text-on-secondary border-l border-on-secondary/20 hover:bg-secondary/90 transition-colors" type="button"><span class="material-symbols-outlined text-[16px]">arrow_drop_down</span></button></div><div class="relative"><button class="w-9 h-9 rounded-lg bg-surface-container-low text-on-surface-variant hover:text-on-surface hover:bg-surface-container flex items-center justify-center transition-colors relative" title="Notifications" type="button"><span class="material-symbols-outlined text-[20px]">notifications</span><span class="absolute top-1.5 right-1.5 w-2 h-2 rounded-full bg-error ring-2 ring-surface-container-lowest"></span></button></div><a class="w-9 h-9 rounded-lg bg-surface-container-low text-on-surface-variant hover:text-on-surface hover:bg-surface-container flex items-center justify-center transition-colors" data-path="help-documentation" href="#" title="Help & API Docs"><span class="material-symbols-outlined text-[20px]">help</span></a><div class="w-8 h-8 rounded-full bg-primary flex items-center justify-center"><span class="material-symbols-outlined text-on-primary text-[18px]">person</span></div></div></header><main class="w-full pt-16 px-gutter-desktop min-h-screen bg-surface"><div class="flex flex-col w-full pb-margin-desktop">
+<div class="flex flex-col gap-space-lg">
+<!-- Top Filter Navigation Tabs -->
+<div class="flex items-center justify-between gap-space-md flex-wrap pt-space-xs">
+<div class="inline-flex p-1 rounded-xl bg-surface-container-high shadow-sm">
+<button class="px-space-md py-1.5 rounded-lg text-on-surface-variant font-label-md text-label-md hover:text-on-surface transition-colors" type="button">
+          Pending Picking <span class="ml-1 px-1.5 py-0.5 rounded-full bg-surface-container font-code-data text-body-sm font-semibold">12</span>
+</button>
+<button class="px-space-md py-1.5 rounded-lg bg-surface-container-lowest text-on-surface shadow-sm font-headline-sm text-body-sm font-semibold transition-all" type="button">
+          Packing & Staging <span class="ml-1 px-1.5 py-0.5 rounded-full bg-secondary-container text-on-secondary-container font-code-data text-body-sm font-bold">8</span>
+</button>
+<button class="px-space-md py-1.5 rounded-lg text-on-surface-variant font-label-md text-label-md hover:text-on-surface transition-colors" type="button">
+          Ready for Dispatch <span class="ml-1 px-1.5 py-0.5 rounded-full bg-tertiary-fixed text-on-tertiary-fixed font-code-data text-body-sm font-semibold">5</span>
+</button>
+<button class="px-space-md py-1.5 rounded-lg text-on-surface-variant font-label-md text-label-md hover:text-on-surface transition-colors" type="button">
+          Delivered Today <span class="ml-1 px-1.5 py-0.5 rounded-full bg-surface-container font-code-data text-body-sm font-semibold">19</span>
+</button>
+</div>
+<div class="flex items-center gap-space-xs">
+<span class="font-code-data text-body-sm text-on-surface-variant bg-surface-container-low px-2.5 py-1 rounded">DC-A2 • DOCK 04</span>
+<button class="flex items-center gap-1 px-3 py-1.5 rounded-lg bg-surface-container hover:bg-surface-container-high text-on-surface font-label-md text-label-md transition-colors" type="button">
+<span class="material-symbols-outlined text-[16px]">history</span>
+<span>Order Timeline</span>
+</button>
+</div>
+</div>
+<!-- Main Header Card with Order Identification & Stepper -->
+<div class="rounded-xl bg-surface-container-lowest p-space-lg shadow-sm flex flex-col gap-space-lg relative overflow-hidden">
+<div class="absolute -right-16 -top-16 w-56 h-56 rounded-full bg-secondary/5 pointer-events-none blur-3xl"></div>
+<!-- Action Strip & Document Title -->
+<div class="flex flex-col lg:flex-row items-start lg:items-center justify-between gap-space-md">
+<div class="flex flex-col">
+<div class="flex items-center gap-space-sm flex-wrap">
+<span class="font-code-data text-body-sm tracking-wider uppercase px-2 py-0.5 rounded bg-surface-container-high text-secondary font-bold">OUTGOING TRANSFER</span>
+<span class="font-label-sm text-label-sm text-on-surface-variant">Created: 24 Oct 2024 • 08:30 AM</span>
+<span class="font-label-sm text-label-sm text-on-surface-variant">• Priority: <span class="font-semibold text-secondary">High Express</span></span>
+</div>
+<h1 class="font-headline-xl text-headline-xl text-on-surface tracking-tight mt-1">Delivery Order DO-2024-1140</h1>
+</div>
+<!-- Primary Action Cluster -->
+<div class="flex items-center gap-space-xs flex-wrap">
+<button class="flex items-center gap-1.5 px-3 py-2 rounded-lg bg-surface-container-low hover:bg-surface-container text-on-surface font-headline-sm text-body-sm transition-all shadow-sm" id="scanBarcodeBtn" type="button">
+<span class="material-symbols-outlined text-[18px]">barcode_scanner</span>
+<span>Scan Item Barcode</span>
+</button>
+<button class="flex items-center gap-1.5 px-3 py-2 rounded-lg bg-surface-container-low hover:bg-surface-container text-on-surface font-headline-sm text-body-sm transition-all shadow-sm" type="button">
+<span class="material-symbols-outlined text-[18px]">print</span>
+<span>Print Pick List</span>
+</button>
+<button class="flex items-center gap-1.5 px-3 py-2 rounded-lg bg-surface-container-low hover:bg-surface-container text-on-surface font-headline-sm text-body-sm transition-all shadow-sm" type="button">
+<span class="material-symbols-outlined text-[18px]">local_shipping</span>
+<span>Waybill & Labels</span>
+</button>
+<button class="flex items-center gap-2 px-4 py-2 rounded-lg bg-tertiary-fixed text-on-tertiary-fixed font-headline-sm text-body-sm hover:brightness-105 active:scale-[0.98] transition-all shadow-md" id="validateBtn" type="button">
+<span class="material-symbols-outlined text-[18px]" style="font-variation-settings: 'FILL' 1;">check_circle</span>
+<span class="font-bold">Validate & Deduct Stock</span>
+</button>
+</div>
+</div>
+<!-- Stage Stepper Ribbon -->
+<div class="w-full bg-surface-container-low rounded-xl p-space-md">
+<div class="grid grid-cols-5 gap-space-sm items-center relative">
+<!-- Step 1: Draft (Done) -->
+<div class="flex items-center gap-space-sm min-w-0">
+<div class="w-8 h-8 rounded-full bg-tertiary-container text-tertiary-fixed flex items-center justify-center flex-shrink-0">
+<span class="material-symbols-outlined text-[18px]">check</span>
+</div>
+<div class="min-w-0">
+<span class="font-label-sm text-label-sm text-on-surface-variant uppercase tracking-wider block">Stage 01</span>
+<span class="font-headline-sm text-body-sm text-on-surface truncate block font-medium">1. Draft</span>
+</div>
+</div>
+<!-- Step 2: Waiting Stock (Done) -->
+<div class="flex items-center gap-space-sm min-w-0">
+<div class="w-8 h-8 rounded-full bg-tertiary-container text-tertiary-fixed flex items-center justify-center flex-shrink-0">
+<span class="material-symbols-outlined text-[18px]">check</span>
+</div>
+<div class="min-w-0">
+<span class="font-label-sm text-label-sm text-on-surface-variant uppercase tracking-wider block">Stage 02</span>
+<span class="font-headline-sm text-body-sm text-on-surface truncate block font-medium">2. Waiting Stock</span>
+</div>
+</div>
+<!-- Step 3: Picking (Done) -->
+<div class="flex items-center gap-space-sm min-w-0">
+<div class="w-8 h-8 rounded-full bg-tertiary-container text-tertiary-fixed flex items-center justify-center flex-shrink-0">
+<span class="material-symbols-outlined text-[18px]">check</span>
+</div>
+<div class="min-w-0">
+<span class="font-label-sm text-label-sm text-on-surface-variant uppercase tracking-wider block">Stage 03</span>
+<span class="font-headline-sm text-body-sm text-on-surface truncate block font-medium">3. Picking</span>
+</div>
+</div>
+<!-- Step 4: Packed (Current Active) -->
+<div class="flex items-center gap-space-sm min-w-0 p-1.5 rounded-lg bg-surface-container-lowest shadow-sm">
+<div class="w-8 h-8 rounded-full bg-secondary text-on-secondary flex items-center justify-center flex-shrink-0 shadow-sm animate-pulse">
+<span class="material-symbols-outlined text-[18px]">inventory_2</span>
+</div>
+<div class="min-w-0">
+<span class="font-label-sm text-label-sm text-secondary font-bold uppercase tracking-wider block">Current</span>
+<span class="font-headline-sm text-body-sm text-secondary truncate block font-bold">4. Packed</span>
+</div>
+</div>
+<!-- Step 5: Dispatched (Pending Validation) -->
+<div class="flex items-center gap-space-sm min-w-0 opacity-60">
+<div class="w-8 h-8 rounded-full bg-surface-container text-on-surface-variant flex items-center justify-center flex-shrink-0">
+<span class="material-symbols-outlined text-[18px]">local_shipping</span>
+</div>
+<div class="min-w-0">
+<span class="font-label-sm text-label-sm text-on-surface-variant uppercase tracking-wider block">Stage 05</span>
+<span class="font-headline-sm text-body-sm text-on-surface-variant truncate block">5. Dispatched</span>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- Order & Logistics Spec Cards (Bento Grid) -->
+<div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-space-md">
+<!-- Customer Card -->
+<div class="rounded-xl bg-surface-container-lowest p-space-md shadow-sm flex flex-col justify-between">
+<div>
+<div class="flex items-center justify-between mb-space-xs">
+<span class="font-label-sm text-label-sm text-on-surface-variant uppercase tracking-wider">Consignee Customer</span>
+<span class="material-symbols-outlined text-[18px] text-secondary">corporate_fare</span>
+</div>
+<div class="font-headline-md text-headline-md text-on-surface leading-snug">Apex Tech Solutions HQ</div>
+<div class="font-code-data text-code-data text-on-surface-variant mt-0.5">Account ID: CUST-4412</div>
+</div>
+<div class="mt-space-sm pt-space-xs bg-surface-container-low rounded-lg p-2 flex items-center justify-between">
+<span class="font-label-sm text-label-sm text-on-surface-variant">Tier 1 Enterprise Partner</span>
+<span class="font-code-data text-body-sm text-on-tertiary-container font-semibold">Net 30 Verified</span>
+</div>
+</div>
+<!-- Shipping Destination Address -->
+<div class="rounded-xl bg-surface-container-lowest p-space-md shadow-sm flex flex-col justify-between">
+<div>
+<div class="flex items-center justify-between mb-space-xs">
+<span class="font-label-sm text-label-sm text-on-surface-variant uppercase tracking-wider">Delivery Destination</span>
+<span class="material-symbols-outlined text-[18px] text-secondary">distance</span>
+</div>
+<div class="font-headline-sm text-headline-sm text-on-surface leading-snug">Austin Operations Center</div>
+<div class="font-body-md text-body-md text-on-surface-variant mt-0.5">428 Enterprise Blvd, Suite 300, Austin, TX 78701</div>
+</div>
+<div class="mt-space-sm pt-space-xs bg-surface-container-low rounded-lg p-2 flex items-center gap-1.5">
+<span class="material-symbols-outlined text-[16px] text-secondary">pin_drop</span>
+<span class="font-label-sm text-label-sm text-on-surface truncate">Dock Bay East • Signature Required</span>
+</div>
+</div>
+<!-- Warehouse Source -->
+<div class="rounded-xl bg-surface-container-lowest p-space-md shadow-sm flex flex-col justify-between">
+<div>
+<div class="flex items-center justify-between mb-space-xs">
+<span class="font-label-sm text-label-sm text-on-surface-variant uppercase tracking-wider">Origin Logistics</span>
+<span class="material-symbols-outlined text-[18px] text-secondary">warehouse</span>
+</div>
+<div class="font-headline-md text-headline-md text-on-surface leading-snug">Main Logistics Center</div>
+<div class="font-body-md text-body-md text-on-surface-variant mt-0.5">Staging Zone: Bay 2 - Outbound Dock 04</div>
+</div>
+<div class="mt-space-sm pt-space-xs bg-surface-container-low rounded-lg p-2 flex items-center justify-between">
+<span class="font-label-sm text-label-sm text-on-surface-variant">Gate Status</span>
+<span class="px-2 py-0.5 rounded-full bg-tertiary-fixed text-on-tertiary-fixed font-code-data text-body-sm font-semibold">Cleared For Loading</span>
+</div>
+</div>
+<!-- Carrier & Tracking Info -->
+<div class="rounded-xl bg-surface-container-lowest p-space-md shadow-sm flex flex-col justify-between">
+<div>
+<div class="flex items-center justify-between mb-space-xs">
+<span class="font-label-sm text-label-sm text-on-surface-variant uppercase tracking-wider">Carrier & Tracking</span>
+<span class="material-symbols-outlined text-[18px] text-secondary">local_shipping</span>
+</div>
+<div class="font-headline-sm text-headline-sm text-on-surface leading-snug">Express Freight</div>
+<div class="font-code-data text-body-sm text-secondary font-bold mt-0.5">TRK-9832481023</div>
+</div>
+<div class="mt-space-sm pt-space-xs bg-surface-container-low rounded-lg p-2 flex items-center justify-between">
+<span class="font-code-data text-body-sm text-on-surface truncate">FedEx #FX-998231</span>
+<button class="text-secondary hover:text-secondary-container transition-colors" title="Copy tracking link" type="button">
+<span class="material-symbols-outlined text-[16px]">content_copy</span>
+</button>
+</div>
+</div>
+</div>
+<!-- Picking & Packing Line Items Table Section -->
+<div class="rounded-xl bg-surface-container-lowest shadow-sm overflow-hidden flex flex-col">
+<div class="px-space-lg py-space-md bg-surface-container-lowest flex items-center justify-between flex-wrap gap-space-sm">
+<div class="flex items-center gap-space-sm">
+<span class="material-symbols-outlined text-secondary text-[22px]">checklist</span>
+<h2 class="font-headline-lg text-headline-lg text-on-surface">Picking & Packing Line Items</h2>
+<span class="px-2 py-0.5 rounded-full bg-secondary-container text-on-secondary-container font-code-data text-body-sm font-semibold">2 of 2 Lines Verified</span>
+</div>
+<div class="flex items-center gap-space-sm">
+<span class="font-label-sm text-label-sm text-on-surface-variant">Weight: <strong class="text-on-surface">248.5 kg</strong> • Pallets: <strong class="text-on-surface">2</strong></span>
+<button class="p-1 rounded hover:bg-surface-container text-on-surface-variant transition-colors" title="Table Display Settings" type="button">
+<span class="material-symbols-outlined text-[18px]">view_column</span>
+</button>
+</div>
+</div>
+<!-- High-Density Line Items Table -->
+<div class="overflow-x-auto">
+<table class="w-full text-left">
+<thead class="bg-surface-container-high text-on-surface-variant font-label-sm text-label-sm uppercase tracking-wider">
+<tr>
+<th class="py-3 px-space-md w-12 text-center" scope="col">
+<input checked="" class="w-4 h-4 rounded text-secondary bg-surface-container-lowest accent-secondary cursor-pointer" type="checkbox"/>
+</th>
+<th class="py-3 px-space-md" scope="col">Item Details & SKU</th>
+<th class="py-3 px-space-md" scope="col">Source Bin Location</th>
+<th class="py-3 px-space-md text-right" scope="col">Ordered Qty</th>
+<th class="py-3 px-space-md text-right" scope="col">Packed Qty</th>
+<th class="py-3 px-space-md" scope="col">Post-Dispatch Inventory Impact</th>
+<th class="py-3 px-space-md text-center" scope="col">Verification</th>
+</tr>
+</thead>
+<tbody class="divide-y-0 text-on-surface font-body-md text-body-md">
+<!-- Row 1: Ergonomic Task Chair -->
+<tr class="hover:bg-surface-container-low transition-colors group">
+<td class="py-space-md px-space-md text-center align-top">
+<input checked="" class="w-4 h-4 rounded text-secondary bg-surface-container-lowest accent-secondary cursor-pointer mt-1" type="checkbox"/>
+</td>
+<td class="py-space-md px-space-md align-top">
+<div class="flex items-start gap-space-sm">
+<div class="w-12 h-12 rounded-lg bg-surface-container flex-shrink-0 overflow-hidden relative shadow-sm">
+<img class="w-full h-full object-cover" data-alt="Ergonomic executive mesh office chair series 5 with adjustable lumbar and armrests, neutral warehouse lighting, minimalist studio product style" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDa4qA1JwKiKnApcFH1cGEfcb1WWIthluP03QriHuWKS1zybkLqlEpRanwVFL6OvS-8V9LGn-xMQPivU2CCptTMrbqgKCRNZXmIIjTSVAyqCbWlvMYJ2GhZjA7GjcDbJ3i8XrkTwVtcirz9MVXFqFNofkUBuQbE4u9hGTVk0AnR1RETqzGdqfPQEQ7ttwESUUd94RYVYQAUG6hUtWnwqd60RMaQHSf1XxZqJFVvb0zChOo90S2RcOcN"/>
+</div>
+<div class="flex flex-col">
+<span class="font-headline-sm text-body-md text-on-surface font-semibold group-hover:text-secondary transition-colors">Ergonomic Task Chair - Series 5</span>
+<div class="flex items-center gap-space-xs mt-0.5">
+<span class="font-code-data text-code-data text-on-surface bg-surface-container px-1.5 py-0.5 rounded font-bold">CHR-ERG-005</span>
+<span class="font-label-sm text-label-sm text-on-surface-variant">Furniture / Seating</span>
+</div>
+</div>
+</div>
+</td>
+<td class="py-space-md px-space-md align-top">
+<div class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded bg-surface-container font-code-data text-code-data text-on-surface">
+<span class="material-symbols-outlined text-[16px] text-secondary">grid_view</span>
+<span>Zone C • Aisle 3 • Pallet 14</span>
+</div>
+<div class="font-label-sm text-label-sm text-on-surface-variant mt-1">Direct Bay Access</div>
+</td>
+<td class="py-space-md px-space-md text-right align-top font-code-data text-body-md font-semibold text-on-surface">
+                10 Units
+              </td>
+<td class="py-space-md px-space-md text-right align-top font-code-data text-body-md font-bold text-on-tertiary-container">
+<div class="inline-flex items-center gap-1 bg-surface-container-low px-2 py-0.5 rounded">
+<span class="material-symbols-outlined text-[16px] text-on-tertiary-container font-bold">done_all</span>
+<span>10 / 10 Units</span>
+</div>
+</td>
+<td class="py-space-md px-space-md align-top">
+<div class="flex flex-col gap-1">
+<div class="inline-flex items-center gap-1 px-2.5 py-1 rounded-full bg-surface-container font-code-data text-body-sm">
+<span class="text-error font-bold">–10 Units</span>
+<span class="text-on-surface-variant">→ Available remaining:</span>
+<span class="text-on-surface font-bold">34 Units</span>
+</div>
+<div class="w-full bg-surface-container h-1.5 rounded-full overflow-hidden">
+<div class="bg-secondary-container h-full rounded-full" style="width: 77%;"></div>
+</div>
+</div>
+</td>
+<td class="py-space-md px-space-md text-center align-top">
+<span class="inline-flex items-center gap-1 px-2.5 py-1 rounded-full bg-tertiary-fixed text-on-tertiary-fixed font-label-sm text-label-sm font-bold">
+<span class="material-symbols-outlined text-[14px]">check</span>
+<span>Barcode Scanned</span>
+</span>
+</td>
+</tr>
+<!-- Row 2: Heavy Duty Monitor Arms Dual -->
+<tr class="bg-surface-container-low/40 hover:bg-surface-container-low transition-colors group">
+<td class="py-space-md px-space-md text-center align-top">
+<input checked="" class="w-4 h-4 rounded text-secondary bg-surface-container-lowest accent-secondary cursor-pointer mt-1" type="checkbox"/>
+</td>
+<td class="py-space-md px-space-md align-top">
+<div class="flex items-start gap-space-sm">
+<div class="w-12 h-12 rounded-lg bg-surface-container flex-shrink-0 overflow-hidden relative shadow-sm">
+<img class="w-full h-full object-cover" data-alt="Dual articulated heavy duty black steel monitor arm desk mount, clean technical packaging aesthetic, crisp studio photography" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDVzCXVFhiORaAtbNiyKiGxseya7ExMLAgY_wxpxhSxq71QyZkUpZlPr1HBc-WcJ_jYUNy4zRwEzvZO5SvsoWSBKg9_NyW4bLkxAKOcYkZl3o4dI0sx2w-Ytr4qYbSRiX26pJXqftzLelxKUA2UagPPQ5DX4wguwXYYxqArv0MG_hcn6b23whhOfezCDI7ZGF1-Mi_ybbsI9BQsKubRp4z_-mhoDDBZbqeGYnV9cSz2P0zhKDlUqQ2o"/>
+</div>
+<div class="flex flex-col">
+<span class="font-headline-sm text-body-md text-on-surface font-semibold group-hover:text-secondary transition-colors">Heavy Duty Monitor Arms Dual</span>
+<div class="flex items-center gap-space-xs mt-0.5">
+<span class="font-code-data text-code-data text-on-surface bg-surface-container px-1.5 py-0.5 rounded font-bold">ACC-ARM-002</span>
+<span class="font-label-sm text-label-sm text-on-surface-variant">Accessories</span>
+</div>
+</div>
+</div>
+</td>
+<td class="py-space-md px-space-md align-top">
+<div class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded bg-surface-container font-code-data text-code-data text-on-surface">
+<span class="material-symbols-outlined text-[16px] text-secondary">grid_view</span>
+<span>Zone B • Rack 1 • Bin 4</span>
+</div>
+<div class="font-label-sm text-label-sm text-on-surface-variant mt-1">Mezzanine Level 1</div>
+</td>
+<td class="py-space-md px-space-md text-right align-top font-code-data text-body-md font-semibold text-on-surface">
+                10 Units
+              </td>
+<td class="py-space-md px-space-md text-right align-top font-code-data text-body-md font-bold text-on-tertiary-container">
+<div class="inline-flex items-center gap-1 bg-surface-container-low px-2 py-0.5 rounded">
+<span class="material-symbols-outlined text-[16px] text-on-tertiary-container font-bold">done_all</span>
+<span>10 / 10 Units</span>
+</div>
+</td>
+<td class="py-space-md px-space-md align-top">
+<div class="flex flex-col gap-1">
+<div class="inline-flex items-center gap-1 px-2.5 py-1 rounded-full bg-error-container text-on-error-container font-code-data text-body-sm">
+<span class="text-error font-bold">–10 Units</span>
+<span>→ Avail:</span>
+<span class="font-bold">15 Units</span>
+<span class="text-error font-semibold text-[10px] uppercase ml-1">(Min Reached)</span>
+</div>
+<div class="w-full bg-surface-container h-1.5 rounded-full overflow-hidden">
+<div class="bg-error h-full rounded-full" style="width: 25%;"></div>
+</div>
+</div>
+</td>
+<td class="py-space-md px-space-md text-center align-top">
+<span class="inline-flex items-center gap-1 px-2.5 py-1 rounded-full bg-tertiary-fixed text-on-tertiary-fixed font-label-sm text-label-sm font-bold">
+<span class="material-symbols-outlined text-[14px]">check</span>
+<span>Barcode Scanned</span>
+</span>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+<!-- Real-Time Automated Ledger Notice -->
+<div class="p-space-md bg-surface-container-high flex items-center justify-between flex-wrap gap-space-sm">
+<div class="flex items-center gap-space-sm">
+<span class="material-symbols-outlined text-[20px] text-secondary">sync_saved_locally</span>
+<div class="flex flex-col">
+<span class="font-headline-sm text-body-sm text-on-surface font-semibold">Real-Time Inventory Ledger Protocol Active</span>
+<span class="font-body-sm text-body-sm text-on-surface-variant">Stock will be deducted from Main DC inventory immediately upon validation. Double allocations will be unlocked.</span>
+</div>
+</div>
+<div class="flex items-center gap-2 font-code-data text-body-sm text-on-surface-variant">
+<span>Ledger Hook: <code class="text-on-surface font-bold">INV-HOOK-SYNC#8911</code></span>
+</div>
+</div>
+</div>
+<!-- Verification, Packing Manifest & Dispatch Authorization Panel -->
+<div class="grid grid-cols-1 lg:grid-cols-12 gap-space-md">
+<!-- Packing Checklist & Scan Inspection (7 Cols) -->
+<div class="lg:col-span-7 rounded-xl bg-surface-container-lowest p-space-lg shadow-sm flex flex-col justify-between gap-space-md">
+<div class="flex flex-col gap-space-md">
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-space-xs">
+<span class="material-symbols-outlined text-secondary text-[20px]">fact_check</span>
+<h3 class="font-headline-md text-headline-md text-on-surface">Outbound Verification Checklist</h3>
+</div>
+<span class="font-code-data text-body-sm bg-surface-container px-2 py-0.5 rounded text-on-surface">Carton Seal #SEC-98441</span>
+</div>
+<div class="space-y-space-xs">
+<div class="flex items-center justify-between p-space-sm rounded-lg bg-surface-container-low">
+<div class="flex items-center gap-space-sm">
+<span class="material-symbols-outlined text-on-tertiary-container text-[18px]">verified</span>
+<div>
+<span class="font-headline-sm text-body-sm text-on-surface block">Optical Weight Scale Validation</span>
+<span class="font-body-sm text-body-sm text-on-surface-variant">Target: 248.5 kg • Sensor Output: 248.4 kg (Variance: -0.04% within threshold)</span>
+</div>
+</div>
+<span class="px-2 py-0.5 rounded bg-tertiary-fixed text-on-tertiary-fixed font-label-sm text-label-sm font-bold">Passed</span>
+</div>
+<div class="flex items-center justify-between p-space-sm rounded-lg bg-surface-container-low">
+<div class="flex items-center gap-space-sm">
+<span class="material-symbols-outlined text-on-tertiary-container text-[18px]">qr_code_scanner</span>
+<div>
+<span class="font-headline-sm text-body-sm text-on-surface block">Serialized Box Barcodes (2/2)</span>
+<span class="font-body-sm text-body-sm text-on-surface-variant">Pallet 1: #BX-90214-A • Pallet 2: #BX-90214-B</span>
+</div>
+</div>
+<span class="px-2 py-0.5 rounded bg-tertiary-fixed text-on-tertiary-fixed font-label-sm text-label-sm font-bold">Verified</span>
+</div>
+<div class="flex items-center justify-between p-space-sm rounded-lg bg-surface-container-low">
+<div class="flex items-center gap-space-sm">
+<span class="material-symbols-outlined text-on-tertiary-container text-[18px]">local_shipping</span>
+<div>
+<span class="font-headline-sm text-body-sm text-on-surface block">FedEx Freight Bill of Lading (BOL) Generated</span>
+<span class="font-body-sm text-body-sm text-on-surface-variant">BOL document signed electronically by dispatch desk</span>
+</div>
+</div>
+<span class="px-2 py-0.5 rounded bg-tertiary-fixed text-on-tertiary-fixed font-label-sm text-label-sm font-bold">Ready</span>
+</div>
+</div>
+</div>
+<!-- Inline Visual: Loading Bay Progress -->
+<div class="p-space-sm bg-surface-container rounded-lg flex items-center justify-between gap-space-md">
+<div class="flex items-center gap-space-sm min-w-0">
+<span class="material-symbols-outlined text-secondary text-[24px]">rv_hookup</span>
+<div class="min-w-0">
+<div class="font-headline-sm text-body-sm text-on-surface truncate font-semibold">FedEx Trailer #53-TR-88 Attached at Dock 04</div>
+<div class="font-body-sm text-body-sm text-on-surface-variant truncate">Driver on-site: Sam Reynolds (ID: FED-8891)</div>
+</div>
+</div>
+<span class="flex-shrink-0 font-code-data text-body-sm font-bold text-secondary bg-surface-container-lowest px-2.5 py-1 rounded">Staged: 100%</span>
+</div>
+</div>
+<!-- Dispatch Authorization & Sign-off (5 Cols) -->
+<div class="lg:col-span-5 rounded-xl bg-surface-container-lowest p-space-lg shadow-sm flex flex-col justify-between gap-space-md">
+<div>
+<div class="flex items-center justify-between mb-space-sm">
+<h3 class="font-headline-md text-headline-md text-on-surface">Dispatch Sign-off</h3>
+<span class="px-2 py-0.5 rounded bg-secondary-container text-on-secondary-container font-label-sm text-label-sm font-bold uppercase tracking-wider">Awaiting Validation</span>
+</div>
+<p class="font-body-md text-body-md text-on-surface-variant mb-space-md">
+            Review custodial responsibility before triggering ERP stock decrement and releasing items to carrier.
+          </p>
+<div class="space-y-space-sm bg-surface-container-low p-space-sm rounded-lg">
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-2">
+<div class="w-7 h-7 rounded-full bg-surface-container-high flex items-center justify-center font-code-data text-body-sm font-bold text-on-surface">MV</div>
+<div>
+<span class="font-label-sm text-label-sm text-on-surface-variant block uppercase">Picked by</span>
+<span class="font-headline-sm text-body-sm text-on-surface font-semibold">Marcus Vance</span>
+</div>
+</div>
+<span class="font-code-data text-body-sm text-on-surface-variant">09:14 AM</span>
+</div>
+<div class="flex items-center justify-between pt-space-xs border-t-0">
+<div class="flex items-center gap-2">
+<div class="w-7 h-7 rounded-full bg-secondary text-on-secondary flex items-center justify-center font-code-data text-body-sm font-bold">ER</div>
+<div>
+<span class="font-label-sm text-label-sm text-on-surface-variant block uppercase">Checked by (Lead)</span>
+<span class="font-headline-sm text-body-sm text-on-surface font-semibold">Elena Rodriguez</span>
+</div>
+</div>
+<span class="font-code-data text-body-sm text-on-surface-variant">09:42 AM</span>
+</div>
+</div>
+</div>
+<div class="pt-space-xs flex flex-col gap-space-xs">
+<label class="flex items-start gap-2 text-on-surface-variant cursor-pointer select-none">
+<input checked="" class="w-4 h-4 rounded text-secondary bg-surface-container-low accent-secondary mt-0.5" id="certifyCheckbox" type="checkbox"/>
+<span class="font-body-sm text-body-sm text-on-surface">I certify that all packed items match physical pallet counts and comply with DOT hazardous/freight standards.</span>
+</label>
+<div class="mt-space-xs flex items-center gap-space-sm">
+<button class="w-full py-2.5 px-4 rounded-lg bg-tertiary-fixed hover:brightness-105 active:scale-[0.99] text-on-tertiary-fixed font-headline-sm text-body-sm font-bold transition-all shadow-md flex items-center justify-center gap-2" id="dispatchConfirmBtn" type="button">
+<span class="material-symbols-outlined text-[18px]">done_all</span>
+<span>Confirm & Dispatch DO-2024-1140</span>
+</button>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- Interactive Feedback Toast (Hidden initially) -->
+<div class="fixed bottom-6 right-6 bg-primary-container text-surface-container-lowest p-space-md rounded-xl shadow-xl z-50 flex items-center gap-space-md translate-y-24 opacity-0 transition-all duration-300 pointer-events-none" id="toastNotification">
+<div class="w-9 h-9 rounded-full bg-tertiary-fixed text-on-tertiary-fixed flex items-center justify-center flex-shrink-0">
+<span class="material-symbols-outlined text-[20px]">check</span>
+</div>
+<div class="flex flex-col">
+<span class="font-headline-sm text-body-md font-bold text-surface-container-lowest">Inventory Ledger Updated</span>
+<span class="font-body-sm text-body-sm text-on-primary-container">DO-2024-1140 dispatched: -20 Units deducted across 2 SKUs.</span>
+</div>
+</div>
+<!-- Inline Micro-interaction Logic -->
+<script>
+    (function() {
+      const validateBtn = document.getElementById('validateBtn');
+      const dispatchConfirmBtn = document.getElementById('dispatchConfirmBtn');
+      const toast = document.getElementById('toastNotification');
+      const scanBtn = document.getElementById('scanBarcodeBtn');
+
+      function triggerDeductionSuccess() {
+        if (!toast) return;
+        toast.classList.remove('translate-y-24', 'opacity-0', 'pointer-events-none');
+        toast.classList.add('translate-y-0', 'opacity-100');
+        
+        setTimeout(() => {
+          toast.classList.remove('translate-y-0', 'opacity-100');
+          toast.classList.add('translate-y-24', 'opacity-0', 'pointer-events-none');
+        }, 4000);
+      }
+
+      if (validateBtn) {
+        validateBtn.addEventListener('click', () => {
+          validateBtn.classList.add('opacity-75');
+          validateBtn.innerHTML = '<span class="material-symbols-outlined text-[18px] animate-spin">refresh</span><span>Processing Ledger...</span>';
+          setTimeout(() => {
+            validateBtn.classList.remove('opacity-75');
+            validateBtn.classList.replace('bg-tertiary-fixed', 'bg-surface-container');
+            validateBtn.classList.replace('text-on-tertiary-fixed', 'text-on-surface-variant');
+            validateBtn.innerHTML = '<span class="material-symbols-outlined text-[18px]">verified</span><span>Inventory Deducted</span>';
+            validateBtn.disabled = true;
+            triggerDeductionSuccess();
+          }, 800);
+        });
+      }
+
+      if (dispatchConfirmBtn) {
+        dispatchConfirmBtn.addEventListener('click', () => {
+          if (validateBtn && !validateBtn.disabled) {
+            validateBtn.click();
+          } else {
+            triggerDeductionSuccess();
+          }
+        });
+      }
+
+      if (scanBtn) {
+        scanBtn.addEventListener('click', () => {
+          const originalText = scanBtn.innerHTML;
+          scanBtn.innerHTML = '<span class="material-symbols-outlined text-[18px] text-secondary">sensors</span><span>Listening for Laser...</span>';
+          setTimeout(() => {
+            scanBtn.innerHTML = originalText;
+          }, 2000);
+        });
+      }
+    })();
+  </script>
+</div></main></div><script src="/live.js" data-page="deliveries"></script></body></body></html>
