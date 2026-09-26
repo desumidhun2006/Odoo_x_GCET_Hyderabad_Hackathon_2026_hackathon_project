@@ -143,7 +143,8 @@ function populateLiveSelects() {
   if (pfLoc) {
     pfLoc.innerHTML = state.warehouses.map(w => `<option value="${w.id}">${w.name}</option>`).join('') || '<option value="">No warehouses</option>';
   }
-  const dd = document.querySelector('.crystal-dropdown');
+  const whTrigger = document.querySelector('#whLink')?.closest('.nav-dropdown-trigger');
+  const dd = whTrigger ? whTrigger.querySelector('.crystal-dropdown') : null;
   if (dd && state.warehouses.length) {
     dd.innerHTML = state.warehouses.map(w => `
       <a href="#" onclick="selectWarehouse('${w.name.replace(/'/g, "\\'")}'); return false;">
