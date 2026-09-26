@@ -91,19 +91,28 @@ function updateCurrentDate() {
   if (el) el.innerText = today.toLocaleDateString("en-US", options);
 }
 
-// ═══════════════════════ AMBIENT LIQUID MOUSE GLOW ═══════════════════════
+// ═══════════════════════ AMBIENT LIQUID MOUSE GLOW & CAUSTICS ═══════════════════════
 function initLiquidAtmosphere() {
   const glow = document.getElementById("mouseGlow");
-  if (!glow) return;
 
   window.addEventListener("mousemove", (e) => {
-    glow.style.left = e.clientX + "px";
-    glow.style.top = e.clientY + "px";
-    glow.style.opacity = "1";
+    if (glow) {
+      glow.style.left = e.clientX + "px";
+      glow.style.top = e.clientY + "px";
+      glow.style.opacity = "1";
+    }
+
+    // Dynamic optical caustic reflection following cursor on glass cards
+    const card = e.target.closest('.kpi-glass-card, .crystal-card, .chart-card-velocity, .chart-card-distribution, .glass-navbar');
+    if (card) {
+      const rect = card.getBoundingClientRect();
+      card.style.setProperty('--mouse-x', `${e.clientX - rect.left}px`);
+      card.style.setProperty('--mouse-y', `${e.clientY - rect.top}px`);
+    }
   });
 
   window.addEventListener("mouseleave", () => {
-    glow.style.opacity = "0";
+    if (glow) glow.style.opacity = "0";
   });
 }
 
@@ -1524,8 +1533,8 @@ function renderVelocityChart(range = '7d') {
           padding: 10,
           boxPadding: 4,
           usePointStyle: true,
-          titleFont: { family: 'Plus Jakarta Sans', size: 12, weight: '700' },
-          bodyFont: { family: 'JetBrains Mono', size: 12, weight: '500' },
+          titleFont: { family: 'IBM Plex Sans', size: 12, weight: '700' },
+          bodyFont: { family: 'IBM Plex Mono', size: 12, weight: '500' },
           shadowOffsetX: 0,
           shadowOffsetY: 8,
           shadowBlur: 16,
@@ -1536,7 +1545,7 @@ function renderVelocityChart(range = '7d') {
         x: {
           grid: { display: false, drawBorder: false },
           ticks: {
-            font: { family: 'Plus Jakarta Sans', size: 11, weight: '600' },
+            font: { family: 'IBM Plex Sans', size: 11, weight: '600' },
             color: '#64748b'
           }
         },
@@ -1546,7 +1555,7 @@ function renderVelocityChart(range = '7d') {
             drawBorder: false
           },
           ticks: {
-            font: { family: 'JetBrains Mono', size: 11 },
+            font: { family: 'IBM Plex Mono', size: 11 },
             color: '#94a3b8',
             stepSize: range === '7d' ? 10 : 50
           }
@@ -1641,6 +1650,8 @@ function renderCategoryDonutChart() {
           borderWidth: 1,
           padding: 8,
           usePointStyle: true,
+          titleFont: { family: 'IBM Plex Sans', size: 12, weight: '700' },
+          bodyFont: { family: 'IBM Plex Mono', size: 12, weight: '500' },
           callbacks: {
             label: function(context) {
               const label = context.label || '';
