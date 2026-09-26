@@ -344,3 +344,9 @@ Data wipe (done 15:37 IST, 1h23 left): added EMPTY_SEED=1 flag to live-demo.js a
 Commit ID: `765556d8903597986dcd911c405e9c0974aa8504` / Short: `765556d` — Message: `Feat: add EMPTY_SEED flag and restart site with fully erased data`
 
 Login cleanup (done 15:33 IST, 1h27 left): removed the internal DEMO/member-2 note from the login card per request; verified served page has zero matches and Playwright screenshot shows a clean sign-in card.
+
+Commit ID: `775370e3587a413bc2df5db27eae3894cbb4490c` / Short: `775370e` — Message: `Docs: update journey.md for data wipe`
+
+Member 4 screens (done 16:16 IST): built receipts/, stock/, settings/ folders each in index.html + app.js + style.css format per request — Receipts with log/validate flow, Stock with view/add/edit/delete + CSV export, Settings with profile/preferences/security saved in browser; all UI-only mock via localStorage, node --check clean and python http.server 200 on all three pages.
+
+Commit ID: `4edf63262e92c733763ebbaf8c8aab62784e5b8b` / Short: `4edf632` — Message: `Feat: add Member 4 screens in index-app-style format (receipts, stock, settings)`
