@@ -493,21 +493,65 @@
 - **Stat summary:** `2 files changed, 2 insertions(+), 20 deletions(-)`
 - **Related task:** Task 8 (Removal of Header Status Bar and Ledger Sync Controls)
 
-### Commit 13 — (this update, to be filled after push)
-- **Intended message:** `Docs: update journey.md for Tasks 7 & 8 supreme liquid glass, typography overhaul, and header clutter removal`
-- **Contents:** Documents Task 7 and Task 8 in full detail, backfills Commits 10, 11, and 12, updates Current State and Next Steps.
+### Commit 13 — `dcfc499bc3249a4fd4c96852339f97d349764780`
+- **Short hash:** `dcfc499`
+- **Full hash:** `dcfc499bc3249a4fd4c96852339f97d349764780`
+- **Message:** `Docs: update journey.md for Tasks 7 & 8 supreme liquid glass, typography overhaul, and header clutter removal`
+- **Author:** `Gemini CLI <gemini-cli@example.com>`
+- **Committer:** `Gemini CLI <gemini-cli@example.com>`
+- **Date (ISO):** `2026-09-26 16:10:11 +0530`
+- **Parent:** `d7ffc7837e03de09ae7faa1069a8218ca70845d3`
+- **Branch:** `main` → pushed to `origin/main`
+- **Files changed:** 1 file (`journey.md`, +91 lines, -10 lines)
+- **Purpose:** Document Tasks 7 & 8, backfill Commits 10, 11, and 12, and update project state.
+
+### Task 9 — Removal of Testing Files, PDF Assets, and Adding .gitignore
+- **Date:** 2026-09-26 ~16:15 IST
+- **Requests verbatim:**
+  - “i am going to push the files in the github soo remove all the testing files and pdfs”
+- **Analysis & Cleanup:**
+  1. Identified 46 untracked testing files, screenshots, logs, and state files generated inside `.playwright-mcp/`.
+  2. Removed entire `.playwright-mcp/` test directory from disk.
+  3. Identified `StockSense.pdf` (1.6 MB) tracked in the repository root and executed `git rm StockSense.pdf`.
+  4. Created `.gitignore` file to permanently prevent PDF assets, `.playwright-mcp/` testing directories, logs (`*.log`), yaml test snapshots (`*.yml`), OS files (`.DS_Store`, `Thumbs.db`), and IDE folders from being accidentally tracked.
+- **Exact commands executed:**
+  ```powershell
+  Remove-Item -Recurse -Force .playwright-mcp
+  git rm StockSense.pdf
+  git add .gitignore
+  git commit -m "Chore: remove PDF and testing artifacts, add .gitignore"
+  git push
+  ```
+- **Commit associated:** `0b97e0ec2c49730d92a5ca6d4956e8f23585e3e4`
+
+### Commit 14 — `0b97e0ec2c49730d92a5ca6d4956e8f23585e3e4`
+- **Short hash:** `0b97e0e`
+- **Full hash:** `0b97e0ec2c49730d92a5ca6d4956e8f23585e3e4`
+- **Message:** `Chore: remove PDF and testing artifacts, add .gitignore`
+- **Author:** `Gemini CLI <gemini-cli@example.com>`
+- **Committer:** `Gemini CLI <gemini-cli@example.com>`
+- **Date (ISO):** `2026-09-26 16:14:56 +0530`
+- **Parent:** `dcfc499bc3249a4fd4c96852339f97d349764780`
+- **Branch:** `main` → pushed to `origin/main`
+- **Files changed:** 2 files (`.gitignore` created, `StockSense.pdf` deleted)
+- **Stat summary:** `2 files changed, 18 insertions(+) / delete mode 100644 StockSense.pdf / create mode 100644 .gitignore`
+- **Related task:** Task 9 (Testing files & PDF cleanup)
+
+### Commit 15 — (this update, to be filled after push)
+- **Intended message:** `Docs: update journey.md for Task 9 cleanup of testing files, PDF removal, and .gitignore`
+- **Contents:** Documents Task 9 and backfills Commits 13 and 14, updates repository clean state.
 
 ---
 
-## 3. Current State (as of 2026-09-26 16:09:00 IST, after Commit 12 push)
+## 3. Current State (as of 2026-09-26 16:15:30 IST, after Commit 14 push)
 
-- **Branch:** `main`, up to date with `origin/main` (Commit 12 pushed, before this journey edit).
-- **Working tree:** Modified `journey.md` to document Tasks 7 & 8 and Commits 10, 11, and 12.
+- **Branch:** `main`, up to date with `origin/main` (Commit 14 pushed, before this journey edit).
+- **Working tree:** Modified `journey.md` to document Task 9 and Commits 13, 14.
 - **Remote:** `origin` → `https://github.com/desumidhun2006/Odoo_x_GCET_Hyderabad_Hackathon_2026_hackathon_project.git`
-- **Last pushed commit:** `d7ffc7837e03de09ae7faa1069a8218ca70845d3`
-- **Files in repo:** `README.md`, `journey.md`, `StockSense.pdf`, `dashboard/index.html`, `dashboard/style.css`, `dashboard/app.js`, `.git/`
+- **Last pushed commit:** `0b97e0ec2c49730d92a5ca6d4956e8f23585e3e4`
+- **Files in repo:** `README.md`, `journey.md`, `.gitignore`, `dashboard/index.html`, `dashboard/style.css`, `dashboard/app.js`, `.git/`
 - **Local Server:** Serving `dashboard/` on `http://localhost:3333` with live HTTP 200 response.
-- **Pending:** Commit + push this `journey.md` update itself (will become Commit 13).
+- **Pending:** Commit + push this `journey.md` update itself (will become Commit 15).
 
 ---
 
@@ -525,8 +569,10 @@
 - [x] Push journey update for Task 6 (done in Commit 10 `aba2446`).
 - [x] Elevate UI to supreme liquid crystal glass, integrate human editorial typography, eradicate rainbow AI cards (done in Commit 11 `49dc6a5`).
 - [x] Remove status bar breadcrumb and ledger sync controls from header (done in Commit 12 `d7ffc78`).
-- [ ] Push this journey update as Commit 13 to keep GitHub in sync.
-- [ ] Await user feedback or proceed with next workflow / hackathon module.
+- [x] Document Tasks 7 & 8 in journey (done in Commit 13 `dcfc499`).
+- [x] Remove testing artifacts (.playwright-mcp), delete PDF asset, add .gitignore (done in Commit 14 `0b97e0e`).
+- [ ] Push this journey update as Commit 15 to keep GitHub in sync.
+- [ ] Ready for user's GitHub push or next hackathon feature.
 
 ---
 
