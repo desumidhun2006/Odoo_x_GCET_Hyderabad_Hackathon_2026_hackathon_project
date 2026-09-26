@@ -1,5 +1,23 @@
+# Dependencies & build
 node_modules/
 dist/
-.env
+
+# Testing & MCP artifacts
+.playwright-mcp/
 *.log
+*.yml
+*.tmp
+test-results/
+
+# PDF documents & raw assets
+*.pdf
+
+# Operating system files
 .DS_Store
+Thumbs.db
+desktop.ini
+
+# Environment and IDE
+.env
+.vscode/
+.idea/

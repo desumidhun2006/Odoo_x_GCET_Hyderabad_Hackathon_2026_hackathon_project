@@ -113,7 +113,62 @@
   - `git log` → `58461cf Docs: add commit-push-journey workflow instructions to README` on top of `f2be4d3`.
   - `git status` → clean, up to date with `origin/main` before journey edit.
 - **Outcome:** Completed — README now documents workflow, pushed; journey update pending push as Commit 6.
-- **Commits associated:** Commit 5 (`58461cf`) for README; Commit 6 (this journey update).
+- **Commits associated:** Commit 5 (`58461cf`) for README; Commit 6 (journey update `57840ef`).
+
+### Task 5 — Analyze StockSense PDF and Implement Complete Inventory Dashboard
+- **Date:** 2026-09-26 ~13:04 – 13:57 IST
+- **Request verbatim:**
+  1. “i have attached a pdf analyze that and in that i have to do the dashboard part”
+  2. “i mean it in this folder”
+  3. “continue”
+- **Interpretation:**
+  - Locate and analyze `StockSense.pdf` in the workspace root.
+  - Extract all specifications: target users (Inventory Managers & Warehouse Staff), authentication, dashboard view, 5 KPIs, dynamic filters, navigation, core operational flows (Receipts, Deliveries, Internal Transfers, Adjustments), and the linked Excalidraw mockup design.
+  - Implement the complete, responsive, and interactive frontend StockSense Inventory Dashboard matching both the problem statement and the wireframe mockup.
+  - Follow standing workflow instructions: build, verify, commit + push, update `journey.md`, commit + push journey update.
+- **Actions:**
+  1. Extracted and analyzed all 4 pages of `StockSense.pdf` via Python:
+     - Page 1: Problem statement, target users, authentication, dashboard KPIs (Total Products in Stock, Low Stock / Out of Stock Items, Pending Receipts, Pending Deliveries, Internal Transfers Scheduled), dynamic filters.
+     - Page 2: Navigation (Products, Operations: Receipts, Delivery Orders, Inventory Adjustment, Move History, Dashboard, Settings, Profile menu), Product management.
+     - Page 3: Receipts (Incoming Goods), Delivery Orders (Outgoing Goods), Internal Transfers, Stock Adjustments, Alerts for low stock.
+     - Page 4: Stock flow steps (Receive -> Internal Transfer -> Deliver -> Adjust damaged items) logged in Stock Ledger, Excalidraw mockup URL `https://link.excalidraw.com/l/65VNwvy7c4X/3ENvQFu9o8R`.
+  2. Analyzed Excalidraw mockup canvas via browser subagent:
+     - Header / Navbar with Dashboard, Operations (dropdown), Stock / Products, Move History, Settings, Search, Profile Avatar.
+     - Operational widgets: Receipts ("4 to receive", "1 Late", "6 operations"), Delivery ("4 to deliver", "1 Late", "2 waiting", "6 operations"), Internal Transfers ("3 scheduled", "2 in progress").
+     - Receipts list & kanban views with stepper (Draft -> Ready -> Done), validate / print / cancel buttons.
+     - Delivery orders list & kanban views with stepper (Draft -> Waiting -> Ready -> Done), validate / print / cancel buttons.
+     - Move History list view with search, types, from/to locations.
+     - Stock / Products view with On hand, Free to use, costs, categories, locations.
+     - Physical count adjustments table with automated delta calculation.
+  3. Created `dashboard/index.html`:
+     - Semantic HTML5 structure with top navbar, global search, user profile menu.
+     - 5 responsive KPI cards with colored icons and trend indicators.
+     - Wireframe-faithful operational widgets with breakdown metrics and direct navigation buttons.
+     - Multi-criteria filter bar (type chips, status, warehouse, category dropdowns).
+     - Full interactive views: Dashboard, Receipts (List & Kanban), Delivery Orders (List & Kanban), Products Catalog (with Add Product modal), Move History (Stock Ledger), and Stock Adjustments (Physical count reconciliation).
+     - Toast notifications and inline forms.
+  4. Created `dashboard/style.css`:
+     - Premium ERP design system using Inter typography, CSS variables, glassmorphism navbar, card elevation, responsive layout, status badges, kanban board columns, form steppers, and interactive hover animations.
+  5. Created `dashboard/app.js`:
+     - Reactive state management with realistic seed inventory data.
+     - Dynamic KPI calculations reflecting live stock levels and document statuses.
+     - Live search and multi-column sorting.
+     - Interactive Receipts flow: new receipt creation, stepper progress, validation (increasing stock & creating ledger entry).
+     - Interactive Delivery flow: stock check against inventory, validation (reducing stock & creating ledger entry), insufficient stock warnings.
+     - Stock Adjustments: live discrepancy calculation between physical and recorded counts, single/bulk adjustment application.
+     - CSV export of full inventory reports.
+  6. Verified live on `http://localhost:3333` using browser automation:
+     - Confirmed rendering of navbar, 5 KPI cards across responsive grid, 3 operational widgets, filter chips, stock table, activities, and alerts.
+     - Tested view transitions to Receipts, Deliveries, Products, and Adjustments.
+     - Captured verification screenshots.
+  7. Committed and pushed implementation as Commit 7 (`c38805b`).
+- **Files changed:**
+  - `StockSense.pdf` (binary file tracked in repo)
+  - `dashboard/index.html` (+603 lines)
+  - `dashboard/style.css` (+1256 lines)
+  - `dashboard/app.js` (+1276 lines)
+- **Outcome:** Success. Fully working, interactive StockSense inventory dashboard implemented, tested, and pushed to GitHub.
+- **Commits associated:** Commit 7 (`c38805b`), Commit 8 (this journey update).
 
 ---
 
@@ -240,21 +295,263 @@
 - **Related task:** Task 4 (main code change)
 - **Purpose:** Persist standing commit/push/journey instructions in README per explicit user request.
 
-### Commit 6 — (this update, to be filled after push)
-- **Intended message:** `Docs: update journey.md for Task 4 README workflow + backfill Commit 4`
-- **Contents:** This edit — adds Task 4 entry, backfills Commit 4 (`f2be4d3`) full details, adds Commit 5 (`58461cf`) details, updates Current State + Next Steps.
-- **Note to avoid infinite recursion:** Each `journey.md` sync documents the *previous* commit(s), not itself. Commit 6 details will be documented at the start of the next task.
+### Commit 6 — `57840ef94b276e7f5418c04552d0be2c74753e70`
+- **Short hash:** `57840ef`
+- **Full hash:** `57840ef94b276e7f5418c04552d0be2c74753e70`
+- **Message:** `Docs: update journey.md for Task 4 README workflow + backfill Commit 4`
+- **Author:** `desumidhun2006 <desumidhun2006@gmail.com>`
+- **Committer:** `desumidhun2006 <desumidhun2006@gmail.com>`
+- **Date (ISO):** `2026-09-26 11:18:52 +0530`
+- **Parent:** `58461cfd073f97af283187016e42a39a6d15aa83`
+- **Branch:** `main` → pushed `58461cf..57840ef main -> main` to `origin/main`
+- **Files changed:** 1 file
+  - `journey.md | 100 ++++++++++++++++++++++++++++++++++++++++++++++++++++---------` — 86 insertions, 14 deletions
+- **Stat summary:** `1 file changed, 86 insertions(+), 14 deletions(-)`
+- **How created:**
+  ```bash
+  git add journey.md
+  git commit -m "Docs: update journey.md for Task 4 README workflow + backfill Commit 4"
+  git push
+  ```
+- **Push output:** `To https://github.com/desumidhun2006/Odoo_x_GCET_Hyderabad_Hackathon_2026_hackathon_project.git / 58461cf..57840ef  main -> main`
+- **Verification at time:** `git show --stat HEAD` confirmed 86 insertions; `git log` showed `57840ef` on top of `58461cf`; `git status` clean.
+- **Related task:** Task 4 (sync commit)
+- **Purpose:** Document Task 4 completion, backfill Commit 4, and record Commit 5 details in `journey.md`.
+
+### Commit 7 — `c38805b5edff169bb92effda5b9766a49112f594`
+- **Short hash:** `c38805b`
+- **Full hash:** `c38805b5edff169bb92effda5b9766a49112f594`
+- **Message:** `Feat: implement StockSense inventory dashboard based on PDF analysis and wireframe`
+- **Author:** `Gemini CLI <gemini-cli@example.com>`
+- **Committer:** `Gemini CLI <gemini-cli@example.com>`
+- **Date (ISO):** `2026-09-26 13:57:03 +0530`
+- **Parent:** `57840ef94b276e7f5418c04552d0be2c74753e70`
+- **Branch:** `main` → pushed `57840ef..c38805b main -> main` to `origin/main`
+- **Files changed:** 4 files
+  - `StockSense.pdf | Bin 0 -> 1599939 bytes` (added PDF asset)
+  - `dashboard/app.js | 1276 ++++++++++++++++++++++++++++++++++++++++++++++++++` (new file)
+  - `dashboard/index.html | 603 ++++++++++++++++++++++++` (new file)
+  - `dashboard/style.css | 1256 +++++++++++++++++++++++++++++++++++++++++++++++++` (new file)
+- **Stat summary:** `4 files changed, 3135 insertions(+), create mode 100644 StockSense.pdf, create mode 100644 dashboard/app.js, create mode 100644 dashboard/index.html, create mode 100644 dashboard/style.css`
+- **How created:**
+  ```powershell
+  git add -A
+  git commit -m "Feat: implement StockSense inventory dashboard based on PDF analysis and wireframe"
+  git push
+  ```
+- **Push output:** `To https://github.com/desumidhun2006/Odoo_x_GCET_Hyderabad_Hackathon_2026_hackathon_project.git / 57840ef..c38805b  main -> main`
+- **Verification at time:** Browser test on `http://localhost:3333` verified all KPIs, operation widgets, and table views; `git status` clean after commit.
+- **Related task:** Task 5 (core feature implementation)
+- **Purpose:** Deliver the complete interactive StockSense dashboard satisfying all PDF and Excalidraw mockup specifications.
+
+### Commit 8 — `efcdf31a1fe52a65492160d5bfa3a81232822a76`
+- **Short hash:** `efcdf31`
+- **Full hash:** `efcdf31a1fe52a65492160d5bfa3a81232822a76`
+- **Message:** `Docs: update journey.md for Task 5 StockSense dashboard + backfill Commit 6`
+- **Author:** `Gemini CLI <gemini-cli@example.com>`
+- **Committer:** `Gemini CLI <gemini-cli@example.com>`
+- **Date (ISO):** `2026-09-26 14:02:15 +0530`
+- **Parent:** `c38805b5edff169bb92effda5b9766a49112f594`
+- **Branch:** `main` → pushed `c38805b..efcdf31 main -> main` to `origin/main`
+- **Files changed:** 1 file (`journey.md`, +112 lines)
+- **Purpose:** Document Task 5 implementation, backfill Commit 6 details, and sync GitHub repository documentation.
+
+### Task 6 — Pure Light Theme Liquid Glass UI, Interactive Analytics Charts, and Navigation Dropdown Fix
+- **Date:** 2026-09-26 ~15:48 IST
+- **Requests verbatim:**
+  1. “see i don't like this UI i want to enhance this UI to peak beautiful and peak beautiful like i want zero AI evidance and cimatic dashboard peak liquid glass effect”
+  2. “i want only light theme”
+  3. “let's add some charts and when i hover like operations and warehouse i can't click the options”
+- **Root Cause Analysis & Design Enhancements:**
+  1. **Dropdown Hover/Click Bug:**
+     - In `dashboard/style.css`, `.crystal-dropdown` was positioned with `top: calc(100% + 14px)`.
+     - When moving cursor downward from the button toward the menu items, the cursor crossed the 14px empty air gap, immediately breaking `:hover` state on `.nav-dropdown-trigger` and causing the dropdown to collapse instantly before options could be clicked.
+     - **Fix:** Positioned dropdown at `top: 100%` with a transparent `::before` pseudo-element bridge (`top: -14px; height: 16px;`) so the mouse never loses focus. Added `visibility`/`opacity` transitions with `pointer-events: auto`.
+     - Added robust click support in `dashboard/app.js`: clicking "Operations" or "Warehouse" toggles an `.open` state, and outside clicks automatically dismiss open menus. Clicking any option executes the link and closes the dropdown cleanly.
+  2. **Exclusively Pure Light Theme (Zero Dark Mode / Zero AI Clutter):**
+     - Completely removed all dark/dune toggles, dark style rules, and artificial sci-fi pill tags ("OPS DECK").
+     - Designed an authentic **VisionOS daylight crystal frosted liquid glass** interface:
+       - Translucent frosted glass cards (`rgba(255, 255, 255, 0.76)` with `backdrop-filter: blur(28px)`).
+       - Specular white highlight rims (`inset 0 1px 1.5px rgba(255, 255, 255, 0.95)`).
+       - Soft, natural ambient slate drop shadows (`0 20px 45px -15px rgba(30, 41, 59, 0.07)`).
+       - Deep executive contrast typography using `Plus Jakarta Sans` and `JetBrains Mono` (`#0f172a` headings, `#334155` body, `#64748b` muted labels).
+  3. **Interactive Analytics & Velocity Charts Deck (Chart.js Integration):**
+     - Integrated `Chart.js` engine via CDN into `dashboard/index.html`.
+     - **Chart 1: Stock Movement & Velocity Trajectory:**
+       - Spline line/area chart comparing inbound supplier receipts vs outbound customer dispatches.
+       - Day/range selector buttons: `7D` (default), `30D`, `90D` with animated data swaps.
+       - Light theme gradient fills: Royal Indigo (`#4f46e5`) and Sky Cyan (`#0284c7`) fading smoothly to transparency.
+       - Frosted light glass custom tooltips and summary metrics (Total Inbound, Total Outbound, Net Flow).
+     - **Chart 2: Inventory Valuation & Category Share:**
+       - Frosted doughnut chart (`74%` cutout) with interactive center unit and valuation display (`248 UNITS / ₹3.42L`).
+       - Category breakdown list (Raw Materials, Finished Goods, Consumables) with percentage badges and click-to-filter capability.
+     - **Chart 3: Facility Storage Allocation:**
+       - Live horizontal utilization tracks for Main Warehouse (WH), Production Floor, and Warehouse 2 with instant click-to-filter.
+  4. **Active Warehouse Filtering:**
+     - Added `selectWarehouse(name)` function in `dashboard/app.js` which switches to dashboard view, syncs the warehouse filter dropdown, filters the stock table, and triggers an affirmative toast notification.
+- **Exact commands executed:**
+  ```powershell
+  git add dashboard/app.js dashboard/index.html dashboard/style.css
+  git commit -m "Feat: transform dashboard to pure light theme crystal liquid glass UI, add interactive analytics charts, and fix navigation dropdowns"
+  git push
+  ```
+- **Verification:**
+  - `curl.exe -I http://localhost:3333/index.html` returned `HTTP/1.0 200 OK` (47,112 bytes).
+  - Code committed and pushed to `origin/main` successfully (`efcdf31..63782b4`).
+- **Commit associated:** `63782b410423ed4b55d4336086fc254e66e24a6f` — see commit history section.
+
+### Commit 9 — `63782b410423ed4b55d4336086fc254e66e24a6f`
+- **Short hash:** `63782b4`
+- **Full hash:** `63782b410423ed4b55d4336086fc254e66e24a6f`
+- **Message:** `Feat: transform dashboard to pure light theme crystal liquid glass UI, add interactive analytics charts, and fix navigation dropdowns`
+- **Author:** `Gemini CLI <gemini-cli@example.com>`
+- **Committer:** `Gemini CLI <gemini-cli@example.com>`
+- **Date (ISO):** `2026-09-26 15:48:20 +0530`
+- **Parent:** `efcdf31a1fe52a65492160d5bfa3a81232822a76`
+- **Branch:** `main` → pushed `efcdf31..63782b4 main -> main` to `origin/main`
+- **Files changed:** 3 files
+  - `dashboard/app.js | 875 ++++++++++++-----`
+  - `dashboard/index.html | 1213 +++++++++++++++--------`
+  - `dashboard/style.css | 2598 +++++++++++++++++++++++++++++++++++---------------`
+- **Stat summary:** `3 files changed, 3312 insertions(+), 1374 deletions(-)`
+- **Related task:** Task 6 (Light theme crystal UI overhaul, Chart.js analytics deck, navigation dropdown hover & click fix)
+
+### Commit 10 — `aba2446738cadbdd5e842f0e0380995b147ed1fc`
+- **Short hash:** `aba2446`
+- **Full hash:** `aba2446738cadbdd5e842f0e0380995b147ed1fc`
+- **Message:** `Docs: update journey.md for Task 6 pure light theme, charts, and dropdown fix`
+- **Author:** `Gemini CLI <gemini-cli@example.com>`
+- **Committer:** `Gemini CLI <gemini-cli@example.com>`
+- **Date (ISO):** `2026-09-26 15:49:14 +0530`
+- **Parent:** `63782b410423ed4b55d4336086fc254e66e24a6f`
+- **Branch:** `main` → pushed to `origin/main`
+- **Files changed:** 1 file (`journey.md`, +67 lines)
+- **Purpose:** Document Task 6 implementation, backfill Commit 9 details, and update project state.
+
+### Task 7 — Supreme Liquid Crystal Glass & Human Editorial Craft (Zero AI Artifacts)
+- **Date:** 2026-09-26 ~16:05 IST
+- **Requests verbatim:**
+  - “i still want you to increase the liquid glass effect and it looks like AI made so i want you to make look less AI”
+- **Analysis & Human Craft Overhaul:**
+  1. **Eradication of "AI-Generated" Tropes:**
+     - Removed tacky rainbow-colored KPI cards (AI generators typically color each card a different saturated pastel: blue, red, teal, orange, purple). Unified all 5 cards under authentic optical liquid crystal glass, reserving color strictly for semantic data tags and threshold values.
+     - Removed AI gradient text fills (`background-clip: text` multi-color headers) in favor of authentic high-craft human editorial typography: `Source Serif 4` serif display headings (`#0c1322` solid ink with subtle italic emphasis), `IBM Plex Sans` for UI copy, and `IBM Plex Mono` for tabular metrics and SKUs.
+     - Removed generic bottom accent stripes and artificial pill clutter.
+  2. **Elevating to Supreme Liquid Crystal Glass (Optical Caustics & Lens Curvature):**
+     - Upgraded glass materials to 36px optical blur with 220% saturation boost (`backdrop-filter: blur(36px) saturate(220%)`).
+     - Added double specular rims (`inset 0 1.5px 0 0 #fff, inset 0 -1px 0 0 rgba(15,23,42,0.03)`).
+     - Added dynamic optical caustic reflection following the cursor in real time via mouse coordinate injection (`--mouse-x`, `--mouse-y`) in `dashboard/app.js`.
+     - Injected lens curvature gloss overlays with multi-stop radial highlights and linear specular prisms across cards and containers.
+- **Exact commands executed:**
+  ```powershell
+  git add dashboard/app.js dashboard/index.html dashboard/style.css
+  git commit -m "Feat: elevate UI to supreme liquid crystal glass and human editorial craft"
+  git push
+  ```
+- **Commit associated:** `49dc6a54d802c1a9bd9f9333941a1d5becb782a1`
+
+### Commit 11 — `49dc6a54d802c1a9bd9f9333941a1d5becb782a1`
+- **Short hash:** `49dc6a5`
+- **Full hash:** `49dc6a54d802c1a9bd9f9333941a1d5becb782a1`
+- **Message:** `Feat: elevate UI to supreme liquid crystal glass and human editorial craft`
+- **Author:** `Gemini CLI <gemini-cli@example.com>`
+- **Committer:** `Gemini CLI <gemini-cli@example.com>`
+- **Date (ISO):** `2026-09-26 16:05:10 +0530`
+- **Parent:** `aba2446738cadbdd5e842f0e0380995b147ed1fc`
+- **Branch:** `main` → pushed to `origin/main`
+- **Files changed:** 3 files (`dashboard/app.js`, `dashboard/index.html`, `dashboard/style.css`)
+- **Stat summary:** `3 files changed, 102 insertions(+), 35 deletions(-)`
+- **Related task:** Task 7 (Supreme Liquid Crystal Glass & Human Editorial Craft)
+
+### Task 8 — Removal of Header Status Bar and Ledger Sync Controls
+- **Date:** 2026-09-26 ~16:08 IST
+- **Requests verbatim:**
+  - “remove this” (with 2 attached cropped screenshots showing: 1) `Ledger Active / All Warehouses Synchronized · StockSense Core` meta breadcrumb with green pulsing dot; 2) `LOCAL LEDGER TIME` card + `↻ Sync Ledger` button).
+- **Implementation:**
+  1. Removed `.exec-meta-bar` from `dashboard/index.html`, eliminating the robotic "Ledger Active" status breadcrumb.
+  2. Removed `.exec-controls` containing the `.time-card` ("LOCAL LEDGER TIME") and the `.crystal-btn` ("Sync Ledger"), giving the executive title and subtitle an unencumbered, minimal, elegant appearance.
+  3. Refined `.exec-header` in `dashboard/style.css` (`align-items: flex-start`, balanced vertical padding `0.25rem 0 0.5rem 0`) ensuring harmonious spacing leading straight into the 5 KPI glass cards.
+  4. Verified `dashboard/app.js` safely checks `if (el)` for `#currentDate`, causing zero JavaScript errors upon removal.
+- **Exact commands executed:**
+  ```powershell
+  git add dashboard/index.html dashboard/style.css
+  git commit -m "Feat: remove ledger status bar and date/sync buttons from dashboard header"
+  git push
+  ```
+- **Commit associated:** `d7ffc7837e03de09ae7faa1069a8218ca70845d3`
+
+### Commit 12 — `d7ffc7837e03de09ae7faa1069a8218ca70845d3`
+- **Short hash:** `d7ffc78`
+- **Full hash:** `d7ffc7837e03de09ae7faa1069a8218ca70845d3`
+- **Message:** `Feat: remove ledger status bar and date/sync buttons from dashboard header`
+- **Author:** `Gemini CLI <gemini-cli@example.com>`
+- **Committer:** `Gemini CLI <gemini-cli@example.com>`
+- **Date (ISO):** `2026-09-26 16:08:57 +0530`
+- **Parent:** `49dc6a54d802c1a9bd9f9333941a1d5becb782a1`
+- **Branch:** `main` → pushed to `origin/main`
+- **Files changed:** 2 files (`dashboard/index.html`, `dashboard/style.css`)
+- **Stat summary:** `2 files changed, 2 insertions(+), 20 deletions(-)`
+- **Related task:** Task 8 (Removal of Header Status Bar and Ledger Sync Controls)
+
+### Commit 13 — `dcfc499bc3249a4fd4c96852339f97d349764780`
+- **Short hash:** `dcfc499`
+- **Full hash:** `dcfc499bc3249a4fd4c96852339f97d349764780`
+- **Message:** `Docs: update journey.md for Tasks 7 & 8 supreme liquid glass, typography overhaul, and header clutter removal`
+- **Author:** `Gemini CLI <gemini-cli@example.com>`
+- **Committer:** `Gemini CLI <gemini-cli@example.com>`
+- **Date (ISO):** `2026-09-26 16:10:11 +0530`
+- **Parent:** `d7ffc7837e03de09ae7faa1069a8218ca70845d3`
+- **Branch:** `main` → pushed to `origin/main`
+- **Files changed:** 1 file (`journey.md`, +91 lines, -10 lines)
+- **Purpose:** Document Tasks 7 & 8, backfill Commits 10, 11, and 12, and update project state.
+
+### Task 9 — Removal of Testing Files, PDF Assets, and Adding .gitignore
+- **Date:** 2026-09-26 ~16:15 IST
+- **Requests verbatim:**
+  - “i am going to push the files in the github soo remove all the testing files and pdfs”
+- **Analysis & Cleanup:**
+  1. Identified 46 untracked testing files, screenshots, logs, and state files generated inside `.playwright-mcp/`.
+  2. Removed entire `.playwright-mcp/` test directory from disk.
+  3. Identified `StockSense.pdf` (1.6 MB) tracked in the repository root and executed `git rm StockSense.pdf`.
+  4. Created `.gitignore` file to permanently prevent PDF assets, `.playwright-mcp/` testing directories, logs (`*.log`), yaml test snapshots (`*.yml`), OS files (`.DS_Store`, `Thumbs.db`), and IDE folders from being accidentally tracked.
+- **Exact commands executed:**
+  ```powershell
+  Remove-Item -Recurse -Force .playwright-mcp
+  git rm StockSense.pdf
+  git add .gitignore
+  git commit -m "Chore: remove PDF and testing artifacts, add .gitignore"
+  git push
+  ```
+- **Commit associated:** `0b97e0ec2c49730d92a5ca6d4956e8f23585e3e4`
+
+### Commit 14 — `0b97e0ec2c49730d92a5ca6d4956e8f23585e3e4`
+- **Short hash:** `0b97e0e`
+- **Full hash:** `0b97e0ec2c49730d92a5ca6d4956e8f23585e3e4`
+- **Message:** `Chore: remove PDF and testing artifacts, add .gitignore`
+- **Author:** `Gemini CLI <gemini-cli@example.com>`
+- **Committer:** `Gemini CLI <gemini-cli@example.com>`
+- **Date (ISO):** `2026-09-26 16:14:56 +0530`
+- **Parent:** `dcfc499bc3249a4fd4c96852339f97d349764780`
+- **Branch:** `main` → pushed to `origin/main`
+- **Files changed:** 2 files (`.gitignore` created, `StockSense.pdf` deleted)
+- **Stat summary:** `2 files changed, 18 insertions(+) / delete mode 100644 StockSense.pdf / create mode 100644 .gitignore`
+- **Related task:** Task 9 (Testing files & PDF cleanup)
+
+### Commit 15 — (this update, to be filled after push)
+- **Intended message:** `Docs: update journey.md for Task 9 cleanup of testing files, PDF removal, and .gitignore`
+- **Contents:** Documents Task 9 and backfills Commits 13 and 14, updates repository clean state.
 
 ---
 
-## 3. Current State (as of 2026-09-26 11:18:23 IST, after Commit 5 push)
+## 3. Current State (as of 2026-09-26 16:15:30 IST, after Commit 14 push)
 
-- **Branch:** `main`, up to date with `origin/main` (Commit 5 pushed, before this journey edit).
-- **Working tree (before this edit):** Modified `journey.md` to add Task 4 + backfill Commit 4 + document Commit 5.
+- **Branch:** `main`, up to date with `origin/main` (Commit 14 pushed, before this journey edit).
+- **Working tree:** Modified `journey.md` to document Task 9 and Commits 13, 14.
 - **Remote:** `origin` → `https://github.com/desumidhun2006/Odoo_x_GCET_Hyderabad_Hackathon_2026_hackathon_project.git`
-- **Last pushed commit:** `58461cfd073f97af283187016e42a39a6d15aa83`
-- **Files in repo:** `README.md` (47-line workflow doc), `journey.md` (this tracker), `.git/`
-- **Pending:** Commit + push this `journey.md` update itself (will become Commit 6).
+- **Last pushed commit:** `0b97e0ec2c49730d92a5ca6d4956e8f23585e3e4`
+- **Files in repo:** `README.md`, `journey.md`, `.gitignore`, `dashboard/index.html`, `dashboard/style.css`, `dashboard/app.js`, `.git/`
+- **Local Server:** Serving `dashboard/` on `http://localhost:3333` with live HTTP 200 response.
+- **Pending:** Commit + push this `journey.md` update itself (will become Commit 15).
 
 ---
 
@@ -264,10 +561,18 @@
 - [x] Update Commit 2 details (done in Commit 3 `d2d31ba`).
 - [x] Document Commit 3 + finalize Task 3 (done in Commit 4 `f2be4d3`).
 - [x] Add workflow instructions to `README.md` (done in Commit 5 `58461cf`).
-- [ ] Push this journey update as Commit 6 to keep GitHub in sync.
-- [ ] Await next hackathon project task, then repeat workflow: implement → verify → commit → push → update this file → commit+push journey update.
-- [ ] At start of next task, backfill Commit 6 full hash/date/stat.
-- [ ] Keep commit messages descriptive: `Feat: ...`, `Fix: ...`, `Docs: ...`, etc., so this history remains useful.
+- [x] Backfill Commit 4 details in journey (done in Commit 6 `57840ef`).
+- [x] Analyze `StockSense.pdf` and Excalidraw wireframe (done in Task 5).
+- [x] Implement complete interactive StockSense dashboard (done in Commit 7 `c38805b`).
+- [x] Push journey update for Task 5 (done in Commit 8 `efcdf31`).
+- [x] Overhaul UI to pure light theme crystal liquid glass, add Chart.js charts deck, fix dropdown hover/click bug (done in Commit 9 `63782b4`).
+- [x] Push journey update for Task 6 (done in Commit 10 `aba2446`).
+- [x] Elevate UI to supreme liquid crystal glass, integrate human editorial typography, eradicate rainbow AI cards (done in Commit 11 `49dc6a5`).
+- [x] Remove status bar breadcrumb and ledger sync controls from header (done in Commit 12 `d7ffc78`).
+- [x] Document Tasks 7 & 8 in journey (done in Commit 13 `dcfc499`).
+- [x] Remove testing artifacts (.playwright-mcp), delete PDF asset, add .gitignore (done in Commit 14 `0b97e0e`).
+- [ ] Push this journey update as Commit 15 to keep GitHub in sync.
+- [ ] Ready for user's GitHub push or next hackathon feature.
 
 ---
 
@@ -278,6 +583,8 @@ Every future assistant response that completes a task MUST:
 2. `git add -A`, `git commit -m "<type>: <detail>"`, `git push`.
 3. Append one paragraph per task in `journey.md` below with commit ID + message.
 4. Commit + push the `journey.md` update itself, so GitHub always reflects the latest journey.
+
+
 
 ---
 
@@ -350,3 +657,5 @@ Commit ID: `775370e3587a413bc2df5db27eae3894cbb4490c` / Short: `775370e` — Mes
 Member 4 screens (done 16:16 IST): built receipts/, stock/, settings/ folders each in index.html + app.js + style.css format per request — Receipts with log/validate flow, Stock with view/add/edit/delete + CSV export, Settings with profile/preferences/security saved in browser; all UI-only mock via localStorage, node --check clean and python http.server 200 on all three pages.
 
 Commit ID: `4edf63262e92c733763ebbaf8c8aab62784e5b8b` / Short: `4edf632` — Message: `Feat: add Member 4 screens in index-app-style format (receipts, stock, settings)`
+
+Branch combine + merge prep (done 17:05 IST): merged origin/main (Tasks 7-9 glass UI, PDF cleanup, gitignore) into features — resolved dashboard/* to the live-API versions, unioned .gitignore, kept this log; merged origin/feature/standalone-auth (React auth module subtree); removed all UI mock data (live API everywhere); restored main dashboard; added server/seed-demo-data.mjs; integrated branch JWT auth with login-first flow and demo@stocksense.io identity; 10/10 Playwright checks green. No push yet — awaiting merge permit.
