@@ -1,9 +1,9 @@
 /**
- * StockSense — Inventory Management System Dashboard
- * Fully interactive, real-time application logic
+ * StockSense — Intelligent Inventory & Operations Platform
+ * Cinema-Grade Reactive State Engine
  */
 
-// ═══════════════════════ INITIAL STATE & DATA ═══════════════════════
+// ═══════════════════════ REACTIVE INVENTORY STATE ═══════════════════════
 const state = {
   currentView: 'dashboard',
   receiptViewMode: 'list', // 'list' | 'kanban'
@@ -22,21 +22,21 @@ const state = {
   ],
 
   receipts: [
-    { id: "WH/IN/0001", from: "Apex Steel Ltd", to: "WH/Stock1", contact: "Azure Interior", date: "2026-09-24", status: "Ready", items: [{ name: "Steel Rods 12mm", qty: 50 }] },
-    { id: "WH/IN/0002", from: "ErgoParts Supply", to: "WH/Stock1", contact: "Deco Addict", date: "2026-09-25", status: "Ready", items: [{ name: "Hydraulic Gas Lift Cylinder", qty: 25 }] },
+    { id: "WH/IN/0001", from: "Apex Steel Ltd", to: "WH/Stock1", contact: "Azure Interior", date: "2026-09-24", status: "Ready", isLate: false, items: [{ name: "Steel Rods 12mm", qty: 50 }] },
+    { id: "WH/IN/0002", from: "ErgoParts Supply", to: "WH/Stock1", contact: "Deco Addict", date: "2026-09-25", status: "Ready", isLate: false, items: [{ name: "Hydraulic Gas Lift Cylinder", qty: 25 }] },
     { id: "WH/IN/0003", from: "Fastener Hub Inc", to: "WH/Stock2", contact: "Gemini Furniture", date: "2026-09-22", status: "Ready", isLate: true, items: [{ name: "Industrial Hex Bolts M8", qty: 200 }] },
-    { id: "WH/IN/0004", from: "Global Pack Co", to: "WH/Stock1", contact: "Azure Interior", date: "2026-09-28", status: "Draft", items: [{ name: "Packing Bubble Wrap 50m", qty: 20 }] },
-    { id: "WH/IN/0005", from: "Prime Aluminum Corp", to: "WH/Stock1", contact: "Lumber & Co", date: "2026-09-21", status: "Done", items: [{ name: "Aluminum Sheets 4x8", qty: 40 }] },
-    { id: "WH/IN/0006", from: "Zenith Components", to: "WH/Stock2", contact: "Vanguard Corp", date: "2026-09-29", status: "Draft", items: [{ name: "Heavy Duty Casters 4in", qty: 60 }] }
+    { id: "WH/IN/0004", from: "Global Pack Co", to: "WH/Stock1", contact: "Azure Interior", date: "2026-09-28", status: "Draft", isLate: false, items: [{ name: "Packing Bubble Wrap 50m", qty: 20 }] },
+    { id: "WH/IN/0005", from: "Prime Aluminum Corp", to: "WH/Stock1", contact: "Lumber & Co", date: "2026-09-21", status: "Done", isLate: false, items: [{ name: "Aluminum Sheets 4x8", qty: 40 }] },
+    { id: "WH/IN/0006", from: "Zenith Components", to: "WH/Stock2", contact: "Vanguard Corp", date: "2026-09-29", status: "Draft", isLate: false, items: [{ name: "Heavy Duty Casters 4in", qty: 60 }] }
   ],
 
   deliveries: [
     { id: "WH/OUT/0001", from: "WH/Stock1", to: "Azure Interior HQ", contact: "Azure Interior", date: "2026-09-23", status: "Ready", isLate: true, items: [{ name: "Office Ergonomic Chair", qty: 10 }] },
-    { id: "WH/OUT/0002", from: "WH/Stock1", to: "TechHub Hyderabad", contact: "Deco Addict", date: "2026-09-26", status: "Waiting", items: [{ name: "Standing Desk Wood Top", qty: 10 }] },
-    { id: "WH/OUT/0003", from: "WH/Stock2", to: "Metropolis Co-work", contact: "Metro Ltd", date: "2026-09-27", status: "Waiting", items: [{ name: "Acoustic Desk Partition", qty: 5 }] },
-    { id: "WH/OUT/0004", from: "WH/Stock1", to: "Nexus Innovations", contact: "Nexus Tech", date: "2026-09-28", status: "Ready", items: [{ name: "Office Ergonomic Chair", qty: 4 }] },
-    { id: "WH/OUT/0005", from: "WH/Stock1", to: "City Library", contact: "Govt Admin", date: "2026-09-20", status: "Done", items: [{ name: "Standing Desk Wood Top", qty: 8 }] },
-    { id: "WH/OUT/0006", from: "WH/Stock2", to: "Orbit Labs", contact: "Orbit Co", date: "2026-09-30", status: "Draft", items: [{ name: "Steel Rods 12mm", qty: 20 }] }
+    { id: "WH/OUT/0002", from: "WH/Stock1", to: "TechHub Hyderabad", contact: "Deco Addict", date: "2026-09-26", status: "Waiting", isLate: false, items: [{ name: "Standing Desk Wood Top", qty: 10 }] },
+    { id: "WH/OUT/0003", from: "WH/Stock2", to: "Metropolis Co-work", contact: "Metro Ltd", date: "2026-09-27", status: "Waiting", isLate: false, items: [{ name: "Acoustic Desk Partition", qty: 5 }] },
+    { id: "WH/OUT/0004", from: "WH/Stock1", to: "Nexus Innovations", contact: "Nexus Tech", date: "2026-09-28", status: "Ready", isLate: false, items: [{ name: "Office Ergonomic Chair", qty: 4 }] },
+    { id: "WH/OUT/0005", from: "WH/Stock1", to: "City Library", contact: "Govt Admin", date: "2026-09-20", status: "Done", isLate: false, items: [{ name: "Standing Desk Wood Top", qty: 8 }] },
+    { id: "WH/OUT/0006", from: "WH/Stock2", to: "Orbit Labs", contact: "Orbit Co", date: "2026-09-30", status: "Draft", isLate: false, items: [{ name: "Steel Rods 12mm", qty: 20 }] }
   ],
 
   transfers: [
@@ -47,16 +47,16 @@ const state = {
 
   history: [
     { ref: "WH/IN/0005", date: "2026-09-21 14:30", product: "Aluminum Sheets 4x8", contact: "Prime Aluminum Corp", from: "Vendor", to: "WH/Stock1", qty: 40, type: "IN", status: "Done" },
-    { ref: "WH/OUT/0005", date: "2026-09-20 11:15", product: "Standing Desk Wood Top", contact: "Govt Admin", from: "WH/Stock1", to: "Customer", qty: 8, type: "OUT", status: "Done" },
+    { ref: "WH/OUT/0005", date: "2026-09-20 11:15", product: "Standing Desk Wood Top", contact: "Govt Admin", from: "WH/Stock1", to: "Customer", qty: -8, type: "OUT", status: "Done" },
     { ref: "WH/INT/0000", date: "2026-09-19 16:45", product: "Steel Rods 12mm", contact: "Internal Staff", from: "Main Store", to: "Production Rack", qty: 25, type: "Internal", status: "Done" },
     { ref: "ADJ/2026/001", date: "2026-09-18 09:20", product: "Industrial Hex Bolts M8", contact: "Warehouse Staff", from: "Count Adjustment", to: "Production Floor", qty: -5, type: "Adjustment", status: "Done" }
   ],
 
   activities: [
-    { icon: "📥", text: "Receipt <strong>WH/IN/0005</strong> validated (40x Aluminum Sheets)", time: "2 hours ago" },
-    { icon: "📤", text: "Delivery Order <strong>WH/OUT/0001</strong> scheduled for Azure Interior", time: "4 hours ago" },
+    { icon: "📥", text: "Receipt <strong>WH/IN/0005</strong> validated (+40x Aluminum Sheets received)", time: "2 hours ago" },
+    { icon: "📤", text: "Delivery Order <strong>WH/OUT/0001</strong> picked & staged for Azure Interior", time: "4 hours ago" },
     { icon: "🔄", text: "Internal Transfer scheduled from Main Store to Production Rack", time: "6 hours ago" },
-    { icon: "⚠️", text: "Low stock alert triggered for <strong>Industrial Hex Bolts M8</strong> (8 units left)", time: "Yesterday" }
+    { icon: "⚠️", text: "Low stock alert triggered for <strong>Industrial Hex Bolts M8</strong> (8 units remaining)", time: "Yesterday" }
   ],
 
   currentEditingReceipt: null,
@@ -66,6 +66,8 @@ const state = {
 // ═══════════════════════ INITIALIZATION ═══════════════════════
 document.addEventListener("DOMContentLoaded", () => {
   initDashboard();
+  initLiquidAtmosphere();
+  initDropdownInteractions();
 });
 
 function initDashboard() {
@@ -79,6 +81,7 @@ function initDashboard() {
   renderProducts();
   renderHistory();
   renderAdjustments();
+  initCharts();
 }
 
 function updateCurrentDate() {
@@ -88,18 +91,34 @@ function updateCurrentDate() {
   if (el) el.innerText = today.toLocaleDateString("en-US", options);
 }
 
+// ═══════════════════════ AMBIENT LIQUID MOUSE GLOW ═══════════════════════
+function initLiquidAtmosphere() {
+  const glow = document.getElementById("mouseGlow");
+  if (!glow) return;
+
+  window.addEventListener("mousemove", (e) => {
+    glow.style.left = e.clientX + "px";
+    glow.style.top = e.clientY + "px";
+    glow.style.opacity = "1";
+  });
+
+  window.addEventListener("mouseleave", () => {
+    glow.style.opacity = "0";
+  });
+}
+
 // ═══════════════════════ VIEW SWITCHING ═══════════════════════
 function switchView(viewName, clickedElement) {
   state.currentView = viewName;
 
   // Toggle active class on nav links
-  document.querySelectorAll(".nav-link").forEach(link => {
+  document.querySelectorAll(".nav-pill").forEach(link => {
     link.classList.remove("active");
   });
   if (clickedElement && clickedElement.classList) {
     clickedElement.classList.add("active");
   } else {
-    const targetLink = document.querySelector(`.nav-link[data-view="${viewName}"]`);
+    const targetLink = document.querySelector(`.nav-pill[data-view="${viewName}"]`);
     if (targetLink) targetLink.classList.add("active");
   }
 
@@ -118,6 +137,7 @@ function switchView(viewName, clickedElement) {
   if (viewName === 'dashboard') {
     renderKPIs();
     renderStockTable();
+    initCharts();
   } else if (viewName === 'receipts') {
     renderReceipts();
   } else if (viewName === 'deliveries') {
@@ -134,26 +154,41 @@ function switchView(viewName, clickedElement) {
 }
 
 function refreshDashboard() {
-  showToast("↻ Dashboard refreshed with live warehouse data");
+  showToast("↻ Warehouse telemetry synchronized with ledger");
   initDashboard();
 }
 
-// ═══════════════════════ KPI & WIDGET CALCULATIONS ═══════════════════════
+// ═══════════════════════ KPI CALCULATIONS ═══════════════════════
 function renderKPIs() {
-  const totalProducts = state.products.length;
+  const totalUnits = state.products.reduce((acc, p) => acc + p.onHand, 0);
   const lowStockCount = state.products.filter(p => p.onHand <= p.reorderPoint).length;
   const pendingReceipts = state.receipts.filter(r => r.status !== 'Done' && r.status !== 'Canceled').length;
   const pendingDeliveries = state.deliveries.filter(d => d.status !== 'Done' && d.status !== 'Canceled').length;
   const transfersCount = state.transfers.filter(t => t.status !== 'Done').length;
 
-  document.getElementById("kpiTotalProducts").innerText = totalProducts;
-  document.getElementById("kpiLowStock").innerText = lowStockCount;
-  document.getElementById("kpiPendingReceipts").innerText = pendingReceipts;
-  document.getElementById("kpiPendingDeliveries").innerText = pendingDeliveries;
-  document.getElementById("kpiTransfers").innerText = transfersCount;
+  const totalEl = document.getElementById("kpiTotalProducts");
+  if (totalEl) totalEl.innerText = totalUnits;
+
+  const lowEl = document.getElementById("kpiLowStock");
+  if (lowEl) lowEl.innerText = lowStockCount;
+
+  const inEl = document.getElementById("kpiPendingReceipts");
+  if (inEl) inEl.innerText = pendingReceipts;
+
+  const outEl = document.getElementById("kpiPendingDeliveries");
+  if (outEl) outEl.innerText = pendingDeliveries;
+
+  const trEl = document.getElementById("kpiTransfers");
+  if (trEl) trEl.innerText = transfersCount;
   
   const alertCountEl = document.getElementById("alertCount");
   if (alertCountEl) alertCountEl.innerText = lowStockCount;
+
+  const badgeEl = document.getElementById("stockCountBadge");
+  if (badgeEl) badgeEl.innerText = `${state.products.length} SKUs Active`;
+
+  if (typeof renderCategoryDonutChart === 'function') renderCategoryDonutChart();
+  if (typeof renderWarehouseCapacity === 'function') renderWarehouseCapacity();
 }
 
 // ═══════════════════════ STOCK SUMMARY TABLE ═══════════════════════
@@ -165,33 +200,51 @@ function renderStockTable(filteredList = null) {
   const list = filteredList || state.products;
 
   if (list.length === 0) {
-    tbody.innerHTML = `<tr><td colspan="9" style="text-align:center; padding: 2rem; color: var(--text-muted)">No matching products found.</td></tr>`;
+    tbody.innerHTML = `<tr><td colspan="9" style="text-align:center; padding: 3rem; color: var(--text-dim); font-family:var(--font-mono)">No matching stock records found.</td></tr>`;
     return;
   }
 
   list.forEach(p => {
     let statusBadge = '';
+    let gaugeClass = 'optimal';
+    let gaugePct = Math.min(100, Math.round((p.onHand / (p.reorderPoint * 2)) * 100));
+
     if (p.onHand === 0) {
-      statusBadge = '<span class="badge badge-red">Out of Stock</span>';
+      statusBadge = '<span class="badge badge-red"><span class="beacon" style="background:#fb7185"></span>Out of Stock</span>';
+      gaugeClass = 'danger';
+      gaugePct = 0;
     } else if (p.onHand <= p.reorderPoint) {
-      statusBadge = '<span class="badge badge-orange">Low Stock</span>';
+      statusBadge = '<span class="badge badge-orange"><span class="beacon" style="background:#fbbf24"></span>Low Stock</span>';
+      gaugeClass = 'warning';
+      gaugePct = 35;
     } else {
-      statusBadge = '<span class="badge badge-green">In Stock</span>';
+      statusBadge = '<span class="badge badge-green"><span class="beacon"></span>In Stock</span>';
+      gaugeClass = 'optimal';
     }
 
     const tr = document.createElement("tr");
     tr.innerHTML = `
-      <td style="font-weight:600">${p.name}</td>
-      <td><span class="badge badge-gray">${p.sku}</span></td>
-      <td>${p.category}</td>
-      <td>${p.location}</td>
-      <td>₹${p.cost.toLocaleString('en-IN')}</td>
-      <td style="font-weight:700">${p.onHand} ${p.uom}</td>
-      <td>${p.freeToUse} ${p.uom}</td>
+      <td>
+        <div style="font-weight:700; color:var(--text-head)">${p.name}</div>
+        <div style="font-size:0.72rem; color:var(--text-dim)">UoM: ${p.uom}</div>
+      </td>
+      <td><span class="sku-tag">${p.sku}</span></td>
+      <td><span style="font-size:0.82rem; color:var(--text-muted)">${p.category}</span></td>
+      <td><span style="font-size:0.82rem; color:var(--text-muted)">${p.location}</span></td>
+      <td style="font-family:var(--font-mono); font-weight:600">₹${p.cost.toLocaleString('en-IN')}</td>
+      <td>
+        <div class="stock-gauge-wrap">
+          <span style="font-family:var(--font-mono); font-weight:700; color:var(--text-head)">${p.onHand}</span>
+          <div class="stock-track"><div class="stock-fill ${gaugeClass}" style="width:${gaugePct}%"></div></div>
+        </div>
+      </td>
+      <td style="font-family:var(--font-mono); font-weight:600; color:var(--text-body)">${p.freeToUse}</td>
       <td>${statusBadge}</td>
       <td>
-        <button class="btn btn-secondary btn-icon" title="Quick Adjust" onclick="quickAdjustProduct(${p.id})">⚖</button>
-        <button class="btn btn-secondary btn-icon" title="View in Products" onclick="switchView('products',null)">👁</button>
+        <div class="row-actions">
+          <button class="action-btn-sm" title="Physical Count Audit" onclick="quickAdjustProduct(${p.id})">⚖ Audit</button>
+          <button class="action-btn-sm" title="View in Catalog" onclick="switchView('products', null)">👁</button>
+        </div>
       </td>
     `;
     tbody.appendChild(tr);
@@ -203,7 +256,8 @@ function filterStockTable(query) {
   const filtered = state.products.filter(p => 
     p.name.toLowerCase().includes(q) || 
     p.sku.toLowerCase().includes(q) ||
-    p.category.toLowerCase().includes(q)
+    p.category.toLowerCase().includes(q) ||
+    p.location.toLowerCase().includes(q)
   );
   renderStockTable(filtered);
 }
@@ -216,7 +270,7 @@ function filterLowStock() {
 }
 
 function filterByType(type, chipEl) {
-  document.querySelectorAll(".filter-chip").forEach(c => c.classList.remove("active"));
+  document.querySelectorAll(".seg-btn").forEach(c => c.classList.remove("active"));
   if (chipEl) chipEl.classList.add("active");
 
   if (type === 'all') {
@@ -235,9 +289,9 @@ function filterByType(type, chipEl) {
 }
 
 function applyFilters() {
-  const status = document.getElementById("statusFilter").value;
-  const wh = document.getElementById("warehouseFilter").value;
-  const cat = document.getElementById("categoryFilter").value;
+  const status = document.getElementById("statusFilter")?.value || '';
+  const wh = document.getElementById("warehouseFilter")?.value || '';
+  const cat = document.getElementById("categoryFilter")?.value || '';
 
   let filtered = [...state.products];
 
@@ -258,7 +312,7 @@ function applyFilters() {
   renderStockTable(filtered);
 }
 
-// ═══════════════════════ ALERTS & ACTIVITY FEED ═══════════════════════
+// ═══════════════════════ ALERTS & TELEMETRY STREAM ═══════════════════════
 function renderAlerts() {
   const alertList = document.getElementById("alertList");
   if (!alertList) return;
@@ -266,19 +320,19 @@ function renderAlerts() {
 
   const lowStock = state.products.filter(p => p.onHand <= p.reorderPoint);
   if (lowStock.length === 0) {
-    alertList.innerHTML = `<li style="padding:1rem; color:var(--text-muted); font-size:0.875rem">No low stock items. All levels optimal! 🎉</li>`;
+    alertList.innerHTML = `<li style="padding:1.5rem; text-align:center; color:var(--emerald); font-size:0.85rem">All stock levels within optimal parameters.</li>`;
     return;
   }
 
   lowStock.forEach(p => {
     const li = document.createElement("li");
-    li.className = "alert-item";
+    li.className = "alert-item-card";
     li.innerHTML = `
-      <div class="alert-item-info">
-        <span class="alert-product">${p.name} (${p.sku})</span>
-        <span class="alert-stock">Only ${p.onHand} ${p.uom} left (Reorder point: ${p.reorderPoint})</span>
+      <div>
+        <div class="alert-prod-name">${p.name} <span class="sku-tag">${p.sku}</span></div>
+        <div class="alert-stock-meta">${p.onHand} ${p.uom} on hand · Threshold: ${p.reorderPoint} ${p.uom}</div>
       </div>
-      <button class="btn btn-primary" style="padding:0.35rem 0.75rem; font-size:0.78rem" onclick="createReorderReceipt('${p.name}', ${p.reorderPoint * 2})">+ Reorder</button>
+      <button class="glass-btn primary sm-btn" onclick="createReorderReceipt('${p.name}', ${p.reorderPoint * 2})">+ Reorder</button>
     `;
     alertList.appendChild(li);
   });
@@ -291,12 +345,12 @@ function renderActivities() {
 
   state.activities.forEach(a => {
     const li = document.createElement("li");
-    li.className = "activity-item";
+    li.className = "stream-item";
     li.innerHTML = `
-      <div class="activity-icon" style="background:var(--primary-light)">${a.icon}</div>
-      <div class="activity-details">
-        <div class="activity-text">${a.text}</div>
-        <div class="activity-time">${a.time}</div>
+      <span class="stream-dot">${a.icon}</span>
+      <div class="stream-body">
+        <div class="stream-text">${a.text}</div>
+        <div class="stream-time">${a.time}</div>
       </div>
     `;
     feed.appendChild(li);
@@ -323,19 +377,21 @@ function renderReceipts(filteredList = null) {
     if (r.status === 'Draft') badgeClass = 'badge-orange';
     if (r.status === 'Canceled') badgeClass = 'badge-red';
 
-    const lateBadge = r.isLate ? `<span class="badge badge-red" style="margin-left:4px">Late</span>` : '';
+    const lateBadge = r.isLate ? `<span class="badge badge-red" style="margin-left:6px">Late</span>` : '';
 
     const tr = document.createElement("tr");
     tr.innerHTML = `
-      <td style="font-weight:700; color:var(--primary); cursor:pointer" onclick="openReceiptForm('${r.id}')">${r.id}</td>
-      <td>${r.from}</td>
-      <td>${r.to}</td>
+      <td style="font-family:var(--font-mono); font-weight:700; color:var(--primary); cursor:pointer" onclick="openReceiptForm('${r.id}')">${r.id}</td>
+      <td style="font-weight:600; color:var(--text-head)">${r.from}</td>
+      <td><span style="font-size:0.83rem; color:var(--text-muted)">${r.to}</span></td>
       <td>${r.contact}</td>
-      <td>${r.date} ${lateBadge}</td>
+      <td style="font-family:var(--font-mono); font-size:0.82rem">${r.date} ${lateBadge}</td>
       <td><span class="badge ${badgeClass}">${r.status}</span></td>
       <td>
-        <button class="btn btn-secondary btn-icon" onclick="openReceiptForm('${r.id}')">✏ Edit</button>
-        ${r.status === 'Ready' ? `<button class="btn btn-primary" style="padding:0.25rem 0.6rem; font-size:0.75rem" onclick="quickValidateReceipt('${r.id}')">Validate</button>` : ''}
+        <div class="row-actions">
+          <button class="action-btn-sm" onclick="openReceiptForm('${r.id}')">✏ Inspect</button>
+          ${r.status === 'Ready' ? `<button class="glass-btn primary sm-btn" onclick="quickValidateReceipt('${r.id}')">Validate</button>` : ''}
+        </div>
       </td>
     `;
     tbody.appendChild(tr);
@@ -345,8 +401,8 @@ function renderReceipts(filteredList = null) {
 }
 
 function filterReceiptsTable(query) {
-  const q = (query || document.getElementById("receiptSearch").value).toLowerCase().trim();
-  const status = document.getElementById("receiptStatusFilter").value;
+  const q = (query || document.getElementById("receiptSearch")?.value || '').toLowerCase().trim();
+  const status = document.getElementById("receiptStatusFilter")?.value || '';
 
   let list = state.receipts.filter(r => 
     r.id.toLowerCase().includes(q) ||
@@ -370,12 +426,12 @@ function toggleReceiptsView() {
     state.receiptViewMode = 'kanban';
     listView.classList.add("hidden");
     kanbanView.classList.remove("hidden");
-    btn.innerText = "☰ List View";
+    if (btn) btn.innerText = "☰ Toggle List";
   } else {
     state.receiptViewMode = 'list';
     listView.classList.remove("hidden");
     kanbanView.classList.add("hidden");
-    btn.innerText = "⊞ Kanban";
+    if (btn) btn.innerText = "⊞ Toggle Kanban";
   }
 }
 
@@ -389,11 +445,11 @@ function renderReceiptsKanban(list) {
   columns.forEach(col => {
     const colItems = list.filter(r => r.status === col);
     const colDiv = document.createElement("div");
-    colDiv.className = "kanban-col";
+    colDiv.className = "kanban-column";
     colDiv.innerHTML = `
-      <div class="kanban-col-header">
+      <div class="kanban-col-head">
         <span>${col}</span>
-        <span class="badge badge-gray">${colItems.length}</span>
+        <span class="sku-tag">${colItems.length}</span>
       </div>
     `;
 
@@ -402,10 +458,10 @@ function renderReceiptsKanban(list) {
       card.className = "kanban-card";
       card.onclick = () => openReceiptForm(item.id);
       card.innerHTML = `
-        <div class="kanban-card-title">${item.id}</div>
-        <div class="kanban-card-desc">From: <strong>${item.from}</strong></div>
-        <div class="kanban-card-desc">To: ${item.to}</div>
-        <div class="kanban-card-footer">
+        <div class="k-card-ref">${item.id}</div>
+        <div class="k-card-line">Vendor: <strong>${item.from}</strong></div>
+        <div class="k-card-line">Destination: ${item.to}</div>
+        <div class="k-card-foot">
           <span>📅 ${item.date}</span>
           ${item.isLate ? '<span class="badge badge-red">Late</span>' : ''}
         </div>
@@ -418,9 +474,10 @@ function renderReceiptsKanban(list) {
 }
 
 function openReceiptForm(receiptId) {
-  document.getElementById("receiptListView").classList.add("hidden");
-  document.getElementById("receiptKanbanView").classList.add("hidden");
+  document.getElementById("receiptListView")?.classList.add("hidden");
+  document.getElementById("receiptKanbanView")?.classList.add("hidden");
   const panel = document.getElementById("receiptFormPanel");
+  if (!panel) return;
   panel.classList.remove("hidden");
 
   let receipt;
@@ -433,6 +490,7 @@ function openReceiptForm(receiptId) {
       contact: 'Azure Interior',
       date: new Date().toISOString().split('T')[0],
       status: 'Draft',
+      isLate: false,
       items: [{ name: state.products[0].name, qty: 10 }]
     };
     state.receipts.unshift(receipt);
@@ -450,34 +508,36 @@ function openReceiptForm(receiptId) {
 
   // Products table
   const tbody = document.getElementById("rfProductsBody");
-  tbody.innerHTML = "";
-  receipt.items.forEach(it => {
-    const tr = document.createElement("tr");
-    tr.innerHTML = `
-      <td><input type="text" class="inline-input" value="${it.name}" /></td>
-      <td><input type="number" class="inline-input short" value="${it.qty}" /></td>
-      <td><button class="btn-icon" onclick="removeRow(this)">🗑</button></td>
-    `;
-    tbody.appendChild(tr);
-  });
+  if (tbody) {
+    tbody.innerHTML = "";
+    receipt.items.forEach(it => {
+      const tr = document.createElement("tr");
+      tr.innerHTML = `
+        <td><input type="text" class="inline-input" value="${it.name}" /></td>
+        <td><input type="number" class="inline-input short" value="${it.qty}" /></td>
+        <td><button class="action-btn-sm danger" onclick="removeRow(this)">🗑</button></td>
+      `;
+      tbody.appendChild(tr);
+    });
+  }
 }
 
 function updateReceiptStepper(status) {
   const steps = ["draft", "ready", "done"];
   steps.forEach(s => {
     const el = document.getElementById(`rs-${s}`);
-    if (el) el.className = "step";
+    if (el) el.className = "step-node";
   });
 
   if (status === 'Draft') {
-    document.getElementById("rs-draft").className = "step active";
+    document.getElementById("rs-draft").className = "step-node active";
   } else if (status === 'Ready') {
-    document.getElementById("rs-draft").className = "step done";
-    document.getElementById("rs-ready").className = "step active";
+    document.getElementById("rs-draft").className = "step-node done";
+    document.getElementById("rs-ready").className = "step-node active";
   } else if (status === 'Done') {
-    document.getElementById("rs-draft").className = "step done";
-    document.getElementById("rs-ready").className = "step done";
-    document.getElementById("rs-done").className = "step done";
+    document.getElementById("rs-draft").className = "step-node done";
+    document.getElementById("rs-ready").className = "step-node done";
+    document.getElementById("rs-done").className = "step-node done";
   }
 }
 
@@ -491,7 +551,7 @@ function validateReceipt() {
   }
 
   r.status = 'Done';
-  r.from = document.getElementById("rf-vendor").value || r.from;
+  r.from = document.getElementById("rf-vendor")?.value || r.from || "Vendor Supplier";
   updateReceiptStepper('Done');
 
   // Increase stock for items received
@@ -501,7 +561,6 @@ function validateReceipt() {
       product.onHand += Number(it.qty);
       product.freeToUse += Number(it.qty);
     }
-    // Add to history
     state.history.unshift({
       ref: r.id,
       date: new Date().toLocaleString(),
@@ -515,8 +574,8 @@ function validateReceipt() {
     });
   });
 
-  addActivity("📥", `Receipt <strong>${r.id}</strong> validated (+${r.items.reduce((acc, x) => acc + Number(x.qty), 0)} items received)`);
-  showToast(`✓ Receipt ${r.id} validated! Stock auto-increased.`);
+  addActivity("📥", `Receipt <strong>${r.id}</strong> validated (+${r.items.reduce((acc, x) => acc + Number(x.qty), 0)} units received)`);
+  showToast(`✓ Receipt ${r.id} validated! Stock auto-incremented.`);
   renderKPIs();
 }
 
@@ -557,19 +616,20 @@ function cancelReceipt() {
 }
 
 function closeReceiptForm() {
-  document.getElementById("receiptFormPanel").classList.add("hidden");
-  document.getElementById("receiptListView").classList.remove("hidden");
+  document.getElementById("receiptFormPanel")?.classList.add("hidden");
+  document.getElementById("receiptListView")?.classList.remove("hidden");
   renderReceipts();
   renderKPIs();
 }
 
 function addRfRow() {
   const tbody = document.getElementById("rfProductsBody");
+  if (!tbody) return;
   const tr = document.createElement("tr");
   tr.innerHTML = `
     <td><input type="text" class="inline-input" placeholder="Product name or SKU…" /></td>
     <td><input type="number" class="inline-input short" value="1" min="1" /></td>
-    <td><button class="btn-icon" onclick="removeRow(this)">🗑</button></td>
+    <td><button class="action-btn-sm danger" onclick="removeRow(this)">🗑</button></td>
   `;
   tbody.appendChild(tr);
 }
@@ -578,16 +638,17 @@ function createReorderReceipt(productName, qty) {
   const nextNum = String(state.receipts.length + 1).padStart(4, '0');
   const newReceipt = {
     id: `WH/IN/${nextNum}`,
-    from: "Vendor Auto-Reorder",
+    from: "Automated Reorder Pipeline",
     to: "WH/Stock1",
-    contact: "Procurement Dept",
+    contact: "Procurement Ops",
     date: new Date().toISOString().split('T')[0],
     status: "Ready",
+    isLate: false,
     items: [{ name: productName, qty: qty }]
   };
   state.receipts.unshift(newReceipt);
-  addActivity("📥", `Automated reorder receipt <strong>${newReceipt.id}</strong> created for ${productName} (${qty} units)`);
-  showToast(`Created reorder receipt ${newReceipt.id} for ${productName}`);
+  addActivity("📥", `Automated reorder docket <strong>${newReceipt.id}</strong> raised for ${productName} (${qty} units)`);
+  showToast(`Created inbound reorder ${newReceipt.id} for ${productName}`);
   renderReceipts();
   renderKPIs();
 }
@@ -608,19 +669,21 @@ function renderDeliveries(filteredList = null) {
     if (d.status === 'Draft') badgeClass = 'badge-purple';
     if (d.status === 'Canceled') badgeClass = 'badge-red';
 
-    const lateBadge = d.isLate ? `<span class="badge badge-red" style="margin-left:4px">Late</span>` : '';
+    const lateBadge = d.isLate ? `<span class="badge badge-red" style="margin-left:6px">Late</span>` : '';
 
     const tr = document.createElement("tr");
     tr.innerHTML = `
-      <td style="font-weight:700; color:var(--primary); cursor:pointer" onclick="openDeliveryForm('${d.id}')">${d.id}</td>
-      <td>${d.from}</td>
-      <td>${d.to}</td>
+      <td style="font-family:var(--font-mono); font-weight:700; color:var(--primary); cursor:pointer" onclick="openDeliveryForm('${d.id}')">${d.id}</td>
+      <td><span style="font-size:0.83rem; color:var(--text-muted)">${d.from}</span></td>
+      <td style="font-weight:600; color:var(--text-head)">${d.to}</td>
       <td>${d.contact}</td>
-      <td>${d.date} ${lateBadge}</td>
+      <td style="font-family:var(--font-mono); font-size:0.82rem">${d.date} ${lateBadge}</td>
       <td><span class="badge ${badgeClass}">${d.status}</span></td>
       <td>
-        <button class="btn btn-secondary btn-icon" onclick="openDeliveryForm('${d.id}')">✏ Edit</button>
-        ${d.status === 'Ready' ? `<button class="btn btn-primary" style="padding:0.25rem 0.6rem; font-size:0.75rem" onclick="quickValidateDelivery('${d.id}')">Validate</button>` : ''}
+        <div class="row-actions">
+          <button class="action-btn-sm" onclick="openDeliveryForm('${d.id}')">✏ Inspect</button>
+          ${d.status === 'Ready' ? `<button class="glass-btn primary sm-btn" onclick="quickValidateDelivery('${d.id}')">Dispatch</button>` : ''}
+        </div>
       </td>
     `;
     tbody.appendChild(tr);
@@ -630,8 +693,8 @@ function renderDeliveries(filteredList = null) {
 }
 
 function filterDeliveriesTable(query) {
-  const q = (query || document.getElementById("deliverySearch").value).toLowerCase().trim();
-  const status = document.getElementById("deliveryStatusFilter").value;
+  const q = (query || document.getElementById("deliverySearch")?.value || '').toLowerCase().trim();
+  const status = document.getElementById("deliveryStatusFilter")?.value || '';
 
   let list = state.deliveries.filter(d => 
     d.id.toLowerCase().includes(q) ||
@@ -655,12 +718,12 @@ function toggleDeliveryView() {
     state.deliveryViewMode = 'kanban';
     listView.classList.add("hidden");
     kanbanView.classList.remove("hidden");
-    btn.innerText = "☰ List View";
+    if (btn) btn.innerText = "☰ Toggle List";
   } else {
     state.deliveryViewMode = 'list';
     listView.classList.remove("hidden");
     kanbanView.classList.add("hidden");
-    btn.innerText = "⊞ Kanban";
+    if (btn) btn.innerText = "⊞ Toggle Kanban";
   }
 }
 
@@ -674,11 +737,11 @@ function renderDeliveriesKanban(list) {
   columns.forEach(col => {
     const colItems = list.filter(d => d.status === col);
     const colDiv = document.createElement("div");
-    colDiv.className = "kanban-col";
+    colDiv.className = "kanban-column";
     colDiv.innerHTML = `
-      <div class="kanban-col-header">
+      <div class="kanban-col-head">
         <span>${col}</span>
-        <span class="badge badge-gray">${colItems.length}</span>
+        <span class="sku-tag">${colItems.length}</span>
       </div>
     `;
 
@@ -687,10 +750,10 @@ function renderDeliveriesKanban(list) {
       card.className = "kanban-card";
       card.onclick = () => openDeliveryForm(item.id);
       card.innerHTML = `
-        <div class="kanban-card-title">${item.id}</div>
-        <div class="kanban-card-desc">To: <strong>${item.to}</strong></div>
-        <div class="kanban-card-desc">Contact: ${item.contact}</div>
-        <div class="kanban-card-footer">
+        <div class="k-card-ref">${item.id}</div>
+        <div class="k-card-line">Destination: <strong>${item.to}</strong></div>
+        <div class="k-card-line">Contact: ${item.contact}</div>
+        <div class="k-card-foot">
           <span>📅 ${item.date}</span>
           ${item.isLate ? '<span class="badge badge-red">Late</span>' : ''}
         </div>
@@ -703,9 +766,10 @@ function renderDeliveriesKanban(list) {
 }
 
 function openDeliveryForm(deliveryId) {
-  document.getElementById("deliveryListView").classList.add("hidden");
-  document.getElementById("deliveryKanbanView").classList.add("hidden");
+  document.getElementById("deliveryListView")?.classList.add("hidden");
+  document.getElementById("deliveryKanbanView")?.classList.add("hidden");
   const panel = document.getElementById("deliveryFormPanel");
+  if (!panel) return;
   panel.classList.remove("hidden");
 
   let delivery;
@@ -718,6 +782,7 @@ function openDeliveryForm(deliveryId) {
       contact: 'Azure Interior',
       date: new Date().toISOString().split('T')[0],
       status: 'Draft',
+      isLate: false,
       items: [{ name: state.products[1].name, qty: 5 }]
     };
     state.deliveries.unshift(delivery);
@@ -735,45 +800,47 @@ function openDeliveryForm(deliveryId) {
 
   // Products table
   const tbody = document.getElementById("dfProductsBody");
-  tbody.innerHTML = "";
-  delivery.items.forEach(it => {
-    const product = state.products.find(p => p.name.toLowerCase() === it.name.toLowerCase());
-    const stockStatus = (product && product.onHand >= it.qty) 
-      ? '<span class="badge badge-green">In Stock</span>' 
-      : '<span class="badge badge-red">Insufficient</span>';
+  if (tbody) {
+    tbody.innerHTML = "";
+    delivery.items.forEach(it => {
+      const product = state.products.find(p => p.name.toLowerCase() === it.name.toLowerCase());
+      const stockStatus = (product && product.onHand >= it.qty) 
+        ? '<span class="badge badge-green"><span class="beacon"></span>Available</span>' 
+        : '<span class="badge badge-red"><span class="beacon" style="background:#fb7185"></span>Insufficient</span>';
 
-    const tr = document.createElement("tr");
-    tr.innerHTML = `
-      <td><input type="text" class="inline-input" value="${it.name}" /></td>
-      <td><input type="number" class="inline-input short" value="${it.qty}" /></td>
-      <td>${stockStatus}</td>
-      <td><button class="btn-icon" onclick="removeRow(this)">🗑</button></td>
-    `;
-    tbody.appendChild(tr);
-  });
+      const tr = document.createElement("tr");
+      tr.innerHTML = `
+        <td><input type="text" class="inline-input" value="${it.name}" /></td>
+        <td><input type="number" class="inline-input short" value="${it.qty}" /></td>
+        <td>${stockStatus}</td>
+        <td><button class="action-btn-sm danger" onclick="removeRow(this)">🗑</button></td>
+      `;
+      tbody.appendChild(tr);
+    });
+  }
 }
 
 function updateDeliveryStepper(status) {
   const steps = ["draft", "waiting", "ready", "done"];
   steps.forEach(s => {
     const el = document.getElementById(`ds-${s}`);
-    if (el) el.className = "step";
+    if (el) el.className = "step-node";
   });
 
   if (status === 'Draft') {
-    document.getElementById("ds-draft").className = "step active";
+    document.getElementById("ds-draft").className = "step-node active";
   } else if (status === 'Waiting') {
-    document.getElementById("ds-draft").className = "step done";
-    document.getElementById("ds-waiting").className = "step active";
+    document.getElementById("ds-draft").className = "step-node done";
+    document.getElementById("ds-waiting").className = "step-node active";
   } else if (status === 'Ready') {
-    document.getElementById("ds-draft").className = "step done";
-    document.getElementById("ds-waiting").className = "step done";
-    document.getElementById("ds-ready").className = "step active";
+    document.getElementById("ds-draft").className = "step-node done";
+    document.getElementById("ds-waiting").className = "step-node done";
+    document.getElementById("ds-ready").className = "step-node active";
   } else if (status === 'Done') {
-    document.getElementById("ds-draft").className = "step done";
-    document.getElementById("ds-waiting").className = "step done";
-    document.getElementById("ds-ready").className = "step done";
-    document.getElementById("ds-done").className = "step done";
+    document.getElementById("ds-draft").className = "step-node done";
+    document.getElementById("ds-waiting").className = "step-node done";
+    document.getElementById("ds-ready").className = "step-node done";
+    document.getElementById("ds-done").className = "step-node done";
   }
 }
 
@@ -790,7 +857,7 @@ function validateDelivery() {
   for (let it of d.items) {
     const p = state.products.find(prod => prod.name.toLowerCase() === it.name.toLowerCase());
     if (p && p.onHand < Number(it.qty)) {
-      showToast(`⚠️ Cannot validate: Not enough stock for ${it.name} (Need ${it.qty}, have ${p.onHand})`);
+      showToast(`⚠️ Insufficient stock for ${it.name} (Need ${it.qty}, have ${p.onHand})`);
       d.status = 'Waiting';
       updateDeliveryStepper('Waiting');
       return;
@@ -798,7 +865,7 @@ function validateDelivery() {
   }
 
   d.status = 'Done';
-  d.to = document.getElementById("df-address").value || d.to;
+  d.to = document.getElementById("df-address")?.value || d.to || "Customer Address";
   updateDeliveryStepper('Done');
 
   // Reduce inventory & log history
@@ -814,15 +881,15 @@ function validateDelivery() {
       product: it.name,
       contact: d.to || d.contact,
       from: d.from,
-      to: "Customer",
+      to: "Customer Destination",
       qty: -Number(it.qty),
       type: "OUT",
       status: "Done"
     });
   });
 
-  addActivity("📤", `Delivery <strong>${d.id}</strong> validated and shipped (-${d.items.reduce((acc, x) => acc + Number(x.qty), 0)} units)`);
-  showToast(`✓ Delivery ${d.id} validated! Stock deducted.`);
+  addActivity("📤", `Delivery <strong>${d.id}</strong> dispatched to ${d.to} (-${d.items.reduce((acc, x) => acc + Number(x.qty), 0)} units)`);
+  showToast(`✓ Delivery ${d.id} dispatched! Stock deducted.`);
   renderKPIs();
 }
 
@@ -853,14 +920,14 @@ function quickValidateDelivery(id) {
       product: it.name,
       contact: d.to,
       from: d.from,
-      to: "Customer",
+      to: "Customer Destination",
       qty: -Number(it.qty),
       type: "OUT",
       status: "Done"
     });
   });
 
-  addActivity("📤", `Delivery <strong>${d.id}</strong> shipped`);
+  addActivity("📤", `Delivery <strong>${d.id}</strong> dispatched`);
   showToast(`✓ Delivery ${d.id} validated!`);
   renderDeliveries();
   renderKPIs();
@@ -875,20 +942,21 @@ function cancelDelivery() {
 }
 
 function closeDeliveryForm() {
-  document.getElementById("deliveryFormPanel").classList.add("hidden");
-  document.getElementById("deliveryListView").classList.remove("hidden");
+  document.getElementById("deliveryFormPanel")?.classList.add("hidden");
+  document.getElementById("deliveryListView")?.classList.remove("hidden");
   renderDeliveries();
   renderKPIs();
 }
 
 function addDfRow() {
   const tbody = document.getElementById("dfProductsBody");
+  if (!tbody) return;
   const tr = document.createElement("tr");
   tr.innerHTML = `
     <td><input type="text" class="inline-input" placeholder="Product name or SKU…" /></td>
     <td><input type="number" class="inline-input short" value="1" min="1" /></td>
-    <td><span class="badge badge-gray">Pending</span></td>
-    <td><button class="btn-icon" onclick="removeRow(this)">🗑</button></td>
+    <td><span class="badge badge-gray">Pending Check</span></td>
+    <td><button class="action-btn-sm danger" onclick="removeRow(this)">🗑</button></td>
   `;
   tbody.appendChild(tr);
 }
@@ -903,23 +971,25 @@ function renderProducts(filteredList = null) {
 
   list.forEach(p => {
     let statusBadge = '';
-    if (p.onHand === 0) statusBadge = '<span class="badge badge-red">Out of Stock</span>';
-    else if (p.onHand <= p.reorderPoint) statusBadge = '<span class="badge badge-orange">Low Stock</span>';
-    else statusBadge = '<span class="badge badge-green">In Stock</span>';
+    if (p.onHand === 0) statusBadge = '<span class="badge badge-red"><span class="beacon" style="background:#fb7185"></span>Out of Stock</span>';
+    else if (p.onHand <= p.reorderPoint) statusBadge = '<span class="badge badge-orange"><span class="beacon" style="background:#fbbf24"></span>Low Stock</span>';
+    else statusBadge = '<span class="badge badge-green"><span class="beacon"></span>In Stock</span>';
 
     const tr = document.createElement("tr");
     tr.innerHTML = `
-      <td style="font-weight:600">${p.name}</td>
-      <td><span class="badge badge-gray">${p.sku}</span></td>
-      <td>${p.category}</td>
-      <td>${p.uom}</td>
-      <td style="font-weight:700">${p.onHand}</td>
-      <td>${p.reorderPoint}</td>
-      <td>₹${p.cost.toLocaleString('en-IN')}</td>
+      <td style="font-weight:700; color:var(--text-head)">${p.name}</td>
+      <td><span class="sku-tag">${p.sku}</span></td>
+      <td><span style="font-size:0.83rem; color:var(--text-muted)">${p.category}</span></td>
+      <td style="font-family:var(--font-mono); font-size:0.8rem">${p.uom}</td>
+      <td style="font-family:var(--font-mono); font-weight:700; color:var(--text-head)">${p.onHand}</td>
+      <td style="font-family:var(--font-mono); color:var(--text-muted)">${p.reorderPoint}</td>
+      <td style="font-family:var(--font-mono); font-weight:600">₹${p.cost.toLocaleString('en-IN')}</td>
       <td>${statusBadge}</td>
       <td>
-        <button class="btn btn-secondary btn-icon" title="Edit" onclick="editProduct(${p.id})">✏</button>
-        <button class="btn btn-danger btn-icon" title="Delete" onclick="deleteProduct(${p.id})">🗑</button>
+        <div class="row-actions">
+          <button class="action-btn-sm" title="Edit SKU" onclick="editProduct(${p.id})">✏</button>
+          <button class="action-btn-sm danger" title="Delete" onclick="deleteProduct(${p.id})">🗑</button>
+        </div>
       </td>
     `;
     tbody.appendChild(tr);
@@ -927,8 +997,8 @@ function renderProducts(filteredList = null) {
 }
 
 function filterProductsTable(query) {
-  const q = (query || document.getElementById("productSearch").value).toLowerCase().trim();
-  const cat = document.getElementById("productCategoryFilter").value;
+  const q = (query || document.getElementById("productSearch")?.value || '').toLowerCase().trim();
+  const cat = document.getElementById("productCategoryFilter")?.value || '';
 
   let list = state.products.filter(p => 
     p.name.toLowerCase().includes(q) ||
@@ -944,31 +1014,31 @@ function filterProductsTable(query) {
 }
 
 function openProductModal() {
-  document.getElementById("productModalTitle").innerText = "New Product";
+  document.getElementById("productModalTitle").innerText = "Add New Product to Catalog";
   document.getElementById("pf-name").value = "";
   document.getElementById("pf-sku").value = "";
   document.getElementById("pf-stock").value = "0";
   document.getElementById("pf-cost").value = "0";
   document.getElementById("pf-reorder").value = "10";
-  document.getElementById("productModal").classList.remove("hidden");
+  document.getElementById("productModal")?.classList.remove("hidden");
 }
 
 function closeProductModal() {
-  document.getElementById("productModal").classList.add("hidden");
+  document.getElementById("productModal")?.classList.add("hidden");
 }
 
 function saveProduct() {
-  const name = document.getElementById("pf-name").value.trim();
-  const sku = document.getElementById("pf-sku").value.trim();
-  const category = document.getElementById("pf-category").value;
-  const uom = document.getElementById("pf-uom").value;
-  const onHand = Number(document.getElementById("pf-stock").value) || 0;
-  const cost = Number(document.getElementById("pf-cost").value) || 0;
-  const reorderPoint = Number(document.getElementById("pf-reorder").value) || 10;
-  const location = document.getElementById("pf-location").value;
+  const name = document.getElementById("pf-name")?.value.trim();
+  const sku = document.getElementById("pf-sku")?.value.trim();
+  const category = document.getElementById("pf-category")?.value;
+  const uom = document.getElementById("pf-uom")?.value;
+  const onHand = Number(document.getElementById("pf-stock")?.value) || 0;
+  const cost = Number(document.getElementById("pf-cost")?.value) || 0;
+  const reorderPoint = Number(document.getElementById("pf-reorder")?.value) || 10;
+  const location = document.getElementById("pf-location")?.value;
 
   if (!name || !sku) {
-    showToast("⚠️ Please enter product name and SKU code.");
+    showToast("⚠️ Product name and SKU identifier required.");
     return;
   }
 
@@ -990,8 +1060,8 @@ function saveProduct() {
   renderProducts();
   renderStockTable();
   renderKPIs();
-  addActivity("🏷", `New product <strong>${name}</strong> (${sku}) added to catalog`);
-  showToast(`✓ Product "${name}" saved!`);
+  addActivity("🏷", `SKU <strong>${sku}</strong> (${name}) cataloged into ${location}`);
+  showToast(`✓ Registered product "${name}"!`);
 }
 
 function deleteProduct(id) {
@@ -1002,7 +1072,7 @@ function deleteProduct(id) {
     renderProducts();
     renderStockTable();
     renderKPIs();
-    showToast(`Deleted ${pName}`);
+    showToast(`Removed ${pName}`);
   }
 }
 
@@ -1025,23 +1095,23 @@ function renderHistory(filteredList = null) {
 
     const tr = document.createElement("tr");
     tr.innerHTML = `
-      <td style="font-weight:700; color:var(--primary)">${h.ref}</td>
-      <td style="color:var(--text-muted); font-size:0.8rem">${h.date}</td>
-      <td style="font-weight:600">${h.product}</td>
+      <td style="font-family:var(--font-mono); font-weight:700; color:var(--primary)">${h.ref}</td>
+      <td style="font-family:var(--font-mono); font-size:0.78rem; color:var(--text-dim)">${h.date}</td>
+      <td style="font-weight:600; color:var(--text-head)">${h.product}</td>
       <td>${h.contact}</td>
-      <td>${h.from}</td>
-      <td>${h.to}</td>
-      <td style="font-weight:700; color:${h.qty >= 0 ? 'var(--accent-green)' : 'var(--accent-red)'}">${qtySign}</td>
+      <td><span style="font-size:0.83rem; color:var(--text-muted)">${h.from}</span></td>
+      <td><span style="font-size:0.83rem; color:var(--text-muted)">${h.to}</span></td>
+      <td style="font-family:var(--font-mono); font-weight:700; color:${h.qty >= 0 ? 'var(--emerald)' : 'var(--rose)'}">${qtySign}</td>
       <td><span class="badge ${typeBadge}">${h.type}</span></td>
-      <td><span class="badge badge-green">${h.status}</span></td>
+      <td><span class="badge badge-green"><span class="beacon"></span>${h.status}</span></td>
     `;
     tbody.appendChild(tr);
   });
 }
 
 function filterHistoryTable(query) {
-  const q = (query || document.getElementById("historySearch").value).toLowerCase().trim();
-  const type = document.getElementById("historyTypeFilter").value;
+  const q = (query || document.getElementById("historySearch")?.value || '').toLowerCase().trim();
+  const type = document.getElementById("historyTypeFilter")?.value || '';
 
   let list = state.history.filter(h => 
     h.ref.toLowerCase().includes(q) ||
@@ -1066,15 +1136,18 @@ function renderAdjustments() {
     const tr = document.createElement("tr");
     tr.id = `adj-row-${p.id}`;
     tr.innerHTML = `
-      <td style="font-weight:600">${p.name} <span class="badge badge-gray">${p.sku}</span></td>
-      <td>${p.location}</td>
-      <td><span id="adj-rec-${p.id}">${p.onHand}</span> ${p.uom}</td>
+      <td>
+        <div style="font-weight:700; color:var(--text-head)">${p.name}</div>
+        <span class="sku-tag">${p.sku}</span>
+      </td>
+      <td><span style="font-size:0.83rem; color:var(--text-muted)">${p.location}</span></td>
+      <td style="font-family:var(--font-mono); font-weight:700; color:var(--text-body)"><span id="adj-rec-${p.id}">${p.onHand}</span> ${p.uom}</td>
       <td>
         <input type="number" class="inline-input short" id="adj-input-${p.id}" value="${p.onHand}" min="0" oninput="calculateAdjustmentDiff(${p.id}, ${p.onHand})" />
       </td>
-      <td><span id="adj-diff-${p.id}" style="font-weight:700; color:var(--text-muted)">0</span></td>
+      <td><span id="adj-diff-${p.id}" style="font-family:var(--font-mono); font-weight:700; color:var(--text-dim)">0</span></td>
       <td>
-        <button class="btn btn-secondary" style="padding:0.25rem 0.65rem; font-size:0.78rem" onclick="applySingleAdjustment(${p.id})">Fix Count</button>
+        <button class="glass-btn secondary sm-btn" onclick="applySingleAdjustment(${p.id})">Fix Delta</button>
       </td>
     `;
     tbody.appendChild(tr);
@@ -1089,13 +1162,13 @@ function calculateAdjustmentDiff(productId, recordedQty) {
 
   if (diff > 0) {
     diffEl.innerText = `+${diff}`;
-    diffEl.style.color = "var(--accent-green)";
+    diffEl.style.color = "var(--emerald)";
   } else if (diff < 0) {
     diffEl.innerText = `${diff}`;
-    diffEl.style.color = "var(--accent-red)";
+    diffEl.style.color = "var(--rose)";
   } else {
     diffEl.innerText = `0`;
-    diffEl.style.color = "var(--text-muted)";
+    diffEl.style.color = "var(--text-dim)";
   }
 }
 
@@ -1119,15 +1192,15 @@ function applySingleAdjustment(productId) {
     ref: `ADJ/${new Date().getFullYear()}/${String(state.history.length + 1).padStart(3, '0')}`,
     date: new Date().toLocaleString(),
     product: p.name,
-    contact: "Warehouse Physical Count",
-    from: "Physical Count",
+    contact: "Warehouse Physical Audit",
+    from: "Physical Shelf Count",
     to: p.location,
     qty: diff,
     type: "Adjustment",
     status: "Done"
   });
 
-  addActivity("🔧", `Stock count adjusted for <strong>${p.name}</strong> (${diff > 0 ? '+' + diff : diff} units)`);
+  addActivity("⚖️", `Stock reconciled for <strong>${p.name}</strong> (${diff > 0 ? '+' + diff : diff} units)`);
   showToast(`✓ Stock for "${p.name}" adjusted to ${physical} ${p.uom}`);
 
   renderAdjustments();
@@ -1151,8 +1224,8 @@ function applyAdjustment() {
           ref: `ADJ/${new Date().getFullYear()}/${String(state.history.length + 1).padStart(3, '0')}`,
           date: new Date().toLocaleString(),
           product: p.name,
-          contact: "Stock Audit",
-          from: "Physical Count",
+          contact: "Annual Stock Audit",
+          from: "Physical Shelf Count",
           to: p.location,
           qty: diff,
           type: "Adjustment",
@@ -1163,13 +1236,13 @@ function applyAdjustment() {
   });
 
   if (adjustmentsCount > 0) {
-    addActivity("🔧", `Bulk stock audit applied across ${adjustmentsCount} items`);
-    showToast(`✓ Applied ${adjustmentsCount} stock adjustments to ledger`);
+    addActivity("⚖️", `Bulk inventory audit reconciled ${adjustmentsCount} discrepant SKUs`);
+    showToast(`✓ Reconciled ${adjustmentsCount} physical stock differences`);
     renderAdjustments();
     renderKPIs();
     renderStockTable();
   } else {
-    showToast("No discrepancies found to adjust.");
+    showToast("No count discrepancies to reconcile.");
   }
 }
 
@@ -1179,10 +1252,10 @@ function quickAdjustProduct(productId) {
     const row = document.getElementById(`adj-row-${productId}`);
     if (row) {
       row.scrollIntoView({ behavior: 'smooth', block: 'center' });
-      row.style.background = "var(--primary-light)";
+      row.style.background = "rgba(99, 102, 241, 0.2)";
       setTimeout(() => row.style.background = "", 2000);
     }
-  }, 100);
+  }, 120);
 }
 
 // ═══════════════════════ COMMON UTILITIES ═══════════════════════
@@ -1193,7 +1266,7 @@ function removeRow(btn) {
 
 function toggleProfileMenu() {
   const menu = document.getElementById("profileMenu");
-  menu.classList.toggle("hidden");
+  menu?.classList.toggle("hidden");
 }
 
 document.addEventListener("click", (e) => {
@@ -1207,7 +1280,6 @@ document.addEventListener("click", (e) => {
 function globalSearchHandler(query) {
   if (!query) return;
   const q = query.toLowerCase().trim();
-  // If user searches globally, direct to appropriate view
   const matchProd = state.products.find(p => p.name.toLowerCase().includes(q) || p.sku.toLowerCase().includes(q));
   if (matchProd) {
     switchView('dashboard', null);
@@ -1238,7 +1310,8 @@ function sortTable(tableId, colIndex) {
   });
 
   rows.forEach(r => tbody.appendChild(r));
-  showToast(`Sorted by ${table.querySelectorAll("th")[colIndex].innerText.replace('↕','').trim()}`);
+  const colName = table.querySelectorAll("th")[colIndex]?.innerText.replace('↕','').trim() || '';
+  showToast(`Sorted by ${colName}`);
 }
 
 function exportStock() {
@@ -1258,11 +1331,11 @@ function exportStock() {
   const encodedUri = encodeURI(csvContent);
   const link = document.createElement("a");
   link.setAttribute("href", encodedUri);
-  link.setAttribute("download", `StockSense_Inventory_${new Date().toISOString().slice(0,10)}.csv`);
+  link.setAttribute("download", `StockSense_Ledger_${new Date().toISOString().slice(0,10)}.csv`);
   document.body.appendChild(link);
   link.click();
   document.body.removeChild(link);
-  showToast("⬇ Exported inventory CSV report");
+  showToast("⬇ Exported inventory ledger CSV");
 }
 
 function showToast(message) {
@@ -1273,4 +1346,358 @@ function showToast(message) {
   setTimeout(() => {
     toast.classList.add("hidden");
   }, 3200);
+}
+
+// ═══════════════════════ DROPDOWN & WAREHOUSE INTERACTIONS ═══════════════════════
+function initDropdownInteractions() {
+  // Toggle dropdown on button click (so user can click or hover)
+  document.querySelectorAll('.nav-dropdown-trigger > button').forEach(btn => {
+    btn.addEventListener('click', (e) => {
+      e.stopPropagation();
+      const parent = btn.closest('.nav-dropdown-trigger');
+      const isAlreadyOpen = parent.classList.contains('open');
+
+      // Close all other dropdowns
+      document.querySelectorAll('.nav-dropdown-trigger.open').forEach(el => el.classList.remove('open'));
+
+      if (!isAlreadyOpen) {
+        parent.classList.add('open');
+      }
+    });
+  });
+
+  // Clicking anywhere outside closes any open dropdown
+  document.addEventListener('click', () => {
+    document.querySelectorAll('.nav-dropdown-trigger.open').forEach(el => el.classList.remove('open'));
+  });
+
+  // Clicking an option closes the dropdown immediately
+  document.querySelectorAll('.crystal-dropdown a').forEach(link => {
+    link.addEventListener('click', () => {
+      document.querySelectorAll('.nav-dropdown-trigger.open').forEach(el => el.classList.remove('open'));
+    });
+  });
+}
+
+function selectWarehouse(warehouseName) {
+  // Switch to dashboard view first if on another view
+  if (state.currentView !== 'dashboard') {
+    switchView('dashboard', document.querySelector('[data-view="dashboard"]'));
+  }
+
+  // Update select element in the filter toolbar
+  const whFilter = document.getElementById('warehouseFilter');
+  if (whFilter) {
+    whFilter.value = warehouseName;
+    applyFilters();
+  }
+
+  // Show affirmative toast
+  showToast(`🏢 Viewing inventory at: ${warehouseName}`);
+
+  // Close any open dropdowns
+  document.querySelectorAll('.nav-dropdown-trigger.open').forEach(el => el.classList.remove('open'));
+}
+
+// ═══════════════════════ ANALYTICS & CHARTS ENGINE ═══════════════════════
+let velocityChartInstance = null;
+let categoryDonutChartInstance = null;
+
+const chartDataSets = {
+  '7d': {
+    labels: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'],
+    inbound: [18, 26, 14, 32, 22, 12, 18],
+    outbound: [12, 19, 16, 24, 20, 15, 12],
+    inboundTotal: '142 units',
+    outboundTotal: '118 units',
+    netFlow: '+24 units'
+  },
+  '30d': {
+    labels: ['Week 1', 'Week 2', 'Week 3', 'Week 4'],
+    inbound: [110, 145, 125, 162],
+    outbound: [95, 130, 118, 140],
+    inboundTotal: '542 units',
+    outboundTotal: '483 units',
+    netFlow: '+59 units'
+  },
+  '90d': {
+    labels: ['Jul 2026', 'Aug 2026', 'Sep 2026'],
+    inbound: [460, 520, 590],
+    outbound: [420, 480, 535],
+    inboundTotal: '1,570 units',
+    outboundTotal: '1,435 units',
+    netFlow: '+135 units'
+  }
+};
+
+function initCharts() {
+  renderVelocityChart('7d');
+  renderCategoryDonutChart();
+  renderWarehouseCapacity();
+}
+
+function setChartRange(range, btn) {
+  document.querySelectorAll('.chart-tabs .chart-tab').forEach(b => b.classList.remove('active'));
+  if (btn) btn.classList.add('active');
+  renderVelocityChart(range);
+}
+
+function renderVelocityChart(range = '7d') {
+  const canvas = document.getElementById('velocityChart');
+  if (!canvas || typeof Chart === 'undefined') return;
+
+  const dataset = chartDataSets[range] || chartDataSets['7d'];
+
+  // Update bottom stats
+  const inEl = document.getElementById('cStatInbound');
+  const outEl = document.getElementById('cStatOutbound');
+  const netEl = document.getElementById('cStatNet');
+  if (inEl) inEl.innerText = dataset.inboundTotal;
+  if (outEl) outEl.innerText = dataset.outboundTotal;
+  if (netEl) netEl.innerText = dataset.netFlow;
+
+  const ctx = canvas.getContext('2d');
+
+  // Create subtle gradient fills for light theme
+  const gradIndigo = ctx.createLinearGradient(0, 0, 0, 240);
+  gradIndigo.addColorStop(0, 'rgba(79, 70, 229, 0.22)');
+  gradIndigo.addColorStop(1, 'rgba(79, 70, 229, 0.00)');
+
+  const gradCyan = ctx.createLinearGradient(0, 0, 0, 240);
+  gradCyan.addColorStop(0, 'rgba(2, 132, 199, 0.18)');
+  gradCyan.addColorStop(1, 'rgba(2, 132, 199, 0.00)');
+
+  if (velocityChartInstance) {
+    velocityChartInstance.destroy();
+  }
+
+  velocityChartInstance = new Chart(ctx, {
+    type: 'line',
+    data: {
+      labels: dataset.labels,
+      datasets: [
+        {
+          label: 'Inbound Receipts',
+          data: dataset.inbound,
+          borderColor: '#4f46e5',
+          borderWidth: 2.5,
+          backgroundColor: gradIndigo,
+          fill: true,
+          tension: 0.38,
+          pointBackgroundColor: '#ffffff',
+          pointBorderColor: '#4f46e5',
+          pointBorderWidth: 2,
+          pointRadius: 4,
+          pointHoverRadius: 6,
+        },
+        {
+          label: 'Outbound Dispatches',
+          data: dataset.outbound,
+          borderColor: '#0284c7',
+          borderWidth: 2.5,
+          backgroundColor: gradCyan,
+          fill: true,
+          tension: 0.38,
+          pointBackgroundColor: '#ffffff',
+          pointBorderColor: '#0284c7',
+          pointBorderWidth: 2,
+          pointRadius: 4,
+          pointHoverRadius: 6,
+        }
+      ]
+    },
+    options: {
+      responsive: true,
+      maintainAspectRatio: false,
+      interaction: {
+        mode: 'index',
+        intersect: false
+      },
+      plugins: {
+        legend: { display: false },
+        tooltip: {
+          backgroundColor: 'rgba(255, 255, 255, 0.96)',
+          titleColor: '#0f172a',
+          bodyColor: '#334155',
+          borderColor: 'rgba(255, 255, 255, 0.9)',
+          borderWidth: 1,
+          padding: 10,
+          boxPadding: 4,
+          usePointStyle: true,
+          titleFont: { family: 'Plus Jakarta Sans', size: 12, weight: '700' },
+          bodyFont: { family: 'JetBrains Mono', size: 12, weight: '500' },
+          shadowOffsetX: 0,
+          shadowOffsetY: 8,
+          shadowBlur: 16,
+          shadowColor: 'rgba(15, 23, 42, 0.12)'
+        }
+      },
+      scales: {
+        x: {
+          grid: { display: false, drawBorder: false },
+          ticks: {
+            font: { family: 'Plus Jakarta Sans', size: 11, weight: '600' },
+            color: '#64748b'
+          }
+        },
+        y: {
+          grid: {
+            color: 'rgba(15, 23, 42, 0.05)',
+            drawBorder: false
+          },
+          ticks: {
+            font: { family: 'JetBrains Mono', size: 11 },
+            color: '#94a3b8',
+            stepSize: range === '7d' ? 10 : 50
+          }
+        }
+      }
+    }
+  });
+}
+
+function renderCategoryDonutChart() {
+  const canvas = document.getElementById('categoryDonutChart');
+  if (!canvas || typeof Chart === 'undefined') return;
+
+  // Compute category statistics from state.products
+  const catMap = {
+    'Raw Materials': { units: 0, cost: 0, color: '#4f46e5' },
+    'Finished Goods': { units: 0, cost: 0, color: '#0284c7' },
+    'Consumables': { units: 0, cost: 0, color: '#d97706' }
+  };
+
+  let totalUnits = 0;
+  let totalValuation = 0;
+
+  state.products.forEach(p => {
+    if (catMap[p.category]) {
+      catMap[p.category].units += p.onHand;
+      catMap[p.category].cost += (p.onHand * p.cost);
+    }
+    totalUnits += p.onHand;
+    totalValuation += (p.onHand * p.cost);
+  });
+
+  // Update center readouts
+  const totalUnitsEl = document.getElementById('donutTotalUnits');
+  const totalCostEl = document.getElementById('donutTotalCost');
+  if (totalUnitsEl) totalUnitsEl.innerText = totalUnits;
+  if (totalCostEl) totalCostEl.innerText = totalValuation >= 100000 ? `₹${(totalValuation / 100000).toFixed(2)}L` : `₹${totalValuation.toLocaleString()}`;
+
+  // Update breakdown list
+  const breakdownListEl = document.getElementById('donutBreakdownList');
+  if (breakdownListEl) {
+    breakdownListEl.innerHTML = Object.entries(catMap).map(([cat, data]) => {
+      const pct = totalUnits > 0 ? Math.round((data.units / totalUnits) * 100) : 0;
+      return `
+        <div class="donut-cat-row" onclick="filterByCategory('${cat}')" style="cursor:pointer" title="Click to filter by ${cat}">
+          <div class="donut-cat-info">
+            <span class="donut-cat-bullet" style="background: ${data.color}"></span>
+            <span class="donut-cat-name">${cat}</span>
+          </div>
+          <div class="donut-cat-metric">
+            <span class="donut-cat-units">${data.units}</span>
+            <span class="donut-cat-pct">(${pct}%)</span>
+          </div>
+        </div>
+      `;
+    }).join('');
+  }
+
+  const ctx = canvas.getContext('2d');
+
+  if (categoryDonutChartInstance) {
+    categoryDonutChartInstance.destroy();
+  }
+
+  const categories = Object.keys(catMap);
+  const unitsData = categories.map(c => catMap[c].units);
+  const colors = categories.map(c => catMap[c].color);
+
+  categoryDonutChartInstance = new Chart(ctx, {
+    type: 'doughnut',
+    data: {
+      labels: categories,
+      datasets: [{
+        data: unitsData,
+        backgroundColor: colors,
+        borderWidth: 3,
+        borderColor: '#ffffff',
+        hoverOffset: 4
+      }]
+    },
+    options: {
+      responsive: true,
+      maintainAspectRatio: false,
+      cutout: '74%',
+      plugins: {
+        legend: { display: false },
+        tooltip: {
+          backgroundColor: 'rgba(255, 255, 255, 0.96)',
+          titleColor: '#0f172a',
+          bodyColor: '#334155',
+          borderColor: 'rgba(255, 255, 255, 0.9)',
+          borderWidth: 1,
+          padding: 8,
+          usePointStyle: true,
+          callbacks: {
+            label: function(context) {
+              const label = context.label || '';
+              const val = context.raw || 0;
+              const cost = catMap[label] ? ` (₹${catMap[label].cost.toLocaleString()})` : '';
+              return ` ${val} units${cost}`;
+            }
+          }
+        }
+      }
+    }
+  });
+}
+
+function renderWarehouseCapacity() {
+  const listEl = document.getElementById('whCapacityList');
+  const totalEl = document.getElementById('whCapacityTotal');
+  if (!listEl) return;
+
+  const warehouses = [
+    { name: 'Main Warehouse (WH)', capacity: 180, color: 'var(--primary)' },
+    { name: 'Production Floor', capacity: 90, color: 'var(--cyan)' },
+    { name: 'Warehouse 2', capacity: 110, color: 'var(--emerald)' }
+  ];
+
+  let totalAllocated = 0;
+  let totalCapacity = 380;
+
+  const html = warehouses.map(wh => {
+    const allocated = state.products
+      .filter(p => p.location === wh.name)
+      .reduce((sum, p) => sum + p.onHand, 0);
+    totalAllocated += allocated;
+    const pct = Math.min(100, Math.round((allocated / wh.capacity) * 100));
+
+    return `
+      <div class="wh-cap-row" onclick="selectWarehouse('${wh.name}')" style="cursor:pointer" title="Click to filter by ${wh.name}">
+        <div class="wh-cap-row-meta">
+          <span class="wh-cap-loc-name">${wh.name}</span>
+          <span class="wh-cap-loc-pct">${allocated} / ${wh.capacity} (${pct}%)</span>
+        </div>
+        <div class="wh-cap-bar-track">
+          <div class="wh-cap-bar-fill" style="width: ${pct}%; background: ${wh.color}"></div>
+        </div>
+      </div>
+    `;
+  }).join('');
+
+  listEl.innerHTML = html;
+  if (totalEl) totalEl.innerText = `${totalAllocated} / ${totalCapacity} Units`;
+}
+
+function filterByCategory(cat) {
+  const catFilter = document.getElementById('categoryFilter');
+  if (catFilter) {
+    catFilter.value = cat;
+    applyFilters();
+    showToast(`Filtering stock by category: ${cat}`);
+  }
 }

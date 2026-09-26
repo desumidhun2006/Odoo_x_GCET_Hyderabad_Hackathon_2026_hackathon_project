@@ -3,300 +3,654 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>StockSense — Inventory Dashboard</title>
-  <meta name="description" content="StockSense – A modern, real-time Inventory Management Dashboard for tracking stock, receipts, deliveries, and transfers." />
+  <title>StockSense — Intelligent Inventory Platform</title>
+  <meta name="description" content="StockSense – Pure Crystal Liquid Glass Inventory Intelligence." />
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='24' fill='%234f46e5'/><path d='M30 40 L50 28 L70 40 L50 52 Z M30 44 L50 56 L50 74 L30 62 Z M70 44 L50 56 L50 74 L70 62 Z' fill='none' stroke='white' stroke-width='4' stroke-linejoin='round'/></svg>" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="style.css" />
 </head>
-<body>
+<body class="light-glass-theme">
 
-  <!-- ═══════════════════════ TOP NAV ═══════════════════════ -->
-  <nav class="navbar" id="navbar">
-    <div class="nav-brand">
-      <span class="nav-logo">📦</span>
-      <span class="nav-title">StockSense</span>
-    </div>
-    <ul class="nav-links" id="navLinks">
-      <li><a href="#" class="nav-link active" data-view="dashboard" onclick="switchView('dashboard',this)">Dashboard</a></li>
-      <li class="nav-dropdown">
-        <a href="#" class="nav-link" id="opsLink">Operations ▾</a>
-        <ul class="dropdown-menu" id="opsMenu">
-          <li><a href="#" onclick="switchView('receipts',null)">Receipts</a></li>
-          <li><a href="#" onclick="switchView('deliveries',null)">Delivery Orders</a></li>
-          <li><a href="#" onclick="switchView('adjustments',null)">Adjustments</a></li>
-        </ul>
-      </li>
-      <li><a href="#" class="nav-link" data-view="products" onclick="switchView('products',this)">Products</a></li>
-      <li><a href="#" class="nav-link" data-view="history" onclick="switchView('history',this)">Move History</a></li>
-      <li class="nav-dropdown">
-        <a href="#" class="nav-link">Settings ▾</a>
-        <ul class="dropdown-menu">
-          <li><a href="#">Warehouse</a></li>
-          <li><a href="#">Locations</a></li>
-        </ul>
-      </li>
-    </ul>
-    <div class="nav-right">
-      <div class="nav-search">
-        <input type="text" id="globalSearch" placeholder="Search products, refs…" oninput="globalSearchHandler(this.value)" />
-        <span class="search-icon">🔍</span>
+  <!-- CRYSTAL LIQUID PRISM BACKGROUND -->
+  <div class="crystal-ambient" aria-hidden="true">
+    <div class="prism-orb prism-indigo"></div>
+    <div class="prism-orb prism-cyan"></div>
+    <div class="prism-orb prism-amber"></div>
+    <div class="prism-orb prism-rose"></div>
+    <div class="crystal-caustic"></div>
+    <div class="crystal-mesh"></div>
+    <div class="crystal-grain"></div>
+    <div class="mouse-refraction" id="mouseGlow"></div>
+  </div>
+
+  <!-- ═══════════════════════ TOP GLASS BAR ═══════════════════════ -->
+  <nav class="glass-navbar" id="navbar">
+    <div class="nav-container">
+      <div class="nav-brand" onclick="switchView('dashboard', document.querySelector('[data-view=dashboard]'))">
+        <div class="brand-cube">
+          <svg viewBox="0 0 32 32" class="cube-svg">
+            <path d="M16 3 L28 10 L16 17 L4 10 Z" fill="url(#brandGrad1)" />
+            <path d="M4 11 L16 18 L16 29 L4 22 Z" fill="url(#brandGrad2)" />
+            <path d="M28 11 L16 18 L16 29 L28 22 Z" fill="url(#brandGrad3)" />
+            <defs>
+              <linearGradient id="brandGrad1" x1="0" y1="0" x2="1" y2="1">
+                <stop offset="0%" stop-color="#6366f1" />
+                <stop offset="100%" stop-color="#4f46e5" />
+              </linearGradient>
+              <linearGradient id="brandGrad2" x1="0" y1="0" x2="1" y2="1">
+                <stop offset="0%" stop-color="#4338ca" />
+                <stop offset="100%" stop-color="#312e81" />
+              </linearGradient>
+              <linearGradient id="brandGrad3" x1="0" y1="0" x2="1" y2="1">
+                <stop offset="0%" stop-color="#06b6d4" />
+                <stop offset="100%" stop-color="#0284c7" />
+              </linearGradient>
+            </defs>
+          </svg>
+        </div>
+        <div class="brand-text">
+          <span class="brand-name">StockSense</span>
+          <span class="brand-tag"><span class="beacon"></span>Live Operations</span>
+        </div>
       </div>
-      <div class="nav-avatar" id="navAvatar" onclick="toggleProfileMenu()">A</div>
-      <div class="profile-menu hidden" id="profileMenu">
-        <div class="profile-header">
-          <div class="profile-avatar-lg">A</div>
-          <div>
-            <div class="profile-name">Admin User</div>
-            <div class="profile-email">admin@stocksense.io</div>
+
+      <ul class="nav-pills" id="navLinks">
+        <li><button class="nav-pill active" data-view="dashboard" onclick="switchView('dashboard', this)">Dashboard</button></li>
+        <li class="nav-dropdown-trigger">
+          <button class="nav-pill" id="opsLink">Operations <span class="caret">▾</span></button>
+          <div class="crystal-dropdown">
+            <a href="#" onclick="switchView('receipts', null); return false;">
+              <span class="drop-icon in">📥</span>
+              <div class="drop-meta">
+                <span class="drop-title">Receipts</span>
+                <span class="drop-desc">Incoming vendor shipments</span>
+              </div>
+            </a>
+            <a href="#" onclick="switchView('deliveries', null); return false;">
+              <span class="drop-icon out">📤</span>
+              <div class="drop-meta">
+                <span class="drop-title">Delivery Orders</span>
+                <span class="drop-desc">Customer dispatches & shipments</span>
+              </div>
+            </a>
+            <a href="#" onclick="switchView('adjustments', null); return false;">
+              <span class="drop-icon adj">⚖️</span>
+              <div class="drop-meta">
+                <span class="drop-title">Stock Adjustments</span>
+                <span class="drop-desc">Physical inventory reconciliation</span>
+              </div>
+            </a>
+          </div>
+        </li>
+        <li><button class="nav-pill" data-view="products" onclick="switchView('products', this)">Products</button></li>
+        <li><button class="nav-pill" data-view="history" onclick="switchView('history', this)">Move History</button></li>
+        <li class="nav-dropdown-trigger">
+          <button class="nav-pill" id="whLink">Warehouse <span class="caret">▾</span></button>
+          <div class="crystal-dropdown">
+            <a href="#" onclick="selectWarehouse('Main Warehouse (WH)'); return false;">
+              <span class="drop-icon wh">🏢</span>
+              <div class="drop-meta"><span class="drop-title">Main Warehouse (WH)</span><span class="drop-desc">Primary distribution hub</span></div>
+            </a>
+            <a href="#" onclick="selectWarehouse('Production Floor'); return false;">
+              <span class="drop-icon wh">⚙️</span>
+              <div class="drop-meta"><span class="drop-title">Production Floor</span><span class="drop-desc">Assembly & manufacturing</span></div>
+            </a>
+            <a href="#" onclick="selectWarehouse('Warehouse 2'); return false;">
+              <span class="drop-icon wh">📦</span>
+              <div class="drop-meta"><span class="drop-title">Warehouse 2</span><span class="drop-desc">Regional depot</span></div>
+            </a>
+          </div>
+        </li>
+      </ul>
+
+      <div class="nav-actions">
+        <div class="nav-search-wrap">
+          <span class="search-ico">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
+          </span>
+          <input type="text" id="globalSearch" placeholder="Search products, SKU, refs…" oninput="globalSearchHandler(this.value)" />
+          <kbd class="kbd-badge">⌘K</kbd>
+        </div>
+
+        <div class="user-profile-btn" id="navAvatar" onclick="toggleProfileMenu()">
+          <div class="avatar-ring">
+            <div class="avatar-inner">DM</div>
+          </div>
+          <div class="profile-popover hidden" id="profileMenu">
+            <div class="profile-meta">
+              <div class="profile-lg">DM</div>
+              <div>
+                <div class="p-name">Desu Midhun</div>
+                <div class="p-role">Inventory Lead · Admin</div>
+                <div class="p-email">desumidhun2006@gmail.com</div>
+              </div>
+            </div>
+            <div class="popover-divider"></div>
+            <a href="#" class="popover-link" onclick="showToast('Profile: Desu Midhun'); return false;">👤 Profile & Preferences</a>
+            <a href="#" class="popover-link" onclick="showToast('Odoo Integration: Connected'); return false;">⚡ Odoo ERP Connector</a>
+            <div class="popover-divider"></div>
+            <a href="#" class="popover-link danger" onclick="showToast('Session Active'); return false;">⏻ Disconnect</a>
           </div>
         </div>
-        <hr />
-        <a href="#">👤 My Profile</a>
-        <a href="#">🚪 Logout</a>
       </div>
     </div>
   </nav>
 
-  <!-- ═══════════════════════ VIEWS CONTAINER ═══════════════════════ -->
-  <main class="main-content">
+  <!-- ═══════════════════════ MAIN VIEWPORT ═══════════════════════ -->
+  <main class="app-viewport">
 
-    <!-- ─────────── DASHBOARD VIEW ─────────── -->
+    <!-- ─────────── 1. DASHBOARD VIEW ─────────── -->
     <section class="view active" id="view-dashboard">
-      <div class="page-header">
-        <div>
-          <h1 class="page-title">Inventory Dashboard</h1>
-          <p class="page-subtitle">Real-time snapshot of your warehouse operations</p>
+      
+      <!-- Executive Glass Header -->
+      <div class="exec-header">
+        <div class="exec-intro">
+          <div class="exec-badge">
+            <span class="live-beacon-pulse"></span>
+            ALL WAREHOUSES SYNCHRONIZED · REAL-TIME LEDGER
+          </div>
+          <h1 class="exec-title">Inventory <span class="gradient-text">Intelligence</span></h1>
+          <p class="exec-subtitle">Continuous visibility into stock availability, incoming supplier receipts, fulfillment queues, and cross-warehouse movements.</p>
         </div>
-        <div class="header-actions">
-          <span class="date-badge" id="currentDate"></span>
-          <button class="btn btn-primary" onclick="refreshDashboard()">↻ Refresh</button>
+
+        <div class="exec-controls">
+          <div class="time-card">
+            <span class="time-label">LOCAL LEDGER TIME</span>
+            <span class="time-val" id="currentDate">Loading…</span>
+          </div>
+          <button class="crystal-btn primary-glow" onclick="refreshDashboard()">
+            <span class="btn-icon">↻</span> Sync Ledger
+          </button>
         </div>
       </div>
 
-      <!-- KPI Cards -->
-      <div class="kpi-grid">
-        <div class="kpi-card kpi-blue" onclick="switchView('products',null)">
-          <div class="kpi-icon">📦</div>
-          <div class="kpi-body">
-            <div class="kpi-value" id="kpiTotalProducts">248</div>
-            <div class="kpi-label">Total Products in Stock</div>
+      <!-- 5-Metric Glass KPI Grid -->
+      <div class="kpi-banner">
+        
+        <!-- KPI 1: Total Products -->
+        <div class="kpi-glass-card kpi-indigo" onclick="switchView('products', null)">
+          <div class="kpi-header">
+            <span class="kpi-pill">TOTAL CATALOG</span>
+            <div class="kpi-icon-box">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/><polyline points="3.27 6.96 12 12.01 20.73 6.96"/><line x1="12" y1="22.08" x2="12" y2="12"/></svg>
+            </div>
           </div>
-          <div class="kpi-trend trend-up">↑ 12% this week</div>
+          <div class="kpi-metric-row">
+            <span class="kpi-number" id="kpiTotalProducts">248</span>
+            <span class="kpi-unit">units</span>
+          </div>
+          <div class="kpi-meta-row">
+            <span class="kpi-subtext">Across 9 distinct SKUs</span>
+            <span class="kpi-trend positive">↑ 12% this week</span>
+          </div>
+          <div class="kpi-bottom-glow"></div>
         </div>
-        <div class="kpi-card kpi-red" onclick="filterLowStock()">
-          <div class="kpi-icon">⚠️</div>
-          <div class="kpi-body">
-            <div class="kpi-value" id="kpiLowStock">14</div>
-            <div class="kpi-label">Low / Out of Stock Items</div>
+
+        <!-- KPI 2: Low Stock -->
+        <div class="kpi-glass-card kpi-rose" onclick="filterLowStock()">
+          <div class="kpi-header">
+            <span class="kpi-pill alert">STOCK ALERTS</span>
+            <div class="kpi-icon-box">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3Z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+            </div>
           </div>
-          <div class="kpi-trend trend-down">↑ 3 new alerts</div>
+          <div class="kpi-metric-row">
+            <span class="kpi-number text-rose" id="kpiLowStock">4</span>
+            <span class="kpi-unit">critical</span>
+          </div>
+          <div class="kpi-meta-row">
+            <span class="kpi-subtext">Below safety reorder threshold</span>
+            <span class="kpi-trend negative">Action Required</span>
+          </div>
+          <div class="kpi-bottom-glow"></div>
         </div>
-        <div class="kpi-card kpi-orange" onclick="switchView('receipts',null)">
-          <div class="kpi-icon">📥</div>
-          <div class="kpi-body">
-            <div class="kpi-value" id="kpiPendingReceipts">6</div>
-            <div class="kpi-label">Pending Receipts</div>
+
+        <!-- KPI 3: Pending Receipts -->
+        <div class="kpi-glass-card kpi-cyan" onclick="switchView('receipts', null)">
+          <div class="kpi-header">
+            <span class="kpi-pill">INBOUND SHIPMENTS</span>
+            <div class="kpi-icon-box">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/></svg>
+            </div>
           </div>
-          <div class="kpi-trend trend-neutral">4 to receive</div>
+          <div class="kpi-metric-row">
+            <span class="kpi-number text-cyan" id="kpiPendingReceipts">5</span>
+            <span class="kpi-unit">pending</span>
+          </div>
+          <div class="kpi-meta-row">
+            <span class="kpi-subtext">4 to receive · 1 completed</span>
+            <span class="kpi-trend neutral">Vendor Inflow</span>
+          </div>
+          <div class="kpi-bottom-glow"></div>
         </div>
-        <div class="kpi-card kpi-green" onclick="switchView('deliveries',null)">
-          <div class="kpi-icon">📤</div>
-          <div class="kpi-body">
-            <div class="kpi-value" id="kpiPendingDeliveries">4</div>
-            <div class="kpi-label">Pending Deliveries</div>
+
+        <!-- KPI 4: Pending Deliveries -->
+        <div class="kpi-glass-card kpi-amber" onclick="switchView('deliveries', null)">
+          <div class="kpi-header">
+            <span class="kpi-pill">OUTBOUND DISPATCH</span>
+            <div class="kpi-icon-box">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/></svg>
+            </div>
           </div>
-          <div class="kpi-trend trend-neutral">2 waiting · 1 late</div>
+          <div class="kpi-metric-row">
+            <span class="kpi-number text-amber" id="kpiPendingDeliveries">5</span>
+            <span class="kpi-unit">orders</span>
+          </div>
+          <div class="kpi-meta-row">
+            <span class="kpi-subtext">2 waiting stock · 1 late</span>
+            <span class="kpi-trend warning">Fulfillment Queue</span>
+          </div>
+          <div class="kpi-bottom-glow"></div>
         </div>
-        <div class="kpi-card kpi-purple">
-          <div class="kpi-icon">🔄</div>
-          <div class="kpi-body">
-            <div class="kpi-value" id="kpiTransfers">3</div>
-            <div class="kpi-label">Internal Transfers Scheduled</div>
+
+        <!-- KPI 5: Internal Transfers -->
+        <div class="kpi-glass-card kpi-violet" onclick="switchView('history', null)">
+          <div class="kpi-header">
+            <span class="kpi-pill">INTERNAL TRANSFERS</span>
+            <div class="kpi-icon-box">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><polyline points="16 3 21 3 21 8"/><line x1="4" y1="20" x2="21" y2="3"/><polyline points="21 16 21 21 16 21"/><line x1="15" y1="15" x2="21" y2="21"/><line x1="4" y1="4" x2="9" y2="9"/></svg>
+            </div>
           </div>
-          <div class="kpi-trend trend-neutral">Today</div>
+          <div class="kpi-metric-row">
+            <span class="kpi-number text-violet" id="kpiTransfers">3</span>
+            <span class="kpi-unit">scheduled</span>
+          </div>
+          <div class="kpi-meta-row">
+            <span class="kpi-subtext">2 active in production flow</span>
+            <span class="kpi-trend neutral">Inter-facility</span>
+          </div>
+          <div class="kpi-bottom-glow"></div>
+        </div>
+
+      </div>
+
+      <!-- ═══════════════════════ WIREFRAME OPERATIONAL CARDS ═══════════════════════ -->
+      <div class="ops-wireframe-grid">
+        
+        <!-- RECEIPTS OPERATION CARD -->
+        <div class="crystal-card op-card receipt-card" onclick="switchView('receipts', null)">
+          <div class="op-card-top">
+            <div class="op-badge-box in-theme">
+              <span class="op-icon">📥</span>
+              <div>
+                <h3 class="op-name">Receipts</h3>
+                <span class="op-desc">Vendor Purchase Orders & Deliveries</span>
+              </div>
+            </div>
+            <span class="crystal-tag in">Inbound Stock</span>
+          </div>
+
+          <div class="op-metrics-deck">
+            <div class="op-stat-item">
+              <span class="op-stat-val">4</span>
+              <span class="op-stat-caption">To Receive</span>
+            </div>
+            <div class="op-divider-v"></div>
+            <div class="op-stat-item">
+              <span class="op-stat-val text-rose">1</span>
+              <span class="op-stat-caption">Late (< today)</span>
+            </div>
+            <div class="op-divider-v"></div>
+            <div class="op-stat-item">
+              <span class="op-stat-val">6</span>
+              <span class="op-stat-caption">Total Operations</span>
+            </div>
+          </div>
+
+          <div class="op-footer">
+            <span class="op-link-text">Open Receipts Pipeline</span>
+            <span class="op-arrow">→</span>
+          </div>
+        </div>
+
+        <!-- DELIVERY ORDERS OPERATION CARD -->
+        <div class="crystal-card op-card delivery-card" onclick="switchView('deliveries', null)">
+          <div class="op-card-top">
+            <div class="op-badge-box out-theme">
+              <span class="op-icon">📤</span>
+              <div>
+                <h3 class="op-name">Delivery Orders</h3>
+                <span class="op-desc">Customer Shipments & Dispatches</span>
+              </div>
+            </div>
+            <span class="crystal-tag out">Outbound Stock</span>
+          </div>
+
+          <div class="op-metrics-deck">
+            <div class="op-stat-item">
+              <span class="op-stat-val">4</span>
+              <span class="op-stat-caption">To Deliver</span>
+            </div>
+            <div class="op-divider-v"></div>
+            <div class="op-stat-item">
+              <span class="op-stat-val text-rose">1</span>
+              <span class="op-stat-caption">Late (< today)</span>
+            </div>
+            <div class="op-divider-v"></div>
+            <div class="op-stat-item">
+              <span class="op-stat-val text-amber">2</span>
+              <span class="op-stat-caption">Waiting Stock</span>
+            </div>
+          </div>
+
+          <div class="op-footer">
+            <span class="op-link-text">Open Delivery Queue</span>
+            <span class="op-arrow">→</span>
+          </div>
+        </div>
+
+        <!-- INTERNAL TRANSFERS CARD -->
+        <div class="crystal-card op-card transfer-card" onclick="switchView('history', null)">
+          <div class="op-card-top">
+            <div class="op-badge-box flow-theme">
+              <span class="op-icon">🔄</span>
+              <div>
+                <h3 class="op-name">Internal Transfers</h3>
+                <span class="op-desc">Cross-location inventory shifting</span>
+              </div>
+            </div>
+            <span class="crystal-tag flow">Internal Flow</span>
+          </div>
+
+          <div class="op-metrics-deck">
+            <div class="op-stat-item">
+              <span class="op-stat-val">3</span>
+              <span class="op-stat-caption">Scheduled Today</span>
+            </div>
+            <div class="op-divider-v"></div>
+            <div class="op-stat-item">
+              <span class="op-stat-val text-cyan">2</span>
+              <span class="op-stat-caption">In Progress</span>
+            </div>
+            <div class="op-divider-v"></div>
+            <div class="op-stat-item">
+              <span class="op-stat-val text-emerald">100%</span>
+              <span class="op-stat-caption">Location Tracked</span>
+            </div>
+          </div>
+
+          <div class="op-footer">
+            <span class="op-link-text">View Transfer Ledger</span>
+            <span class="op-arrow">→</span>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- ═══════════════════════ ANALYTICS & VELOCITY CHARTS DECK ═══════════════════════ -->
+      <div class="charts-deck-grid">
+        
+        <!-- Chart 1: Stock Movement & Inbound/Outbound Velocity -->
+        <div class="chart-card-velocity">
+          <div class="chart-header">
+            <div class="chart-title-group">
+              <div class="chart-icon-box indigo">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M3 3v18h18"/><path d="m19 9-5 5-4-4-3 3"/></svg>
+              </div>
+              <div>
+                <h3 class="chart-title">Stock Movement & Velocity Trajectory</h3>
+                <span class="chart-subtitle">Throughput comparing inbound supplier receipts vs outbound fulfillment</span>
+              </div>
+            </div>
+
+            <div class="chart-controls">
+              <div class="chart-legend-inline">
+                <div class="legend-item"><span class="legend-dot in"></span><span class="legend-lbl">Inbound (Receipts)</span></div>
+                <div class="legend-item"><span class="legend-dot out"></span><span class="legend-lbl">Outbound (Dispatches)</span></div>
+              </div>
+              <div class="chart-tabs">
+                <button class="chart-tab active" id="tab7d" onclick="setChartRange('7d', this)">7D</button>
+                <button class="chart-tab" id="tab30d" onclick="setChartRange('30d', this)">30D</button>
+                <button class="chart-tab" id="tab90d" onclick="setChartRange('90d', this)">90D</button>
+              </div>
+            </div>
+          </div>
+
+          <div class="chart-canvas-container">
+            <canvas id="velocityChart"></canvas>
+          </div>
+
+          <div class="chart-bottom-metrics">
+            <div class="c-stat">
+              <span class="c-stat-label">TOTAL INBOUND</span>
+              <span class="c-stat-val text-primary" id="cStatInbound">142 units</span>
+              <span class="c-stat-sub text-emerald">↑ 18.4% vs previous</span>
+            </div>
+            <div class="c-stat-sep"></div>
+            <div class="c-stat">
+              <span class="c-stat-label">TOTAL OUTBOUND</span>
+              <span class="c-stat-val text-cyan" id="cStatOutbound">118 units</span>
+              <span class="c-stat-sub text-emerald">↑ 9.2% fulfillment rate</span>
+            </div>
+            <div class="c-stat-sep"></div>
+            <div class="c-stat">
+              <span class="c-stat-label">NET STOCK FLOW</span>
+              <span class="c-stat-val text-emerald" id="cStatNet">+24 units</span>
+              <span class="c-stat-sub text-muted">Healthy replenishment</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Chart 2: Category Valuation & Facility Utilization -->
+        <div class="chart-card-distribution">
+          <div class="chart-header">
+            <div class="chart-title-group">
+              <div class="chart-icon-box cyan">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M21.21 15.89A10 10 0 1 1 8 2.83"/><path d="M22 12A10 10 0 0 0 12 2v10z"/></svg>
+              </div>
+              <div>
+                <h3 class="chart-title">Valuation & Stock Share</h3>
+                <span class="chart-subtitle">Category breakdown & bay allocation</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="donut-wrapper">
+            <div class="donut-canvas-box">
+              <canvas id="categoryDonutChart"></canvas>
+              <div class="donut-center-readout">
+                <span class="donut-val" id="donutTotalUnits">248</span>
+                <span class="donut-unit">UNITS</span>
+                <span class="donut-cost" id="donutTotalCost">₹3.42L</span>
+              </div>
+            </div>
+            
+            <div class="donut-breakdown" id="donutBreakdownList">
+              <!-- Dynamically populated in app.js -->
+            </div>
+          </div>
+
+          <!-- Warehouse Capacity Mini Progress Bars -->
+          <div class="wh-capacity-block">
+            <div class="wh-cap-header">
+              <span class="wh-cap-title">Facility Storage Allocation</span>
+              <span class="wh-cap-sub" id="whCapacityTotal">248 / 380 Units</span>
+            </div>
+            <div class="wh-cap-list" id="whCapacityList">
+              <!-- Dynamically rendered in app.js -->
+            </div>
+          </div>
+
+        </div>
+
+      </div>
+
+      <!-- ═══════════════════════ DYNAMIC MULTI-CRITERIA FILTER BAR ═══════════════════════ -->
+      <div class="crystal-card filter-container">
+        <div class="filter-left">
+          <span class="filter-heading">DOCUMENT FILTER:</span>
+          <div class="filter-segmented">
+            <button class="seg-btn active" onclick="filterByType('all', this)">All</button>
+            <button class="seg-btn" onclick="filterByType('receipts', this)">Receipts</button>
+            <button class="seg-btn" onclick="filterByType('deliveries', this)">Delivery Orders</button>
+            <button class="seg-btn" onclick="filterByType('internal', this)">Internal</button>
+            <button class="seg-btn" onclick="filterByType('adjustments', this)">Adjustments</button>
+          </div>
+        </div>
+
+        <div class="filter-right">
+          <div class="select-wrapper">
+            <select class="crystal-select" id="statusFilter" onchange="applyFilters()">
+              <option value="">All Statuses</option>
+              <option value="Draft">Draft</option>
+              <option value="Waiting">Waiting</option>
+              <option value="Ready">Ready</option>
+              <option value="Done">Done</option>
+              <option value="Canceled">Canceled</option>
+            </select>
+          </div>
+
+          <div class="select-wrapper">
+            <select class="crystal-select" id="warehouseFilter" onchange="applyFilters()">
+              <option value="">All Warehouses</option>
+              <option value="Main Warehouse (WH)">Main Warehouse (WH)</option>
+              <option value="Production Floor">Production Floor</option>
+              <option value="Warehouse 2">Warehouse 2</option>
+            </select>
+          </div>
+
+          <div class="select-wrapper">
+            <select class="crystal-select" id="categoryFilter" onchange="applyFilters()">
+              <option value="">All Categories</option>
+              <option value="Raw Materials">Raw Materials</option>
+              <option value="Finished Goods">Finished Goods</option>
+              <option value="Consumables">Consumables</option>
+            </select>
+          </div>
         </div>
       </div>
 
-      <!-- Operation Widgets -->
-      <div class="widget-row">
-        <div class="op-widget receipt-widget" onclick="switchView('receipts',null)">
-          <div class="op-widget-header">
-            <span class="op-icon">📥</span>
-            <span class="op-title">Receipts</span>
+      <!-- ═══════════════════════ REAL-TIME STOCK SUMMARY TABLE ═══════════════════════ -->
+      <div class="crystal-card table-section">
+        <div class="table-section-header">
+          <div class="t-title-wrap">
+            <h2 class="t-section-title">Stock Availability & On-Hand Ledger</h2>
+            <span class="t-count-badge" id="stockCountBadge">9 SKUs Active</span>
           </div>
-          <div class="op-stat-row">
-            <div class="op-stat">
-              <span class="op-stat-num">4</span>
-              <span class="op-stat-label">to receive</span>
+
+          <div class="t-actions">
+            <div class="table-search-input">
+              <input type="text" id="stockSearch" placeholder="Filter current view…" oninput="filterStockTable(this.value)" />
             </div>
-            <div class="op-divider"></div>
-            <div class="op-stat">
-              <span class="op-stat-num late">1</span>
-              <span class="op-stat-label">Late</span>
-            </div>
-            <div class="op-divider"></div>
-            <div class="op-stat">
-              <span class="op-stat-num">6</span>
-              <span class="op-stat-label">operations</span>
-            </div>
+            <button class="crystal-btn secondary" onclick="exportStock()">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+              Export CSV
+            </button>
+            <button class="crystal-btn primary" onclick="openProductModal()">
+              + New Product
+            </button>
           </div>
-          <button class="op-btn">View All Receipts →</button>
         </div>
 
-        <div class="op-widget delivery-widget" onclick="switchView('deliveries',null)">
-          <div class="op-widget-header">
-            <span class="op-icon">📤</span>
-            <span class="op-title">Delivery Orders</span>
-          </div>
-          <div class="op-stat-row">
-            <div class="op-stat">
-              <span class="op-stat-num">4</span>
-              <span class="op-stat-label">to deliver</span>
-            </div>
-            <div class="op-divider"></div>
-            <div class="op-stat">
-              <span class="op-stat-num late">1</span>
-              <span class="op-stat-label">Late</span>
-            </div>
-            <div class="op-divider"></div>
-            <div class="op-stat">
-              <span class="op-stat-num waiting">2</span>
-              <span class="op-stat-label">Waiting</span>
-            </div>
-          </div>
-          <button class="op-btn">View All Deliveries →</button>
-        </div>
-
-        <div class="op-widget transfer-widget">
-          <div class="op-widget-header">
-            <span class="op-icon">🔄</span>
-            <span class="op-title">Internal Transfers</span>
-          </div>
-          <div class="op-stat-row">
-            <div class="op-stat">
-              <span class="op-stat-num">3</span>
-              <span class="op-stat-label">scheduled</span>
-            </div>
-            <div class="op-divider"></div>
-            <div class="op-stat">
-              <span class="op-stat-num">2</span>
-              <span class="op-stat-label">in progress</span>
-            </div>
-          </div>
-          <button class="op-btn">View Transfers →</button>
-        </div>
-      </div>
-
-      <!-- Dashboard Filters -->
-      <div class="filter-bar">
-        <span class="filter-label">Filter by:</span>
-        <div class="filter-group">
-          <button class="filter-chip active" onclick="filterByType('all',this)">All</button>
-          <button class="filter-chip" onclick="filterByType('receipts',this)">Receipts</button>
-          <button class="filter-chip" onclick="filterByType('deliveries',this)">Delivery</button>
-          <button class="filter-chip" onclick="filterByType('internal',this)">Internal</button>
-          <button class="filter-chip" onclick="filterByType('adjustments',this)">Adjustments</button>
-        </div>
-        <div class="filter-group">
-          <select class="filter-select" id="statusFilter" onchange="applyFilters()">
-            <option value="">All Statuses</option>
-            <option>Draft</option>
-            <option>Waiting</option>
-            <option>Ready</option>
-            <option>Done</option>
-            <option>Canceled</option>
-          </select>
-          <select class="filter-select" id="warehouseFilter" onchange="applyFilters()">
-            <option value="">All Warehouses</option>
-            <option>Main Warehouse (WH)</option>
-            <option>Production Floor</option>
-            <option>Warehouse 2</option>
-          </select>
-          <select class="filter-select" id="categoryFilter" onchange="applyFilters()">
-            <option value="">All Categories</option>
-            <option>Raw Materials</option>
-            <option>Finished Goods</option>
-            <option>Consumables</option>
-          </select>
-        </div>
-      </div>
-
-      <!-- Stock Summary Table -->
-      <div class="section-card">
-        <div class="section-header">
-          <h2 class="section-title">📋 Stock Summary</h2>
-          <div class="section-actions">
-            <input type="text" class="table-search" id="stockSearch" placeholder="Search product or SKU…" oninput="filterStockTable(this.value)" />
-            <button class="btn btn-secondary" onclick="exportStock()">⬇ Export</button>
-          </div>
-        </div>
-        <div class="table-wrapper">
-          <table class="data-table" id="stockTable">
+        <div class="table-responsive">
+          <table class="crystal-table" id="stockTable">
             <thead>
               <tr>
-                <th onclick="sortTable('stockTable',0)">Product ↕</th>
-                <th onclick="sortTable('stockTable',1)">SKU</th>
-                <th onclick="sortTable('stockTable',2)">Category</th>
-                <th onclick="sortTable('stockTable',3)">Location</th>
-                <th onclick="sortTable('stockTable',4)">Per Unit Cost ↕</th>
-                <th onclick="sortTable('stockTable',5)">On Hand ↕</th>
-                <th onclick="sortTable('stockTable',6)">Free to Use ↕</th>
-                <th>Status</th>
-                <th>Actions</th>
+                <th onclick="sortTable('stockTable', 0)">PRODUCT NAME <span class="sort-icon">↕</span></th>
+                <th onclick="sortTable('stockTable', 1)">SKU CODE</th>
+                <th onclick="sortTable('stockTable', 2)">CATEGORY</th>
+                <th onclick="sortTable('stockTable', 3)">LOCATION</th>
+                <th onclick="sortTable('stockTable', 4)">UNIT COST <span class="sort-icon">↕</span></th>
+                <th onclick="sortTable('stockTable', 5)">ON HAND <span class="sort-icon">↕</span></th>
+                <th onclick="sortTable('stockTable', 6)">FREE TO USE <span class="sort-icon">↕</span></th>
+                <th>AVAILABILITY</th>
+                <th>ACTIONS</th>
               </tr>
             </thead>
-            <tbody id="stockTableBody"></tbody>
+            <tbody id="stockTableBody">
+              <!-- Populated by app.js -->
+            </tbody>
           </table>
         </div>
       </div>
 
-      <!-- Recent Activity + Alerts -->
-      <div class="two-col-grid">
-        <div class="section-card">
-          <div class="section-header">
-            <h2 class="section-title">🕐 Recent Activity</h2>
+      <!-- ═══════════════════════ TELEMETRY STREAM & ACTIONABLE ALERTS ═══════════════════════ -->
+      <div class="twin-stream-grid">
+        
+        <!-- Activity Ledger Stream -->
+        <div class="crystal-card stream-card">
+          <div class="stream-header">
+            <div class="stream-title-group">
+              <span class="stream-icon">⚡</span>
+              <div>
+                <h3 class="stream-title">Live Transaction Stream</h3>
+                <span class="stream-subtitle">Real-time ledger audit entries across operations</span>
+              </div>
+            </div>
+            <span class="stream-badge"><span class="beacon"></span>STREAMING</span>
           </div>
-          <ul class="activity-feed" id="activityFeed"></ul>
+
+          <ul class="stream-list" id="activityFeed">
+            <!-- Populated by app.js -->
+          </ul>
         </div>
-        <div class="section-card">
-          <div class="section-header">
-            <h2 class="section-title">⚠️ Low Stock Alerts</h2>
-            <span class="badge badge-red" id="alertCount">14</span>
+
+        <!-- Actionable Alerts -->
+        <div class="crystal-card stream-card alert-deck">
+          <div class="stream-header">
+            <div class="stream-title-group">
+              <span class="stream-icon alert-ic">⚠️</span>
+              <div>
+                <h3 class="stream-title">Attention & Reorder Alerts</h3>
+                <span class="stream-subtitle">SKUs below safety stock thresholds</span>
+              </div>
+            </div>
+            <span class="alert-count-pill" id="alertCount">4</span>
           </div>
-          <ul class="alert-list" id="alertList"></ul>
+
+          <ul class="alert-action-list" id="alertList">
+            <!-- Populated by app.js -->
+          </ul>
         </div>
+
       </div>
+
     </section>
 
-    <!-- ─────────── RECEIPTS VIEW ─────────── -->
+    <!-- ─────────── 2. RECEIPTS VIEW ─────────── -->
     <section class="view hidden" id="view-receipts">
-      <div class="page-header">
+      <div class="view-header">
         <div>
-          <h1 class="page-title">📥 Receipts</h1>
-          <p class="page-subtitle">Incoming goods from vendors</p>
+          <div class="view-breadcrumb">OPERATIONS <span>/</span> INBOUND</div>
+          <h1 class="view-title">Vendor Receipts</h1>
+          <p class="view-desc">Receive incoming goods, verify supplier quantities, and auto-increment stock upon validation.</p>
         </div>
-        <div class="header-actions">
-          <button class="btn btn-secondary" id="receiptViewToggle" onclick="toggleReceiptsView()">⊞ Kanban</button>
-          <button class="btn btn-primary" onclick="openReceiptForm('new')">+ New Receipt</button>
+        <div class="view-header-btns">
+          <button class="crystal-btn secondary" id="receiptViewToggle" onclick="toggleReceiptsView()">⊞ Toggle Kanban</button>
+          <button class="crystal-btn primary" onclick="openReceiptForm('new')">+ New Inbound Receipt</button>
         </div>
       </div>
-      <div class="filter-bar">
-        <input type="text" class="table-search wide" id="receiptSearch" placeholder="Search by reference or contact…" oninput="filterReceiptsTable(this.value)" />
-        <select class="filter-select" id="receiptStatusFilter" onchange="filterReceiptsTable('')">
-          <option value="">All Statuses</option>
-          <option>Draft</option><option>Ready</option><option>Done</option><option>Canceled</option>
-        </select>
+
+      <div class="crystal-card filter-container">
+        <div class="filter-left">
+          <input type="text" class="crystal-input wide" id="receiptSearch" placeholder="Search reference, vendor, or contact…" oninput="filterReceiptsTable(this.value)" />
+        </div>
+        <div class="filter-right">
+          <select class="crystal-select" id="receiptStatusFilter" onchange="filterReceiptsTable('')">
+            <option value="">All Statuses</option>
+            <option value="Draft">Draft</option>
+            <option value="Ready">Ready</option>
+            <option value="Done">Done</option>
+            <option value="Canceled">Canceled</option>
+          </select>
+        </div>
       </div>
+
       <div id="receiptListView">
-        <div class="section-card">
-          <div class="table-wrapper">
-            <table class="data-table" id="receiptsTable">
+        <div class="crystal-card table-section">
+          <div class="table-responsive">
+            <table class="crystal-table" id="receiptsTable">
               <thead>
                 <tr>
-                  <th>Reference</th><th>From</th><th>To</th><th>Contact</th>
-                  <th>Schedule Date</th><th>Status</th><th>Actions</th>
+                  <th>REFERENCE</th>
+                  <th>RECEIVE FROM</th>
+                  <th>DESTINATION</th>
+                  <th>CONTACT</th>
+                  <th>SCHEDULED DATE</th>
+                  <th>STATUS</th>
+                  <th>ACTIONS</th>
                 </tr>
               </thead>
               <tbody id="receiptsTableBody"></tbody>
@@ -304,82 +658,100 @@
           </div>
         </div>
       </div>
-      <div class="kanban-view hidden" id="receiptKanbanView"></div>
-      <!-- Receipt Form -->
-      <div class="section-card hidden" id="receiptFormPanel">
-        <div class="form-stepper">
-          <div class="step active" id="rs-draft"><span>1</span> Draft</div>
-          <div class="step-line"></div>
-          <div class="step" id="rs-ready"><span>2</span> Ready</div>
-          <div class="step-line"></div>
-          <div class="step" id="rs-done"><span>3</span> Done</div>
+
+      <div class="kanban-board hidden" id="receiptKanbanView"></div>
+
+      <!-- INLINE RECEIPT DETAIL / VALIDATION FORM -->
+      <div class="crystal-card hidden" id="receiptFormPanel">
+        <div class="panel-stepper">
+          <div class="step-node active" id="rs-draft"><div class="circle">1</div><span>Draft</span></div>
+          <div class="step-link"></div>
+          <div class="step-node" id="rs-ready"><div class="circle">2</div><span>Ready</span></div>
+          <div class="step-link"></div>
+          <div class="step-node" id="rs-done"><div class="circle">3</div><span>Done</span></div>
         </div>
-        <div class="form-actions">
-          <button class="btn btn-primary" onclick="validateReceipt()">✓ Validate</button>
-          <button class="btn btn-secondary" onclick="showToast('🖨 Printing receipt…')">🖨 Print</button>
-          <button class="btn btn-danger" onclick="cancelReceipt()">✕ Cancel</button>
-          <button class="btn btn-ghost" onclick="closeReceiptForm()">← Back to List</button>
+
+        <div class="panel-action-bar">
+          <button class="crystal-btn primary" onclick="validateReceipt()">✓ Validate & Increment Stock</button>
+          <button class="crystal-btn secondary" onclick="showToast('🖨 Printing receipt docket…')">🖨 Print Docket</button>
+          <button class="crystal-btn danger" onclick="cancelReceipt()">✕ Cancel</button>
+          <button class="crystal-btn secondary" onclick="closeReceiptForm()">← Back to List</button>
         </div>
-        <div class="form-grid">
-          <div class="form-field">
+
+        <div class="crystal-form-grid">
+          <div class="form-group">
             <label>Reference</label>
             <input type="text" id="rf-ref" readonly />
           </div>
-          <div class="form-field">
-            <label>Receive From</label>
-            <input type="text" id="rf-vendor" placeholder="Vendor name…" />
+          <div class="form-group">
+            <label>Vendor / Supplier</label>
+            <input type="text" id="rf-vendor" placeholder="e.g. Apex Steel Ltd" />
           </div>
-          <div class="form-field">
-            <label>Responsible</label>
-            <input type="text" id="rf-responsible" value="Admin User" readonly />
+          <div class="form-group">
+            <label>Responsible Inspector</label>
+            <input type="text" id="rf-responsible" value="Desu Midhun" readonly />
           </div>
-          <div class="form-field">
-            <label>Schedule Date</label>
+          <div class="form-group">
+            <label>Scheduled Delivery Date</label>
             <input type="date" id="rf-date" />
           </div>
         </div>
-        <div class="section-title" style="margin:1.5rem 0 0.75rem">Products</div>
-        <table class="data-table">
-          <thead><tr><th>Product</th><th>Quantity</th><th></th></tr></thead>
-          <tbody id="rfProductsBody">
-            <tr>
-              <td><input type="text" class="inline-input" value="[DESK001] Desk" /></td>
-              <td><input type="number" class="inline-input short" value="10" /></td>
-              <td><button class="btn-icon" onclick="removeRow(this)">🗑</button></td>
-            </tr>
-          </tbody>
+
+        <div class="form-sub-header">
+          <h3>Line Items</h3>
+        </div>
+
+        <table class="crystal-table">
+          <thead><tr><th>PRODUCT</th><th>QUANTITY</th><th></th></tr></thead>
+          <tbody id="rfProductsBody"></tbody>
         </table>
-        <button class="btn btn-ghost" style="margin-top:.75rem" onclick="addRfRow()">+ New Product</button>
+        <button class="crystal-btn secondary sm-btn" style="margin-top:1rem" onclick="addRfRow()">+ Add Line Item</button>
       </div>
     </section>
 
-    <!-- ─────────── DELIVERIES VIEW ─────────── -->
+    <!-- ─────────── 3. DELIVERIES VIEW ─────────── -->
     <section class="view hidden" id="view-deliveries">
-      <div class="page-header">
+      <div class="view-header">
         <div>
-          <h1 class="page-title">📤 Delivery Orders</h1>
-          <p class="page-subtitle">Outgoing stock to customers</p>
+          <div class="view-breadcrumb">OPERATIONS <span>/</span> OUTBOUND</div>
+          <h1 class="view-title">Delivery Orders</h1>
+          <p class="view-desc">Fulfill outgoing customer orders, verify stock allocation, pick, pack, and validate dispatch.</p>
         </div>
-        <div class="header-actions">
-          <button class="btn btn-secondary" id="deliveryViewToggle" onclick="toggleDeliveryView()">⊞ Kanban</button>
-          <button class="btn btn-primary" onclick="openDeliveryForm('new')">+ New Delivery</button>
+        <div class="view-header-btns">
+          <button class="crystal-btn secondary" id="deliveryViewToggle" onclick="toggleDeliveryView()">⊞ Toggle Kanban</button>
+          <button class="crystal-btn primary" onclick="openDeliveryForm('new')">+ New Delivery Order</button>
         </div>
       </div>
-      <div class="filter-bar">
-        <input type="text" class="table-search wide" id="deliverySearch" placeholder="Search by reference or contact…" oninput="filterDeliveriesTable(this.value)" />
-        <select class="filter-select" id="deliveryStatusFilter" onchange="filterDeliveriesTable('')">
-          <option value="">All Statuses</option>
-          <option>Draft</option><option>Waiting</option><option>Ready</option><option>Done</option><option>Canceled</option>
-        </select>
+
+      <div class="crystal-card filter-container">
+        <div class="filter-left">
+          <input type="text" class="crystal-input wide" id="deliverySearch" placeholder="Search reference, customer, or destination…" oninput="filterDeliveriesTable(this.value)" />
+        </div>
+        <div class="filter-right">
+          <select class="crystal-select" id="deliveryStatusFilter" onchange="filterDeliveriesTable('')">
+            <option value="">All Statuses</option>
+            <option value="Draft">Draft</option>
+            <option value="Waiting">Waiting</option>
+            <option value="Ready">Ready</option>
+            <option value="Done">Done</option>
+            <option value="Canceled">Canceled</option>
+          </select>
+        </div>
       </div>
+
       <div id="deliveryListView">
-        <div class="section-card">
-          <div class="table-wrapper">
-            <table class="data-table" id="deliveriesTable">
+        <div class="crystal-card table-section">
+          <div class="table-responsive">
+            <table class="crystal-table" id="deliveriesTable">
               <thead>
                 <tr>
-                  <th>Reference</th><th>From</th><th>To</th><th>Contact</th>
-                  <th>Schedule Date</th><th>Status</th><th>Actions</th>
+                  <th>REFERENCE</th>
+                  <th>ORIGIN</th>
+                  <th>DESTINATION</th>
+                  <th>CONTACT</th>
+                  <th>SCHEDULED DATE</th>
+                  <th>STATUS</th>
+                  <th>ACTIONS</th>
                 </tr>
               </thead>
               <tbody id="deliveriesTableBody"></tbody>
@@ -387,90 +759,100 @@
           </div>
         </div>
       </div>
-      <div class="kanban-view hidden" id="deliveryKanbanView"></div>
-      <!-- Delivery Form -->
-      <div class="section-card hidden" id="deliveryFormPanel">
-        <div class="form-stepper">
-          <div class="step active" id="ds-draft"><span>1</span> Draft</div>
-          <div class="step-line"></div>
-          <div class="step" id="ds-waiting"><span>2</span> Waiting</div>
-          <div class="step-line"></div>
-          <div class="step" id="ds-ready"><span>3</span> Ready</div>
-          <div class="step-line"></div>
-          <div class="step" id="ds-done"><span>4</span> Done</div>
+
+      <div class="kanban-board hidden" id="deliveryKanbanView"></div>
+
+      <!-- INLINE DELIVERY DETAIL / VALIDATION FORM -->
+      <div class="crystal-card hidden" id="deliveryFormPanel">
+        <div class="panel-stepper">
+          <div class="step-node active" id="ds-draft"><div class="circle">1</div><span>Draft</span></div>
+          <div class="step-link"></div>
+          <div class="step-node" id="ds-waiting"><div class="circle">2</div><span>Waiting</span></div>
+          <div class="step-link"></div>
+          <div class="step-node" id="ds-ready"><div class="circle">3</div><span>Ready</span></div>
+          <div class="step-link"></div>
+          <div class="step-node" id="ds-done"><div class="circle">4</div><span>Done</span></div>
         </div>
-        <div class="form-actions">
-          <button class="btn btn-primary" onclick="validateDelivery()">✓ Validate</button>
-          <button class="btn btn-secondary" onclick="showToast('🖨 Printing delivery order…')">🖨 Print</button>
-          <button class="btn btn-danger" onclick="cancelDelivery()">✕ Cancel</button>
-          <button class="btn btn-ghost" onclick="closeDeliveryForm()">← Back to List</button>
+
+        <div class="panel-action-bar">
+          <button class="crystal-btn primary" onclick="validateDelivery()">✓ Validate & Dispatch</button>
+          <button class="crystal-btn secondary" onclick="showToast('🖨 Printing delivery slip…')">🖨 Print Slip</button>
+          <button class="crystal-btn danger" onclick="cancelDelivery()">✕ Cancel</button>
+          <button class="crystal-btn secondary" onclick="closeDeliveryForm()">← Back to List</button>
         </div>
-        <div class="form-grid">
-          <div class="form-field">
+
+        <div class="crystal-form-grid">
+          <div class="form-group">
             <label>Reference</label>
             <input type="text" id="df-ref" readonly />
           </div>
-          <div class="form-field">
-            <label>Delivery Address</label>
+          <div class="form-group">
+            <label>Destination Address / Customer</label>
             <input type="text" id="df-address" placeholder="Destination address…" />
           </div>
-          <div class="form-field">
-            <label>Responsible</label>
-            <input type="text" id="df-responsible" value="Admin User" readonly />
+          <div class="form-group">
+            <label>Responsible Agent</label>
+            <input type="text" id="df-responsible" value="Desu Midhun" readonly />
           </div>
-          <div class="form-field">
-            <label>Schedule Date</label>
+          <div class="form-group">
+            <label>Scheduled Dispatch Date</label>
             <input type="date" id="df-date" />
           </div>
-          <div class="form-field">
-            <label>Operation Type</label>
-            <select id="df-optype">
-              <option>Delivery Orders</option>
-              <option>Internal Transfers</option>
-            </select>
-          </div>
         </div>
-        <div class="section-title" style="margin:1.5rem 0 0.75rem">Products</div>
-        <table class="data-table">
-          <thead><tr><th>Product</th><th>Quantity</th><th>Stock Status</th><th></th></tr></thead>
-          <tbody id="dfProductsBody">
-            <tr>
-              <td><input type="text" class="inline-input" value="[CHAIR001] Office Chair" /></td>
-              <td><input type="number" class="inline-input short" value="10" /></td>
-              <td><span class="badge badge-green">In Stock</span></td>
-              <td><button class="btn-icon" onclick="removeRow(this)">🗑</button></td>
-            </tr>
-          </tbody>
+
+        <div class="form-sub-header">
+          <h3>Line Items for Dispatch</h3>
+        </div>
+
+        <table class="crystal-table">
+          <thead><tr><th>PRODUCT</th><th>QUANTITY</th><th>STOCK AVAILABILITY</th><th></th></tr></thead>
+          <tbody id="dfProductsBody"></tbody>
         </table>
-        <button class="btn btn-ghost" style="margin-top:.75rem" onclick="addDfRow()">+ New Product</button>
+        <button class="crystal-btn secondary sm-btn" style="margin-top:1rem" onclick="addDfRow()">+ Add Line Item</button>
       </div>
     </section>
 
-    <!-- ─────────── PRODUCTS VIEW ─────────── -->
+    <!-- ─────────── 4. PRODUCTS VIEW ─────────── -->
     <section class="view hidden" id="view-products">
-      <div class="page-header">
+      <div class="view-header">
         <div>
-          <h1 class="page-title">🏷 Products</h1>
-          <p class="page-subtitle">Manage your product catalog and stock levels</p>
+          <div class="view-breadcrumb">MASTER DATA <span>/</span> CATALOG</div>
+          <h1 class="view-title">Product Catalog</h1>
+          <p class="view-desc">Configure SKUs, units of measure, safety stock reordering points, and per-location inventory.</p>
         </div>
-        <div class="header-actions">
-          <button class="btn btn-primary" onclick="openProductModal()">+ New Product</button>
+        <div class="view-header-btns">
+          <button class="crystal-btn primary" onclick="openProductModal()">+ Add New Product</button>
         </div>
       </div>
-      <div class="filter-bar">
-        <input type="text" class="table-search wide" id="productSearch" placeholder="Search by name, SKU, or category…" oninput="filterProductsTable(this.value)" />
-        <select class="filter-select" id="productCategoryFilter" onchange="filterProductsTable('')">
-          <option value="">All Categories</option>
-          <option>Raw Materials</option><option>Finished Goods</option><option>Consumables</option>
-        </select>
+
+      <div class="crystal-card filter-container">
+        <div class="filter-left">
+          <input type="text" class="crystal-input wide" id="productSearch" placeholder="Search by product name, SKU, or category…" oninput="filterProductsTable(this.value)" />
+        </div>
+        <div class="filter-right">
+          <select class="crystal-select" id="productCategoryFilter" onchange="filterProductsTable('')">
+            <option value="">All Categories</option>
+            <option value="Raw Materials">Raw Materials</option>
+            <option value="Finished Goods">Finished Goods</option>
+            <option value="Consumables">Consumables</option>
+          </select>
+        </div>
       </div>
-      <div class="section-card">
-        <div class="table-wrapper">
-          <table class="data-table" id="productsTable">
+
+      <div class="crystal-card table-section">
+        <div class="table-responsive">
+          <table class="crystal-table" id="productsTable">
             <thead>
               <tr>
-                <th>Product Name</th><th>SKU / Code</th><th>Category</th><th>Unit</th>
-                <th>On Hand</th><th>Reorder Point</th><th>Cost (₹)</th><th>Status</th><th>Actions</th>
+                <th>PRODUCT NAME</th>
+                <th>SKU</th>
+                <th>CATEGORY</th>
+                <th>UOM</th>
+                <th>ON HAND</th>
+                <th>REORDER POINT</th>
+                <th>UNIT COST</th>
+                <th>STATUS</th>
+                <th>ACTIONS</th>
               </tr>
             </thead>
             <tbody id="productsTableBody"></tbody>
@@ -479,28 +861,45 @@
       </div>
     </section>
 
-    <!-- ─────────── MOVE HISTORY VIEW ─────────── -->
+    <!-- ─────────── 5. MOVE HISTORY (STOCK LEDGER) ─────────── -->
     <section class="view hidden" id="view-history">
-      <div class="page-header">
+      <div class="view-header">
         <div>
-          <h1 class="page-title">📜 Move History</h1>
-          <p class="page-subtitle">All stock movements between locations</p>
+          <div class="view-breadcrumb">AUDIT & TRACEABILITY <span>/</span> LEDGER</div>
+          <h1 class="view-title">Move History (Stock Ledger)</h1>
+          <p class="view-desc">Immutable audit trail of all physical stock movements, receipts, customer dispatches, and count adjustments.</p>
         </div>
       </div>
-      <div class="filter-bar">
-        <input type="text" class="table-search wide" id="historySearch" placeholder="Search by reference, product…" oninput="filterHistoryTable(this.value)" />
-        <select class="filter-select" id="historyTypeFilter" onchange="filterHistoryTable('')">
-          <option value="">All Types</option>
-          <option>IN</option><option>OUT</option><option>Internal</option>
-        </select>
+
+      <div class="crystal-card filter-container">
+        <div class="filter-left">
+          <input type="text" class="crystal-input wide" id="historySearch" placeholder="Search by reference, product, partner…" oninput="filterHistoryTable(this.value)" />
+        </div>
+        <div class="filter-right">
+          <select class="crystal-select" id="historyTypeFilter" onchange="filterHistoryTable('')">
+            <option value="">All Movement Types</option>
+            <option value="IN">Inbound (Receipts)</option>
+            <option value="OUT">Outbound (Deliveries)</option>
+            <option value="Internal">Internal Transfer</option>
+            <option value="Adjustment">Count Adjustment</option>
+          </select>
+        </div>
       </div>
-      <div class="section-card">
-        <div class="table-wrapper">
-          <table class="data-table" id="historyTable">
+
+      <div class="crystal-card table-section">
+        <div class="table-responsive">
+          <table class="crystal-table" id="historyTable">
             <thead>
               <tr>
-                <th>Reference</th><th>Date</th><th>Product</th><th>Contact</th>
-                <th>From</th><th>To</th><th>Quantity</th><th>Type</th><th>Status</th>
+                <th>REF ID</th>
+                <th>TIMESTAMP</th>
+                <th>PRODUCT</th>
+                <th>PARTNER / CONTACT</th>
+                <th>FROM</th>
+                <th>TO</th>
+                <th>QUANTITY</th>
+                <th>TYPE</th>
+                <th>STATUS</th>
               </tr>
             </thead>
             <tbody id="historyTableBody"></tbody>
@@ -509,24 +908,30 @@
       </div>
     </section>
 
-    <!-- ─────────── ADJUSTMENTS VIEW ─────────── -->
+    <!-- ─────────── 6. STOCK ADJUSTMENTS (PHYSICAL COUNT) ─────────── -->
     <section class="view hidden" id="view-adjustments">
-      <div class="page-header">
+      <div class="view-header">
         <div>
-          <h1 class="page-title">🔧 Stock Adjustments</h1>
-          <p class="page-subtitle">Fix mismatches between recorded and physical counts</p>
+          <div class="view-breadcrumb">OPERATIONS <span>/</span> AUDIT</div>
+          <h1 class="view-title">Stock Count Reconciliation</h1>
+          <p class="view-desc">Audit physical shelf counts against system recorded quantities and reconcile discrepancies with a single click.</p>
         </div>
-        <div class="header-actions">
-          <button class="btn btn-primary" onclick="applyAdjustment()">✓ Apply All Adjustments</button>
+        <div class="view-header-btns">
+          <button class="crystal-btn primary" onclick="applyAdjustment()">✓ Reconcile All Discrepancies</button>
         </div>
       </div>
-      <div class="section-card">
-        <div class="table-wrapper">
-          <table class="data-table" id="adjustmentsTable">
+
+      <div class="crystal-card table-section">
+        <div class="table-responsive">
+          <table class="crystal-table" id="adjustmentsTable">
             <thead>
               <tr>
-                <th>Product</th><th>Location</th><th>Recorded Qty</th>
-                <th>Physical Count</th><th>Difference</th><th>Action</th>
+                <th>PRODUCT & SKU</th>
+                <th>WAREHOUSE LOCATION</th>
+                <th>RECORDED SYSTEM QTY</th>
+                <th>PHYSICAL COUNTED QTY</th>
+                <th>DISCREPANCY (DELTA)</th>
+                <th>ACTION</th>
               </tr>
             </thead>
             <tbody id="adjustmentsTableBody"></tbody>
@@ -537,67 +942,77 @@
 
   </main>
 
-  <!-- ═══════════════════════ PRODUCT MODAL ═══════════════════════ -->
-  <div class="modal-overlay hidden" id="productModal">
-    <div class="modal">
-      <div class="modal-header">
-        <h2 id="productModalTitle">New Product</h2>
-        <button class="modal-close" onclick="closeProductModal()">✕</button>
+  <!-- ═══════════════════════ NEW PRODUCT MODAL ═══════════════════════ -->
+  <div class="crystal-modal-overlay hidden" id="productModal">
+    <div class="crystal-modal">
+      <div class="modal-top">
+        <div class="modal-title-group">
+          <span class="m-icon">📦</span>
+          <h2 id="productModalTitle">Add New Product to Catalog</h2>
+        </div>
+        <button class="modal-close-btn" onclick="closeProductModal()">✕</button>
       </div>
-      <div class="form-grid">
-        <div class="form-field">
+
+      <div class="crystal-form-grid">
+        <div class="form-group">
           <label>Product Name *</label>
-          <input type="text" id="pf-name" placeholder="e.g. Steel Rods" />
+          <input type="text" id="pf-name" placeholder="e.g. Industrial Hex Bolts M8" />
         </div>
-        <div class="form-field">
-          <label>SKU / Code *</label>
-          <input type="text" id="pf-sku" placeholder="e.g. STL001" />
+        <div class="form-group">
+          <label>SKU / Internal Reference *</label>
+          <input type="text" id="pf-sku" placeholder="e.g. BLT-004" />
         </div>
-        <div class="form-field">
+        <div class="form-group">
           <label>Category</label>
-          <select id="pf-category">
-            <option>Raw Materials</option>
-            <option>Finished Goods</option>
-            <option>Consumables</option>
+          <select id="pf-category" class="crystal-select full">
+            <option value="Raw Materials">Raw Materials</option>
+            <option value="Finished Goods">Finished Goods</option>
+            <option value="Consumables">Consumables</option>
           </select>
         </div>
-        <div class="form-field">
-          <label>Unit of Measure</label>
-          <select id="pf-uom">
-            <option>Units</option><option>kg</option><option>Liters</option><option>Meters</option>
+        <div class="form-group">
+          <label>Unit of Measure (UoM)</label>
+          <select id="pf-uom" class="crystal-select full">
+            <option value="Units">Units</option>
+            <option value="kg">kg</option>
+            <option value="Liters">Liters</option>
+            <option value="Meters">Meters</option>
           </select>
         </div>
-        <div class="form-field">
-          <label>Initial Stock</label>
+        <div class="form-group">
+          <label>Initial Opening Stock</label>
           <input type="number" id="pf-stock" value="0" min="0" />
         </div>
-        <div class="form-field">
-          <label>Per Unit Cost (₹)</label>
+        <div class="form-group">
+          <label>Unit Valuation Cost (₹)</label>
           <input type="number" id="pf-cost" value="0" min="0" step="0.01" />
         </div>
-        <div class="form-field">
-          <label>Reorder Point</label>
+        <div class="form-group">
+          <label>Safety Reorder Threshold</label>
           <input type="number" id="pf-reorder" value="10" min="0" />
         </div>
-        <div class="form-field">
-          <label>Location</label>
-          <select id="pf-location">
-            <option>Main Warehouse (WH)</option>
-            <option>Production Floor</option>
-            <option>Warehouse 2</option>
+        <div class="form-group">
+          <label>Primary Storage Warehouse</label>
+          <select id="pf-location" class="crystal-select full">
+            <option value="Main Warehouse (WH)">Main Warehouse (WH)</option>
+            <option value="Production Floor">Production Floor</option>
+            <option value="Warehouse 2">Warehouse 2</option>
           </select>
         </div>
       </div>
-      <div class="modal-footer">
-        <button class="btn btn-ghost" onclick="closeProductModal()">Cancel</button>
-        <button class="btn btn-primary" onclick="saveProduct()">Save Product</button>
+
+      <div class="modal-bottom">
+        <button class="crystal-btn secondary" onclick="closeProductModal()">Cancel</button>
+        <button class="crystal-btn primary" onclick="saveProduct()">Save & Register SKU</button>
       </div>
     </div>
   </div>
 
-  <!-- ═══════════════════════ TOAST ═══════════════════════ -->
-  <div class="toast hidden" id="toast"></div>
+  <!-- ═══════════════════════ TOAST NOTIFICATION ═══════════════════════ -->
+  <div class="crystal-toast hidden" id="toast"></div>
 
+  <!-- Chart.js Engine -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
   <script src="app.js"></script>
 </body>
 </html>
