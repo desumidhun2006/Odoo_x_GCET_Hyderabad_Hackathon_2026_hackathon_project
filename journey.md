@@ -310,3 +310,7 @@ Commit ID: `dc86764522b56a3bf6f967d6eaea0e6c749e0d6c` / Short: `dc86764` — Mes
 Task 6 Integration (done 13:00 IST, 4h00 left): added API contract + demo flow doc for M2/M3/M1 parallel work, verified server syntax, client build green and browser screenshot; features module complete on `features` branch.
 
 Commit ID: `d25936b781deec301d7b6c23b9fcda5523c430f3` / Short: `d25936b` — Message: `Docs: add features API contract and demo flow for parallel team`
+
+AFK hardening (done 13:04 IST, 3h56 left): e2e passes on in-memory Mongo (receipt/transfer/delivery/adjust/ledger/low-stock), hardened UI with product create form, ops create+validate forms, dashboard KPI panel for M3, build green and Playwright full-page screenshot verified with correct error states offline.
+
+Commit ID: `331dd75cc1ae886c3a156b018c49b534f54cead0` / Short: `331dd75` — Message: `Feat: harden inventory UI with forms validation dashboard panel plus e2e`
