@@ -322,3 +322,7 @@ Commit ID: `e2d43ab0fdab7087f882b6f4a8caa5a9b573c835` / Short: `e2d43ab` — Mes
 Live demo (done 13:07 IST, 3h53 left): seeded PDF flow served over real HTTP, rebuilt client against it and Playwright screenshot shows live KPIs (2 products) and product list rendering — full stack proven; cleaned up demo processes.
 
 Commit ID: `b521f81377d6d2118ca0319caf975481afee4647` / Short: `b521f81` — Message: `Test: add live demo server with seeded PDF flow for UI verification`
+
+Full Playwright run (done 15:08 IST, 1h52 left): live API :5023 + UI :4179 driven in Chromium via playwright-core — KPIs, product create, receipt create+validate, stock 70+5=75, ledger and history all PASS with zero console errors; no repo changes, servers stopped after.
+
+No new code commit (verification-only, tree clean).
