@@ -294,3 +294,7 @@ Commit ID: `76bd4db3a865529fd70c9090883b8393fabdffc3` / Short: `76bd4db` — Mes
 Task 2 Models (done 12:38 IST, 4h22 left): added Product/Warehouse/Stock/Ledger/Receipt/Delivery/Transfer/Adjustment models plus products CRUD/search/stock-view, warehouses API, stock bump helper and demo seed; health check still green.
 
 Commit ID: `b8a214f725dd22daa3c48491b43c8d26cac8f5c6` / Short: `b8a214f` — Message: `Feat: add product warehouse stock models CRUD search and seed`
+
+Task 3 Receipts/Deliveries (done 12:39 IST, 4h21 left): implemented receipts validate (+stock) and deliveries validate (−stock with insufficient guard) with status filters and ledger writes; server syntax+health green, DB ops need MONGO_URI.
+
+Commit ID: `5428b65040f0152ec2fa8199e4bc76c86573986c` / Short: `5428b65` — Message: `Feat: implement receipts and deliveries with validate stock logic`
