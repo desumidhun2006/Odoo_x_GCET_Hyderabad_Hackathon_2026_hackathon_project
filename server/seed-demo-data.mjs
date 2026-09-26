@@ -30,10 +30,10 @@ export async function seedDemo() {
   const main = await Warehouse.create({ name: 'Main DC', code: 'WH-01', locations: ['Main Store', 'Production Rack'] });
   const north = await Warehouse.create({ name: 'North Hub', code: 'WH-02', locations: ['Staging Floor A'] });
 
-  const steel = await Product.create({ name: 'Structural Steel Rods 12mm', sku: 'STL-ROD-012', category: 'Metals', uom: 'Units', reorderLevel: 25 });
-  const bolts = await Product.create({ name: 'High-Strength Hex Bolts M12', sku: 'BLT-M12-050', category: 'Hardware', uom: 'Box (100 pcs)', reorderLevel: 30 });
-  const chairs = await Product.create({ name: 'Ergonomic Task Chairs', sku: 'CHR-ERG-09', category: 'Furniture', uom: 'Units', reorderLevel: 10 });
-  const seal = await Product.create({ name: 'Thermal Silicone Sealant', sku: 'ADH-SIL-01', category: 'Consumables', uom: 'Tubes', reorderLevel: 20 });
+  const steel = await Product.create({ name: 'Structural Steel Rods 12mm', sku: 'STL-ROD-012', category: 'Metals', uom: 'Units', cost: 65, reorderLevel: 25 });
+  const bolts = await Product.create({ name: 'High-Strength Hex Bolts M12', sku: 'BLT-M12-050', category: 'Hardware', uom: 'Box (100 pcs)', cost: 850, reorderLevel: 30 });
+  const chairs = await Product.create({ name: 'Ergonomic Task Chairs', sku: 'CHR-ERG-09', category: 'Furniture', uom: 'Units', cost: 4200, reorderLevel: 10 });
+  const seal = await Product.create({ name: 'Thermal Silicone Sealant', sku: 'ADH-SIL-01', category: 'Consumables', uom: 'Tubes', cost: 180, reorderLevel: 20 });
 
   // 1. Validated inbound receipt: +125 steel, +85 bolts
   const rec1 = await Receipt.create({

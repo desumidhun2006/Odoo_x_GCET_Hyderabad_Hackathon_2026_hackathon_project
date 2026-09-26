@@ -65,7 +65,7 @@ app.use('/api/auth', authRoutes);
 for (const m of ['dashboard', 'login', 'receipts', 'stock', 'settings']) {
   app.use('/' + m, express.static(path.join(rootDir, m)));
 }
-app.get('/', (_req, res) => res.redirect('/dashboard/'));
+app.get('/', (_req, res) => res.redirect('/login/'));
 
 const PORT = process.env.PORT || 3333;
 const targetMongoUri = process.env.MONGODB_URI || process.env.MONGO_URI;

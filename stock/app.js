@@ -53,7 +53,7 @@ async function loadAll() {
     } catch (e) { /* product with no stock rows yet */ }
     enriched.push({
       _id: p._id, name: p.name, sku: p.sku, category: p.category || "General",
-      uom: p.uom || "units", reorder: p.reorderLevel ?? 10, qty, warehouse: wh, location: loc,
+      uom: p.uom || "units", cost: p.cost ?? 0, reorder: p.reorderLevel ?? 10, qty, warehouse: wh, location: loc,
     });
   }
   rows = enriched;
@@ -126,13 +126,13 @@ function openModal(id) {
     $("modalTitle").innerText = "Edit item";
     $("fId").value = r._id; $("fName").value = r.name; $("fSku").value = r.sku;
     ensureOption($("fCat"), r.category); ensureOption($("fUom"), r.uom);
-    $("fReorder").value = r.reorder; $("fQty").value = r.qty;
+    $("fReorder").value = r.reorder; $("fQty").value = r.qty; $("fCost").value = r.cost ?? 0;
     $("fQty").disabled = true;
     $("fQty").title = "Stock changes via receipts & adjustments";
   } else {
     $("modalTitle").innerText = "Add item";
     $("fId").value = ""; $("fName").value = ""; $("fSku").value = "";
-    $("fQty").value = 0; $("fReorder").value = 10;
+    $("fQty").value = 0; $("fReorder").value = 10; $("fCost").value = 0;
     $("fQty").disabled = false;
     $("fQty").title = "";
   }
@@ -177,6 +177,7 @@ document.addEventListener("DOMContentLoaded", async () => {
       if (id) {
         await api("PUT", "/api/products/" + id, {
           name, sku, category: $("fCat").value, uom: $("fUom").value,
+          cost: Number($("fCost").value) || 0,
           reorderLevel: Number($("fReorder").value) || 0,
         });
         toast("✓ Updated " + sku);
@@ -184,6 +185,7 @@ document.addEventListener("DOMContentLoaded", async () => {
         if (!$("fWh").value) { toast("Create a warehouse first"); return; }
         await api("POST", "/api/products", {
           name, sku, category: $("fCat").value, uom: $("fUom").value,
+          cost: Number($("fCost").value) || 0,
           reorderLevel: Number($("fReorder").value) || 0,
           warehouseId: $("fWh").value,
           location: "Main Store",
@@ -196,7 +198,7 @@ document.addEventListener("DOMContentLoaded", async () => {
     } catch (e) { toast("⚠️ " + e.message); }
   });
   $("exportBtn").addEventListener("click", () => {
-    const csv = "name,sku,category,uom,qty,reorder,warehouse\n" + rows.map((r) => [r.name, r.sku, r.category, r.uom, r.qty, r.reorder, r.warehouse].map((v) => '"' + String(v).replace(/"/g, '""') + '"').join(",")).join("\n");
+    const csv = "name,sku,category,uom,qty,reorder,cost,warehouse\n" + rows.map((r) => [r.name, r.sku, r.category, r.uom, r.qty, r.reorder, r.cost ?? 0, r.warehouse].map((v) => '"' + String(v).replace(/"/g, '""') + '"').join(",")).join("\n");
     const a = document.createElement("a");
     a.href = URL.createObjectURL(new Blob([csv], { type: "text/csv" }));
     a.download = "stock-export.csv"; a.click();

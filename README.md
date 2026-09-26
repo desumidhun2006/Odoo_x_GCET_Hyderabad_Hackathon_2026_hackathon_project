@@ -59,27 +59,35 @@ If the API is unreachable, screens show an offline empty state.
 ```bash
 cd server
 npm install
-export MONGO_URI="mongodb://localhost:27017/stocksense"
+export MONGODB_URI="mongodb+srv://<user>:<pass>@<cluster>.mongodb.net/stocksense"
+# ...or local: export MONGO_URI="mongodb://localhost:27017/stocksense"
 export JWT_SECRET="a-long-random-secret-at-least-32-characters"
-npm run seed:demo   # load working demo data (optional)
-npm start           # serves API + app on http://localhost:5000
+npm run seed:demo   # load working demo data + demo login (optional)
+npm start           # serves API + app on http://localhost:3333
 ```
+
+> No database URL? The server falls back to in-memory MongoDB automatically
+> and auto-seeds the demo dataset when the database is empty. `/` always
+> redirects to `/login/` first.
 
 Useful scripts (`server/package.json`):
 
-| Command              | What it does                                  |
-| -------------------- | --------------------------------------------- |
-| `npm start`          | Run API + static app (needs `MONGO_URI`)      |
-| `npm run dev`        | Same with auto-restart on file changes        |
-| `npm run seed`       | Minimal seed (warehouses + 2 products)        |
-| `npm run seed:demo`  | Full working demo dataset + demo login        |
+| Command              | What it does                                            |
+| -------------------- | ------------------------------------------------------- |
+| `npm start`          | Run API + static app (Atlas → fallback → auto-seed)     |
+| `npm run dev`        | Same with auto-restart on file changes                  |
+| `npm run seed`       | Minimal seed (warehouses + 2 products)                  |
+| `npm run seed:demo`  | Full working demo dataset + demo login                  |
 
 ## API overview
 
-Base URL: `http://localhost:5000/api` (see `server/API_CONTRACT.md`).
+Base URL: `http://localhost:3333/api` (see `server/API_CONTRACT.md`).
 
 - `POST /api/auth/register|login` · `GET /api/auth/me` · `POST /api/auth/logout`
-- `GET/POST /api/products` · `PUT/DELETE /api/products/:id` · `GET /api/products/:id/stock`
+  · password-reset OTP (`forgot-password` / `verify-otp` / `reset-password`;
+  needs SMTP settings or the code is logged, not emailed)
+- `GET/POST /api/products` (incl. unit `cost`) · `PUT/DELETE /api/products/:id`
+  · `GET /api/products/:id/stock`
 - `GET /api/warehouses`
 - `POST /api/receipts` → `POST /api/receipts/:id/validate` (adds stock)
 - `POST /api/deliveries` → `POST /api/deliveries/:id/validate` (removes stock, 400 if short)

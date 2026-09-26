@@ -63,7 +63,7 @@ async function loadLive() {
     } catch (e) { /* no stock rows yet */ }
     mapped.push({
       id: p._id, name: p.name, sku: p.sku, category: p.category || 'General',
-      location: locName, uom: p.uom || 'units', cost: 0,
+      location: locName, uom: p.uom || 'units', cost: p.cost ?? 0,
       onHand, freeToUse: onHand, reorderPoint: p.reorderLevel ?? 10,
       whId, loc,
     });
@@ -1160,6 +1160,7 @@ async function saveProduct() {
   const category = document.getElementById("pf-category")?.value;
   const uom = document.getElementById("pf-uom")?.value;
   const onHand = Number(document.getElementById("pf-stock")?.value) || 0;
+  const cost = Number(document.getElementById("pf-cost")?.value) || 0;
   const reorderPoint = Number(document.getElementById("pf-reorder")?.value) || 10;
   const warehouseId = document.getElementById("pf-location")?.value;
 
@@ -1170,13 +1171,13 @@ async function saveProduct() {
 
   try {
     if (state.currentEditingProduct) {
-      await api('PUT', `/api/products/${state.currentEditingProduct.id}`, { name, sku, category, uom, reorderLevel: reorderPoint });
+      await api('PUT', `/api/products/${state.currentEditingProduct.id}`, { name, sku, category, uom, cost, reorderLevel: reorderPoint });
       showToast(`✓ Updated "${name}"`);
     } else {
       if (!warehouseId) { showToast('⚠️ No warehouse available — create one via /api/warehouses first'); return; }
       const wh = state.warehouses.find(w => String(w.id) === String(warehouseId));
       await api('POST', '/api/products', {
-        name, sku, category, uom, reorderLevel: reorderPoint,
+        name, sku, category, uom, cost, reorderLevel: reorderPoint,
         warehouseId, location: (wh && wh.locations[0]) || 'Main Store', initialQty: onHand,
       });
       showToast(`✓ Registered product "${name}"!`);
