@@ -1,31 +1,69 @@
-/* Inventory Stock Management — UI-only mock (Member 4). View / add / edit / delete. */
-const KEY = "stocksense_stock_v1";
-
-function seed() {
-  return [
-    { id: "p-steel", name: "Structural Steel Rods 12mm", sku: "STL-ROD-012", category: "Metals", uom: "Units", qty: 125, reorder: 25, wh: "Main DC" },
-    { id: "p-bolts", name: "High-Strength Hex Bolts M12", sku: "BLT-M12-050", category: "Hardware", uom: "Box (100 pcs)", qty: 85, reorder: 30, wh: "Main DC" },
-    { id: "p-chairs", name: "Ergonomic Task Chairs", sku: "CHR-ERG-09", category: "Furniture", uom: "Units", qty: 4, reorder: 10, wh: "North Hub" },
-    { id: "p-seal", name: "Thermal Silicone Sealant", sku: "ADH-SIL-01", category: "Consumables", uom: "Tubes", qty: 0, reorder: 20, wh: "Production Plant A" },
-  ];
-}
-function load() {
-  try { const v = JSON.parse(localStorage.getItem(KEY)); if (Array.isArray(v) && v.length) return v; } catch (e) {}
-  const s = seed();
-  try { localStorage.setItem(KEY, JSON.stringify(s)); } catch (e) {}
-  return s;
-}
-function save(r) { try { localStorage.setItem(KEY, JSON.stringify(r)); } catch (e) {} }
-
-let rows = load();
+/* Inventory Stock Management — live API only (Member 4). No mock data. */
 const $ = (id) => document.getElementById(id);
+
+async function api(method, path, body) {
+  const r = await fetch(path, {
+    method,
+    headers: { "Content-Type": "application/json" },
+    body: body ? JSON.stringify(body) : undefined,
+  });
+  const data = await r.json().catch(() => ({}));
+  if (!r.ok) throw new Error(data.error || ("HTTP " + r.status));
+  return data;
+}
+
+let rows = [];
+let warehouses = [];
+let apiOnline = false;
+
 const status = (r) => (r.qty <= 0 ? "out" : r.qty <= r.reorder ? "low" : "in");
-const pill = (s) => (s === "out" ? "<span class='pill draft' style='background:var(--bad-bg);color:var(--bad)'>Out of Stock</span>" : s === "low" ? "<span class='pill waiting'>Low Stock</span>" : "<span class='pill done'>In Stock</span>");
 
 function toast(msg) {
   const t = $("toast");
-  t.textContent = msg; t.classList.remove("hidden");
-  clearTimeout(t._t); t._t = setTimeout(() => t.classList.add("hidden"), 3000);
+  t.innerText = msg; t.classList.remove("hidden");
+  clearTimeout(t._t); t._t = setTimeout(() => t.classList.add("hidden"), 3200);
+}
+
+function badge(s) {
+  if (s === "out") return '<span class="badge badge-red"><span class="beacon" style="background:#fb7185"></span>Out of Stock</span>';
+  if (s === "low") return '<span class="badge badge-orange"><span class="beacon" style="background:#fbbf24"></span>Low Stock</span>';
+  return '<span class="badge badge-green"><span class="beacon"></span>In Stock</span>';
+}
+
+function gauge(r) {
+  const cls = r.qty <= 0 ? "danger" : r.qty <= r.reorder ? "warning" : "optimal";
+  const pct = r.qty <= 0 ? 0 : Math.min(100, Math.round((r.qty / Math.max(1, r.reorder * 2)) * 100));
+  return '<div class="stock-gauge-wrap"><span style="font-family:var(--font-mono); font-weight:700; color:var(--text-head)">' + r.qty + '</span>' +
+    '<div class="stock-track"><div class="stock-fill ' + cls + '" style="width:' + pct + '%"></div></div></div>';
+}
+
+async function loadAll() {
+  warehouses = await api("GET", "/api/warehouses");
+  const products = await api("GET", "/api/products");
+  const enriched = [];
+  for (const p of products) {
+    let qty = 0, wh = "—", loc = "";
+    try {
+      const st = await api("GET", "/api/products/" + p._id + "/stock");
+      qty = st.reduce((a, s) => a + (s.qty || 0), 0);
+      if (st.length) {
+        wh = (st[0].warehouse && st[0].warehouse.name) || "—";
+        loc = st[0].location || "";
+      }
+    } catch (e) { /* product with no stock rows yet */ }
+    enriched.push({
+      _id: p._id, name: p.name, sku: p.sku, category: p.category || "General",
+      uom: p.uom || "units", reorder: p.reorderLevel ?? 10, qty, warehouse: wh, location: loc,
+    });
+  }
+  rows = enriched;
+  apiOnline = true;
+
+  const whOpts = warehouses.map((w) => `<option value="${w._id}">${w.name} (${w.code})</option>`).join("");
+  $("fWh").innerHTML = whOpts || "<option value=''>No warehouses</option>";
+
+  const cats = [...new Set(rows.map((r) => r.category))].sort();
+  $("catF").innerHTML = '<option value="">All Categories</option>' + cats.map((c) => `<option>${c}</option>`).join("");
 }
 
 function render() {
@@ -37,50 +75,82 @@ function render() {
     if (q && !(r.name.toLowerCase().includes(q) || r.sku.toLowerCase().includes(q))) return false;
     return true;
   });
-  $("count").textContent = list.length + " items";
-  $("empty").classList.toggle("hidden", list.length > 0);
+  $("count").innerText = list.length + " items";
+  const empty = $("empty");
+  if (!apiOnline) {
+    empty.innerText = "Cannot reach the API — start the server and reload.";
+    empty.classList.remove("hidden");
+  } else {
+    empty.innerText = "No items yet. Add your first product.";
+    empty.classList.toggle("hidden", list.length > 0);
+  }
   $("rows").innerHTML = list.map((r) => (
-    "<tr><td><strong>" + r.name + "</strong><div class='mono'>SKU: " + r.sku + " · " + r.wh + "</div></td>" +
-    "<td>" + r.category + "</td><td class='mono'>" + r.uom + "</td>" +
-    "<td style='text-align:right' class='mono'><strong>" + r.qty + "</strong></td>" +
-    "<td style='text-align:right' class='mono'>" + r.reorder + "</td>" +
-    "<td style='text-align:center'>" + pill(status(r)) + "</td>" +
-    "<td><div class='row-actions'><button class='link' data-edit='" + r.id + "'>Edit</button>" +
-    "<button class='link' style='color:var(--bad)' data-del='" + r.id + "'>Delete</button></div></td></tr>"
+    "<tr><td><div style='font-weight:700; color:var(--text-head)'>" + r.name + "</div>" +
+    "<div style='font-size:0.72rem; color:var(--text-dim)'>UoM: " + r.uom + (r.location ? " · " + r.location : "") + "</div></td>" +
+    "<td><span class='sku-tag'>" + r.sku + "</span></td>" +
+    "<td><span style='font-size:0.82rem; color:var(--text-muted)'>" + r.category + "</span></td>" +
+    "<td><span style='font-size:0.82rem; color:var(--text-muted)'>" + r.warehouse + "</span></td>" +
+    "<td>" + gauge(r) + "</td>" +
+    "<td style='font-family:var(--font-mono); font-weight:600'>" + r.reorder + "</td>" +
+    "<td>" + badge(status(r)) + "</td>" +
+    "<td><div class='row-actions' style='justify-content:flex-end'><button class='action-btn-sm' data-edit='" + r._id + "'>✎ Edit</button>" +
+    "<button class='action-btn-sm danger' data-del='" + r._id + "'>🗑 Delete</button></div></td></tr>"
   )).join("");
   $("rows").querySelectorAll("[data-edit]").forEach((b) => b.addEventListener("click", () => openModal(b.getAttribute("data-edit"))));
   $("rows").querySelectorAll("[data-del]").forEach((b) => b.addEventListener("click", () => remove(b.getAttribute("data-del"))));
 
-  $("kpiSkus").textContent = rows.length;
-  $("kpiUnits").textContent = rows.reduce((a, r) => a + r.qty, 0);
-  $("kpiLow").textContent = rows.filter((r) => status(r) === "low").length;
-  $("kpiOut").textContent = rows.filter((r) => status(r) === "out").length;
+  $("kpiSkus").innerText = rows.length;
+  $("kpiUnits").innerText = rows.reduce((a, r) => a + r.qty, 0);
+  $("kpiLow").innerText = rows.filter((r) => status(r) === "low").length;
+  $("kpiOut").innerText = rows.filter((r) => status(r) === "out").length;
+}
+
+async function reload() {
+  await loadAll();
+  render();
+}
+
+function ensureOption(sel, value) {
+  if (![...sel.options].some((o) => o.value === value || o.text === value)) {
+    const o = document.createElement("option");
+    o.value = value; o.textContent = value;
+    sel.appendChild(o);
+  }
+  sel.value = value;
 }
 
 function openModal(id) {
   $("modal").classList.remove("hidden");
   if (id) {
-    const r = rows.find((x) => x.id === id);
-    $("modalTitle").textContent = "Edit item";
-    $("fId").value = r.id; $("fName").value = r.name; $("fSku").value = r.sku;
-    $("fCat").value = r.category; $("fUom").value = r.uom;
-    $("fReorder").value = r.reorder; $("fWh").value = r.wh; $("fQty").value = r.qty;
+    const r = rows.find((x) => String(x._id) === String(id));
+    $("modalTitle").innerText = "Edit item";
+    $("fId").value = r._id; $("fName").value = r.name; $("fSku").value = r.sku;
+    ensureOption($("fCat"), r.category); ensureOption($("fUom"), r.uom);
+    $("fReorder").value = r.reorder; $("fQty").value = r.qty;
+    $("fQty").disabled = true;
+    $("fQty").title = "Stock changes via receipts & adjustments";
   } else {
-    $("modalTitle").textContent = "Add item";
+    $("modalTitle").innerText = "Add item";
     $("fId").value = ""; $("fName").value = ""; $("fSku").value = "";
     $("fQty").value = 0; $("fReorder").value = 10;
+    $("fQty").disabled = false;
+    $("fQty").title = "";
   }
 }
 
-function remove(id) {
-  const r = rows.find((x) => x.id === id);
+async function remove(id) {
+  const r = rows.find((x) => String(x._id) === String(id));
   if (!r || !confirm("Delete '" + r.name + "' (" + r.sku + ")?")) return;
-  rows = rows.filter((x) => x.id !== id);
-  save(rows); render();
-  toast("Deleted " + r.sku + " (mock)");
+  try {
+    await api("DELETE", "/api/products/" + id);
+    await reload();
+    toast("Removed " + r.sku);
+  } catch (e) { toast("⚠️ " + e.message); }
 }
 
-document.addEventListener("DOMContentLoaded", () => {
+document.addEventListener("DOMContentLoaded", async () => {
+  try { await loadAll(); }
+  catch (e) { toast("⚠️ API offline — " + e.message); }
   render();
   ["q", "catF", "statusF"].forEach((k) => {
     $(k).addEventListener("input", render);
@@ -88,18 +158,35 @@ document.addEventListener("DOMContentLoaded", () => {
   });
   $("addBtn").addEventListener("click", () => openModal(null));
   $("cancelBtn").addEventListener("click", () => $("modal").classList.add("hidden"));
-  $("saveBtn").addEventListener("click", () => {
+  $("cancelBtn2").addEventListener("click", () => $("modal").classList.add("hidden"));
+  $("saveBtn").addEventListener("click", async () => {
     const name = $("fName").value.trim(), sku = $("fSku").value.trim();
     if (!name || !sku) { toast("Name and SKU are required"); return; }
-    const body = { name, sku, category: $("fCat").value, uom: $("fUom").value, reorder: Number($("fReorder").value) || 0, wh: $("fWh").value, qty: Number($("fQty").value) || 0 };
     const id = $("fId").value;
-    if (id) { rows = rows.map((x) => (x.id === id ? { ...x, ...body } : x)); toast("Updated " + sku + " (mock)"); }
-    else { rows.push({ ...body, id: "p-" + Date.now() }); toast("Added " + sku + " (mock)"); }
-    save(rows); render();
-    $("modal").classList.add("hidden");
+    try {
+      if (id) {
+        await api("PUT", "/api/products/" + id, {
+          name, sku, category: $("fCat").value, uom: $("fUom").value,
+          reorderLevel: Number($("fReorder").value) || 0,
+        });
+        toast("✓ Updated " + sku);
+      } else {
+        if (!$("fWh").value) { toast("Create a warehouse first"); return; }
+        await api("POST", "/api/products", {
+          name, sku, category: $("fCat").value, uom: $("fUom").value,
+          reorderLevel: Number($("fReorder").value) || 0,
+          warehouseId: $("fWh").value,
+          location: "Main Store",
+          initialQty: Number($("fQty").value) || 0,
+        });
+        toast("✓ Added " + sku);
+      }
+      $("modal").classList.add("hidden");
+      await reload();
+    } catch (e) { toast("⚠️ " + e.message); }
   });
   $("exportBtn").addEventListener("click", () => {
-    const csv = "name,sku,category,uom,qty,reorder,warehouse\n" + rows.map((r) => [r.name, r.sku, r.category, r.uom, r.qty, r.reorder, r.wh].map((v) => '"' + String(v).replace(/"/g, '""') + '"').join(",")).join("\n");
+    const csv = "name,sku,category,uom,qty,reorder,warehouse\n" + rows.map((r) => [r.name, r.sku, r.category, r.uom, r.qty, r.reorder, r.warehouse].map((v) => '"' + String(v).replace(/"/g, '""') + '"').join(",")).join("\n");
     const a = document.createElement("a");
     a.href = URL.createObjectURL(new Blob([csv], { type: "text/csv" }));
     a.download = "stock-export.csv"; a.click();

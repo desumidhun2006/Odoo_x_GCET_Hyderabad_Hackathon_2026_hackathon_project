@@ -4,79 +4,170 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>StockSense — Receipts & Incoming Goods (Member 4)</title>
-  <meta name="description" content="Track, log and verify incoming inventory shipments." />
+  <meta name="description" content="Track, log and verify incoming inventory shipments. UI-only mock." />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;600&family=IBM+Plex+Sans:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:opsz,wght@8..60,500;8..60,600;8..60,700&family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet" />
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='24' fill='%234f46e5'/><path d='M30 40 L50 28 L70 40 L50 52 Z M30 44 L50 56 L50 74 L30 62 Z M70 44 L50 56 L50 74 L70 62 Z' fill='none' stroke='white' stroke-width='4' stroke-linejoin='round'/></svg>" />
   <link rel="stylesheet" href="style.css" />
 </head>
-<body>
-  <header class="topbar">
-    <div class="brand">StockSense<small>Member 4 · Feature Screens</small></div>
-    <nav class="nav">
-      <a href="../stitch/dashboard.html">Dashboard</a>
-      <a href="./index.html" class="active">Receipts</a>
-      <a href="../stock/index.html">Stock</a>
-      <a href="../settings/index.html">Settings</a>
-    </nav>
-  </header>
+<body class="light-glass-theme">
 
-  <main class="wrap">
-    <div>
-      <div class="crumb">Operations / Receipts · UI-only mock (no backend needed)</div>
-      <h1>Receipts & Incoming Goods</h1>
-      <p class="sub">Track, log and verify incoming inventory shipments.</p>
-    </div>
+  <!-- CRYSTAL LIQUID PRISM BACKGROUND -->
+  <div class="crystal-ambient" aria-hidden="true">
+    <div class="prism-orb prism-indigo"></div>
+    <div class="prism-orb prism-cyan"></div>
+    <div class="prism-orb prism-amber"></div>
+    <div class="prism-orb prism-rose"></div>
+    <div class="crystal-caustic"></div>
+    <div class="crystal-mesh"></div>
+    <div class="crystal-grain"></div>
+  </div>
 
-    <section class="kpis">
-      <div class="kpi"><div class="t">Pending receipts</div><div class="v" id="kpiPending">–</div></div>
-      <div class="kpi"><div class="t">Arriving today</div><div class="v" id="kpiToday">–</div></div>
-      <div class="kpi"><div class="t">Validated (Done)</div><div class="v" id="kpiDone">–</div></div>
-      <div class="kpi"><div class="t">Total units inbound</div><div class="v" id="kpiUnits">–</div></div>
-    </section>
-
-    <section class="toolbar">
-      <input id="q" type="text" placeholder="Search receipt, supplier or SKU..." />
-      <select id="statusF">
-        <option value="">All statuses</option>
-        <option>Draft</option><option>Waiting</option><option>Ready</option><option>Done</option>
-      </select>
-      <button class="btn primary" id="newBtn">+ Log Receipt</button>
-    </section>
-
-    <section class="card">
-      <div class="card-h"><h2>Incoming shipments</h2><span class="count" id="count">0 receipts</span></div>
-      <div style="overflow-x:auto">
-      <table>
-        <thead><tr><th>Receipt</th><th>Supplier / PO</th><th>Lines</th><th class="mono">Qty</th><th>Status</th><th style="text-align:right">Actions</th></tr></thead>
-        <tbody id="rows"></tbody>
-      </table>
+  <!-- ═══════════════════════ TOP GLASS BAR ═══════════════════════ -->
+  <nav class="glass-navbar" id="navbar">
+    <div class="nav-container">
+      <div class="nav-brand" onclick="location.href='/dashboard/'">
+        <div class="brand-cube">
+          <svg viewBox="0 0 32 32" class="cube-svg">
+            <path d="M16 3 L28 10 L16 17 L4 10 Z" fill="url(#brandGrad1)" />
+            <path d="M4 11 L16 18 L16 29 L4 22 Z" fill="url(#brandGrad2)" />
+            <path d="M28 11 L16 18 L16 29 L28 22 Z" fill="url(#brandGrad3)" />
+            <defs>
+              <linearGradient id="brandGrad1" x1="0" y1="0" x2="1" y2="1">
+                <stop offset="0%" stop-color="#6366f1" />
+                <stop offset="100%" stop-color="#4f46e5" />
+              </linearGradient>
+              <linearGradient id="brandGrad2" x1="0" y1="0" x2="1" y2="1">
+                <stop offset="0%" stop-color="#4338ca" />
+                <stop offset="100%" stop-color="#312e81" />
+              </linearGradient>
+              <linearGradient id="brandGrad3" x1="0" y1="0" x2="1" y2="1">
+                <stop offset="0%" stop-color="#06b6d4" />
+                <stop offset="100%" stop-color="#0284c7" />
+              </linearGradient>
+            </defs>
+          </svg>
+        </div>
+        <div class="brand-text">
+          <span class="brand-name">StockSense</span>
+          <span class="brand-tag"><span class="beacon"></span>Enterprise Ledger</span>
+        </div>
       </div>
-      <div class="empty hidden" id="empty">No receipts match your filters.</div>
+
+      <ul class="nav-pills" id="navLinks">
+        <li><button class="nav-pill" onclick="location.href='/dashboard/'">Dashboard</button></li>
+        <li><button class="nav-pill active">Receipts</button></li>
+        <li><button class="nav-pill" onclick="location.href='/stock/'">Stock</button></li>
+        <li><button class="nav-pill" onclick="location.href='/settings/'">Settings</button></li>
+      </ul>
+
+      <div class="nav-actions">
+        <div class="user-profile-btn" onclick="location.href='/settings/'">
+          <div class="avatar-ring"><div class="avatar-inner">M4</div></div>
+        </div>
+      </div>
+    </div>
+  </nav>
+
+  <!-- ═══════════════════════ MAIN VIEWPORT ═══════════════════════ -->
+  <main class="app-viewport">
+    <section class="view">
+      <div class="view-header">
+        <div>
+          <div class="view-breadcrumb">OPERATIONS <span>/</span> INBOUND · MEMBER 4</div>
+          <h1 class="view-title">Receipts & Incoming Goods</h1>
+          <p class="view-desc">Track, log and verify incoming inventory shipments. UI-only mock — no backend needed.</p>
+        </div>
+        <div class="view-header-btns">
+          <button class="crystal-btn primary" id="newBtn">+ Log Receipt</button>
+        </div>
+      </div>
+
+      <!-- KPI STRIP -->
+      <div class="kpi-banner">
+        <div class="kpi-glass-card">
+          <div class="kpi-header"><span class="kpi-title">PENDING RECEIPTS</span><span class="kpi-tag in">Inbound</span></div>
+          <div class="kpi-metric-row"><span class="kpi-number" id="kpiPending">–</span><span class="kpi-unit">docs</span></div>
+          <div class="kpi-meta-row"><span class="kpi-subtext">Not yet validated</span></div>
+        </div>
+        <div class="kpi-glass-card">
+          <div class="kpi-header"><span class="kpi-title">ARRIVING TODAY</span><span class="kpi-tag flow">Schedule</span></div>
+          <div class="kpi-metric-row"><span class="kpi-number text-cyan" id="kpiToday">–</span><span class="kpi-unit">docs</span></div>
+          <div class="kpi-meta-row"><span class="kpi-subtext">Dated today</span></div>
+        </div>
+        <div class="kpi-glass-card">
+          <div class="kpi-header"><span class="kpi-title">VALIDATED</span><span class="kpi-tag">Done</span></div>
+          <div class="kpi-metric-row"><span class="kpi-number text-emerald" id="kpiDone">–</span><span class="kpi-unit">docs</span></div>
+          <div class="kpi-meta-row"><span class="kpi-subtext">Stock incremented</span></div>
+        </div>
+        <div class="kpi-glass-card">
+          <div class="kpi-header"><span class="kpi-title">UNITS INBOUND</span><span class="kpi-tag out">Volume</span></div>
+          <div class="kpi-metric-row"><span class="kpi-number text-amber" id="kpiUnits">–</span><span class="kpi-unit">units</span></div>
+          <div class="kpi-meta-row"><span class="kpi-subtext">Across all receipts</span></div>
+        </div>
+      </div>
+
+      <!-- FILTERS -->
+      <div class="crystal-card filter-container">
+        <div class="filter-left">
+          <input type="text" class="crystal-input wide" id="q" placeholder="Search receipt, supplier or SKU…" />
+        </div>
+        <div class="filter-right">
+          <div class="select-wrapper">
+            <select class="crystal-select" id="statusF">
+              <option value="">All Statuses</option>
+              <option>Draft</option><option>Waiting</option><option>Ready</option><option>Done</option>
+            </select>
+          </div>
+        </div>
+      </div>
+
+      <!-- TABLE -->
+      <div class="crystal-card table-section">
+        <div class="table-section-header">
+          <div class="t-title-wrap">
+            <h2 class="t-section-title">Incoming Shipments</h2>
+            <span class="t-count-badge" id="count">0 receipts</span>
+          </div>
+        </div>
+        <div class="table-responsive">
+          <table class="crystal-table">
+            <thead><tr><th>RECEIPT</th><th>SUPPLIER / PO</th><th>LINES</th><th>QTY</th><th>STATUS</th><th style="text-align:right">ACTIONS</th></tr></thead>
+            <tbody id="rows"></tbody>
+          </table>
+        </div>
+        <div id="empty" class="hidden" style="text-align:center; padding: 3rem; color: var(--text-dim); font-family: var(--font-mono);">No receipts match your filters.</div>
+      </div>
     </section>
   </main>
 
-  <div class="modal-back hidden" id="modal">
-    <div class="modal">
-      <h3>Log incoming receipt</h3>
-      <div class="grid2">
-        <div class="full"><label>Supplier</label><input id="fSupplier" placeholder="e.g. Metallo Industrial Supplies" /></div>
-        <div><label>PO reference</label><input id="fPo" placeholder="PO-94021" /></div>
-        <div><label>Warehouse</label>
-          <select id="fWh"><option>Main DC</option><option>North Hub</option><option>Production Plant A</option></select>
-        </div>
-        <div><label>Product</label>
-          <select id="fProduct"><option>Structural Steel Rods 12mm (STL-ROD-012)</option><option>High-Strength Hex Bolts M12 (BLT-M12-050)</option><option>Ergonomic Task Chairs (CHR-ERG-09)</option></select>
-        </div>
-        <div><label>Qty</label><input id="fQty" type="number" min="1" value="10" /></div>
+  <!-- ═══════════════════════ LOG RECEIPT MODAL ═══════════════════════ -->
+  <div class="crystal-modal-overlay hidden" id="modal">
+    <div class="crystal-modal">
+      <div class="modal-top">
+        <div class="modal-title-group"><span class="m-icon">📥</span><h2>Log Incoming Receipt</h2></div>
+        <button class="modal-close-btn" id="cancelBtn">✕</button>
       </div>
-      <div class="modal-foot">
-        <button class="btn" id="cancelBtn">Cancel</button>
-        <button class="btn primary" id="saveBtn">Save Receipt</button>
+      <div class="crystal-form-grid">
+        <div class="form-group" style="grid-column: 1 / -1;"><label>Supplier *</label><input type="text" id="fSupplier" placeholder="e.g. Metallo Industrial Supplies" /></div>
+        <div class="form-group"><label>Warehouse</label>
+          <select id="fWh" class="crystal-select full"><option>Main DC</option><option>North Hub</option><option>Production Plant A</option></select>
+        </div>
+        <div class="form-group"><label>Product</label>
+          <select id="fProduct" class="crystal-select full"><option>Structural Steel Rods 12mm (STL-ROD-012)</option><option>High-Strength Hex Bolts M12 (BLT-M12-050)</option><option>Ergonomic Task Chairs (CHR-ERG-09)</option></select>
+        </div>
+        <div class="form-group"><label>Quantity</label><input id="fQty" type="number" min="1" value="10" /></div>
+      </div>
+      <div class="modal-bottom">
+        <button class="crystal-btn secondary" id="cancelBtn2">Cancel</button>
+        <button class="crystal-btn primary" id="saveBtn">Save Receipt</button>
       </div>
     </div>
   </div>
 
-  <div class="toast hidden" id="toast"></div>
+  <!-- ═══════════════════════ TOAST ═══════════════════════ -->
+  <div class="crystal-toast hidden" id="toast"></div>
   <script src="app.js"></script>
 </body>
 </html>

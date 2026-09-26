@@ -26,8 +26,8 @@ app.use('/api/deliveries', deliveries);
 app.use('/api/transfers', transfers);
 app.use('/api/adjustments', adjustments);
 app.use('/api/ledger', ledger);
-app.use(express.static(new URL('../../stitch', import.meta.url).pathname));
-app.get('/', (_req, res) => res.redirect('/dashboard.html'));
+for (const m of ['dashboard', 'receipts', 'stock', 'settings']) app.use('/' + m, express.static(new URL('../..' + '/' + m, import.meta.url).pathname));
+app.get('/', (_req, res) => res.redirect('/dashboard/'));
 
 // Seed PDF demo flow (skip with EMPTY_SEED=1 for a fully erased site)
 if (process.env.EMPTY_SEED !== '1') {

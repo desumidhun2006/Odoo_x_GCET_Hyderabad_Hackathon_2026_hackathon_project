@@ -9,20 +9,24 @@ function toast(msg) {
   clearTimeout(t._t); t._t = setTimeout(() => t.classList.add("hidden"), 3000);
 }
 function paint(name) {
-  $("avatar").textContent = (name || "ER").split(" ").map((w) => w[0]).join("").slice(0, 2).toUpperCase();
+  const clean = (name || "").trim();
+  const ini = clean ? clean.split(/\s+/).map((w) => w[0]).join("").slice(0, 2).toUpperCase() : "?";
+  $("avatar").textContent = ini;
+  if ($("navAvatar")) $("navAvatar").textContent = ini;
 }
-function theme(t) { document.body.classList.toggle("dark", t === "dark"); }
 
 document.addEventListener("DOMContentLoaded", () => {
-  const prof = load(PKEY, { name: "Elena Rodriguez", email: "elena@stocksense.io", role: "Inventory Lead", phone: "" });
-  const prefs = load(SKEY, { theme: "light", wh: "All Warehouses", size: "25", date: "DD/MM/YYYY", nLow: true, nRec: true, nDel: false });
+  const prof = load(PKEY, { name: "", email: "", role: "Inventory Lead", phone: "" });
+  const prefs = load(SKEY, { theme: "light", wh: "All Warehouses", size: "25", date: "DD/MM/YYYY", nLow: "on", nRec: "on", nDel: "off" });
+  // migrate legacy boolean prefs to on/off selects
+  ["nLow", "nRec", "nDel"].forEach((k) => { if (prefs[k] === true) prefs[k] = "on"; if (prefs[k] === false) prefs[k] = "off"; });
 
   $("pName").value = prof.name; $("pEmail").value = prof.email;
   $("pRole").value = prof.role; $("pPhone").value = prof.phone || "";
   $("prefTheme").value = prefs.theme; $("prefWh").value = prefs.wh;
   $("prefSize").value = prefs.size; $("prefDate").value = prefs.date;
-  $("nLow").checked = prefs.nLow; $("nRec").checked = prefs.nRec; $("nDel").checked = prefs.nDel;
-  theme(prefs.theme); paint(prof.name);
+  $("nLow").value = prefs.nLow; $("nRec").value = prefs.nRec; $("nDel").value = prefs.nDel;
+  paint(prof.name);
 
   $("saveProfile").addEventListener("click", () => {
     const next = { name: $("pName").value.trim(), email: $("pEmail").value.trim(), role: $("pRole").value, phone: $("pPhone").value.trim() };
@@ -33,9 +37,8 @@ document.addEventListener("DOMContentLoaded", () => {
   });
 
   $("savePrefs").addEventListener("click", () => {
-    const next = { theme: $("prefTheme").value, wh: $("prefWh").value, size: $("prefSize").value, date: $("prefDate").value, nLow: $("nLow").checked, nRec: $("nRec").checked, nDel: $("nDel").checked };
+    const next = { theme: $("prefTheme").value, wh: $("prefWh").value, size: $("prefSize").value, date: $("prefDate").value, nLow: $("nLow").value, nRec: $("nRec").value, nDel: $("nDel").value };
     try { localStorage.setItem(SKEY, JSON.stringify(next)); } catch (e) {}
-    theme(next.theme);
     toast("Preferences saved (mock)");
   });
 

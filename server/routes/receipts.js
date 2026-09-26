@@ -28,4 +28,9 @@ r.post('/:id/validate', async (req, res) => {
   await doc.save();
   res.json(doc);
 });
+r.patch('/:id', async (req, res) => {
+  const doc = await Receipt.findByIdAndUpdate(req.params.id, { status: req.body.status }, { new: true });
+  if (!doc) return res.status(404).json({ error: 'not found' });
+  res.json(doc);
+});
 export default r;

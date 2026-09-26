@@ -29,9 +29,11 @@ app.use('/api/transfers', transfers);
 app.use('/api/adjustments', adjustments);
 app.use('/api/ledger', ledger);
 
-// Stitch UI (original design screens, wired live via stitch/live.js) — replaces old React client/
-app.use(express.static(new URL('../stitch', import.meta.url).pathname));
-app.get('/', (_req, res) => res.redirect('/dashboard.html'));
+// Member 4 screens + main dashboard (index.html + app.js + style.css per folder)
+for (const m of ['dashboard', 'receipts', 'stock', 'settings']) {
+  app.use('/' + m, express.static(new URL('../' + m, import.meta.url).pathname));
+}
+app.get('/', (_req, res) => res.redirect('/dashboard/'));
 
 const PORT = process.env.PORT || 5000;
 if (process.env.MONGO_URI) {

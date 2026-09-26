@@ -34,4 +34,9 @@ r.post('/', async (req, res) => {
 r.put('/:id', async (req, res) => {
   res.json(await Product.findByIdAndUpdate(req.params.id, req.body, { new: true }));
 });
+r.delete('/:id', async (req, res) => {
+  await Stock.deleteMany({ product: req.params.id });
+  await Product.findByIdAndDelete(req.params.id);
+  res.json({ ok: true });
+});
 export default r;
