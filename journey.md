@@ -318,3 +318,7 @@ Commit ID: `331dd75cc1ae886c3a156b018c49b534f54cead0` / Short: `331dd75` — Mes
 Live HTTP e2e (done 13:05 IST, 3h55 left): warehouse/product/receipt/validate/stock/ledger/dashboard-summary all pass over real HTTP against in-memory Mongo, closing the earlier no-DB buffering gap.
 
 Commit ID: `e2d43ab0fdab7087f882b6f4a8caa5a9b573c835` / Short: `e2d43ab` — Message: `Test: add live HTTP e2e for warehouse product receipt ledger`
+
+Live demo (done 13:07 IST, 3h53 left): seeded PDF flow served over real HTTP, rebuilt client against it and Playwright screenshot shows live KPIs (2 products) and product list rendering — full stack proven; cleaned up demo processes.
+
+Commit ID: `b521f81377d6d2118ca0319caf975481afee4647` / Short: `b521f81` — Message: `Test: add live demo server with seeded PDF flow for UI verification`
