@@ -153,8 +153,47 @@ function populateLiveSelects() {
   }
 }
 
-// ═══════════════════════ INITIALIZATION (live API first) ═══════════════════════
+// ═══════════════════════ INITIALIZATION (auth gate + live API first) ═══════════════════════
+async function requireAuth() {
+  try {
+    const r = await fetch('/api/auth/me', { credentials: 'include' });
+    if (r.ok) {
+      const data = await r.json().catch(() => ({}));
+      if (data.user) {
+        try {
+          localStorage.setItem('stocksense_profile', JSON.stringify({
+            name: data.user.name, email: data.user.email,
+            role: data.user.role === 'admin' ? 'Inventory Admin' : 'Inventory Staff',
+          }));
+        } catch (e) {}
+      }
+      return true;
+    }
+  } catch (e) {}
+  location.href = '/login/';
+  return false;
+}
+
+function renderDemoProfile() {
+  let prof = { name: 'Demo Manager', email: 'demo@stocksense.io', role: 'Inventory Admin' };
+  try {
+    const saved = JSON.parse(localStorage.getItem('stocksense_profile'));
+    if (saved && saved.email) prof = saved;
+  } catch (e) {}
+  const set = (sel, txt) => document.querySelectorAll(sel).forEach(el => { el.innerText = txt; });
+  set('.p-name', prof.name); set('.p-role', prof.role); set('.p-email', prof.email);
+  const ini = prof.name.trim().split(/\s+/).map(w => w[0]).join('').slice(0, 2).toUpperCase() || '?';
+  set('.profile-lg', ini); set('.avatar-inner', ini);
+}
+
+async function doLogout() {
+  try { await fetch('/api/auth/logout', { method: 'POST', credentials: 'include' }); } catch (e) {}
+  try { localStorage.removeItem('stocksense_profile'); } catch (e) {}
+  location.href = '/login/';
+}
+
 document.addEventListener("DOMContentLoaded", async () => {
+  if (!(await requireAuth())) return;
   try {
     await loadLive();
   } catch (e) {
@@ -168,6 +207,7 @@ document.addEventListener("DOMContentLoaded", async () => {
 });
 
 function initDashboard() {
+  renderDemoProfile();
   updateCurrentDate();
   renderKPIs();
   renderStockTable();

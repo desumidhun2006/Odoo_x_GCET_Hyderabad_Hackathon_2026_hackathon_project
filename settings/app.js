@@ -8,6 +8,19 @@ function toast(msg) {
   t.textContent = msg; t.classList.remove("hidden");
   clearTimeout(t._t); t._t = setTimeout(() => t.classList.add("hidden"), 3000);
 }
+async function requireAuth() {
+  try {
+    const r = await fetch('/api/auth/me', { credentials: 'include' });
+    if (r.ok) return true;
+  } catch (e) {}
+  location.href = '/login/';
+  return false;
+}
+async function doLogout() {
+  try { await fetch('/api/auth/logout', { method: 'POST', credentials: 'include' }); } catch (e) {}
+  try { localStorage.removeItem('stocksense_profile'); } catch (e) {}
+  location.href = '/login/';
+}
 function paint(name) {
   const clean = (name || "").trim();
   const ini = clean ? clean.split(/\s+/).map((w) => w[0]).join("").slice(0, 2).toUpperCase() : "?";
@@ -15,7 +28,8 @@ function paint(name) {
   if ($("navAvatar")) $("navAvatar").textContent = ini;
 }
 
-document.addEventListener("DOMContentLoaded", () => {
+document.addEventListener("DOMContentLoaded", async () => {
+  if (!(await requireAuth())) return;
   const prof = load(PKEY, { name: "", email: "", role: "Inventory Lead", phone: "" });
   const prefs = load(SKEY, { theme: "light", wh: "All Warehouses", size: "25", date: "DD/MM/YYYY", nLow: "on", nRec: "on", nDel: "off" });
   // migrate legacy boolean prefs to on/off selects
@@ -50,11 +64,7 @@ document.addEventListener("DOMContentLoaded", () => {
     toast("Password updated (mock)");
   });
 
-  $("clearBtn").addEventListener("click", () => {
-    if (!confirm("Clear demo receipts + stock data from this browser?")) return;
-    try { localStorage.removeItem("stocksense_receipts_v1"); localStorage.removeItem("stocksense_stock_v1"); } catch (e) {}
-    toast("Demo data cleared (mock)");
-  });
+  $("signOutBtn").addEventListener("click", doLogout);
   $("resetBtn").addEventListener("click", () => {
     if (!confirm("Reset profile + preferences?")) return;
     try { localStorage.removeItem(PKEY); localStorage.removeItem(SKEY); } catch (e) {}

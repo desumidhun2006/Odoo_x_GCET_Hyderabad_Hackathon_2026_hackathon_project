@@ -148,7 +148,17 @@ async function remove(id) {
   } catch (e) { toast("⚠️ " + e.message); }
 }
 
+async function requireAuth() {
+  try {
+    const r = await fetch('/api/auth/me', { credentials: 'include' });
+    if (r.ok) return true;
+  } catch (e) {}
+  location.href = '/login/';
+  return false;
+}
+
 document.addEventListener("DOMContentLoaded", async () => {
+  if (!(await requireAuth())) return;
   try { await loadAll(); }
   catch (e) { toast("⚠️ API offline — " + e.message); }
   render();

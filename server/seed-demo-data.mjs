@@ -6,6 +6,7 @@ import DeliveryOrder from './models/DeliveryOrder.js';
 import InternalTransfer from './models/InternalTransfer.js';
 import Adjustment from './models/Adjustment.js';
 import Ledger from './models/StockLedger.js';
+import User from './auth/User.js';
 import { bump } from './lib/stock.js';
 
 // Working demo data for show-and-tell. Everything is written through the
@@ -17,7 +18,14 @@ export async function seedDemo() {
     Product.deleteMany({}), Warehouse.deleteMany({}), Stock.deleteMany({}),
     Receipt.deleteMany({}), DeliveryOrder.deleteMany({}),
     InternalTransfer.deleteMany({}), Adjustment.deleteMany({}), Ledger.deleteMany({}),
+    User.deleteMany({}),
   ]);
+
+  // Demo login identity (used across the whole app — no personal mail IDs).
+  await User.create({
+    name: 'Demo Manager', email: 'demo@stocksense.io',
+    password: 'Demo@1234', role: 'admin', isVerified: true,
+  });
 
   const main = await Warehouse.create({ name: 'Main DC', code: 'WH-01', locations: ['Main Store', 'Production Rack'] });
   const north = await Warehouse.create({ name: 'North Hub', code: 'WH-02', locations: ['Staging Floor A'] });
@@ -80,5 +88,5 @@ export async function seedDemo() {
   await Ledger.create({ type: 'Adjustment', refId: adj._id, product: bolts._id, warehouse: main._id, location: 'Main Store', delta: -2, balanceAfter: 83, by: 'seed-demo' });
 
   // Final: steel 95 + 10 = 105 · bolts 83 · chairs 0 (pending) · sealant 0
-  return { warehouses: 2, products: 4, ledger: await Ledger.countDocuments() };
+  return { warehouses: 2, products: 4, users: 1, ledger: await Ledger.countDocuments() };
 }

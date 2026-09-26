@@ -123,16 +123,16 @@
             <div class="profile-meta">
               <div class="profile-lg">DM</div>
               <div>
-                <div class="p-name">Desu Midhun</div>
-                <div class="p-role">Inventory Lead · Admin</div>
-                <div class="p-email">desumidhun2006@gmail.com</div>
+                <div class="p-name">Demo Manager</div>
+                <div class="p-role">Inventory Admin</div>
+                <div class="p-email">demo@stocksense.io</div>
               </div>
             </div>
             <div class="popover-divider"></div>
-            <a href="#" class="popover-link" onclick="showToast('Profile: Desu Midhun'); return false;">👤 Profile & Preferences</a>
+            <a href="#" class="popover-link" onclick="location.href='/settings/'; return false;">👤 Profile & Preferences</a>
             <a href="#" class="popover-link" onclick="showToast('Odoo Integration: Connected'); return false;">⚡ Odoo ERP Connector</a>
             <div class="popover-divider"></div>
-            <a href="#" class="popover-link danger" onclick="showToast('Session Active'); return false;">⏻ Disconnect</a>
+            <a href="#" class="popover-link danger" onclick="doLogout(); return false;">⏻ Sign Out</a>
           </div>
         </div>
       </div>
@@ -661,7 +661,7 @@
           </div>
           <div class="form-group">
             <label>Responsible Inspector</label>
-            <input type="text" id="rf-responsible" value="Desu Midhun" readonly />
+            <input type="text" id="rf-responsible" value="Demo Manager" readonly />
           </div>
           <div class="form-group">
             <label>Scheduled Delivery Date</label>
@@ -764,7 +764,7 @@
           </div>
           <div class="form-group">
             <label>Responsible Agent</label>
-            <input type="text" id="df-responsible" value="Desu Midhun" readonly />
+            <input type="text" id="df-responsible" value="Demo Manager" readonly />
           </div>
           <div class="form-group">
             <label>Scheduled Dispatch Date</label>
