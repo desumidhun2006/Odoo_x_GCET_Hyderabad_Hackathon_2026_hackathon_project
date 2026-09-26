@@ -306,3 +306,7 @@ Commit ID: `a2eb28de0d86050cdd0c6b95e288b46da7fa781d` / Short: `a2eb28d` — Mes
 Task 5 Ledger/Dashboard/UI (done 12:59 IST, 4h01 left): added ledger filters, low-stock alerts, dashboard-summary for M3, inventory React pages with build green and Playwright Chromium screenshot verified rendering.
 
 Commit ID: `dc86764522b56a3bf6f967d6eaea0e6c749e0d6c` / Short: `dc86764` — Message: `Feat: add ledger filters low-stock dashboard summary and inventory UI`
+
+Task 6 Integration (done 13:00 IST, 4h00 left): added API contract + demo flow doc for M2/M3/M1 parallel work, verified server syntax, client build green and browser screenshot; features module complete on `features` branch.
+
+Commit ID: `d25936b781deec301d7b6c23b9fcda5523c430f3` / Short: `d25936b` — Message: `Docs: add features API contract and demo flow for parallel team`
