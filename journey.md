@@ -122,27 +122,46 @@
 - **Related task:** Task 2
 - **Purpose:** Satisfy user requirement to push project with empty README; establish public GitHub baseline.
 
-### Commit 2 — (pending, will document after push)
-- **Intended message:** `Docs: add journey.md with auto-commit tracking workflow`
-- **Intended contents:** This file, `journey.md`, first version covering Tasks 1–3 + Commit 1.
-- **Status:** File created, awaiting `git add`, `git commit`, `git push`. After push, this section will be updated with full hash, date, stat, and push output in a follow-up amendment (Commit 3 if needed to keep history accurate).
+### Commit 2 — `d5c0e5c2bb0c26f3474909dd4d42f844862060ff`
+- **Short hash:** `d5c0e5c`
+- **Full hash:** `d5c0e5c2bb0c26f3474909dd4d42f844862060ff`
+- **Message:** `Docs: add journey.md with auto-commit tracking workflow`
+- **Author:** `desumidhun2006 <desumidhun2006@gmail.com>`
+- **Committer:** `desumidhun2006 <desumidhun2006@gmail.com>`
+- **Date (ISO):** `2026-09-26 11:15:33 +0530`
+- **Parent:** `167388c5ed8c56202a1e059950369f2dbbed2a60`
+- **Branch:** `main` → pushed `167388c..d5c0e5c main -> main` to `origin/main`
+- **Files changed:** 1 file
+  - `journey.md | 157 +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++` — 157 insertions, 0 deletions, mode `100644` (new file)
+- **Stat summary:** `1 file changed, 157 insertions(+), create mode 100644 journey.md`
+- **How created:**
+  ```bash
+  git add journey.md
+  git commit -m "Docs: add journey.md with auto-commit tracking workflow"
+  git push
+  ```
+- **Push output:** `To https://github.com/desumidhun2006/Odoo_x_GCET_Hyderabad_Hackathon_2026_hackathon_project.git / 167388c..d5c0e5c  main -> main`
+- **Verification at time:** `git show --stat HEAD` confirmed 157 insertions; `git log` showed 2 commits with correct hashes/dates.
+- **Related task:** Task 3 (first half)
+- **Purpose:** Establish `journey.md` as living progress/commit tracker per new workflow rule.
 
 ---
 
-## 3. Current State (as of this writing, before Commit 2 push)
+## 3. Current State (as of 2026-09-26 11:15:33 IST, after Commit 2 push)
 
-- **Branch:** `main`, up to date with `origin/main` (until Commit 2 is pushed).
-- **Working tree:** Contains untracked `journey.md` (this file) + tracked empty `README.md` + `.git/`.
+- **Branch:** `main`, up to date with `origin/main` (Commit 2 pushed).
+- **Working tree (before this edit):** Clean except this pending `journey.md` update to document Commit 2 details.
 - **Remote:** `origin` → `https://github.com/desumidhun2006/Odoo_x_GCET_Hyderabad_Hackathon_2026_hackathon_project.git`
-- **Last pushed commit:** `167388c5ed8c56202a1e059950369f2dbbed2a60`
-- **Pending:** Commit + push `journey.md`.
+- **Last pushed commit:** `d5c0e5c2bb0c26f3474909dd4d42f844862060ff`
+- **Pending:** Commit + push this `journey.md` update itself (will become Commit 3).
 
 ---
 
 ## 4. Next Steps
 
-- [ ] Commit + push this `journey.md` (Commit 2).
-- [ ] Update Commit 2 section above with full hash/date/stat/push log.
+- [x] Commit + push this `journey.md` (Commit 2 — done `d5c0e5c`).
+- [x] Update Commit 2 section above with full hash/date/stat/push log (done in this edit).
+- [ ] Push this update as Commit 3 to keep GitHub in sync.
 - [ ] Await next hackathon project task (e.g., scaffold Odoo module / app), then repeat workflow: implement → verify → commit → push → update this file → commit+push journey update.
 - [ ] Keep commit messages descriptive: `Feat: ...`, `Fix: ...`, `Docs: ...`, etc., so this history remains useful.
 
