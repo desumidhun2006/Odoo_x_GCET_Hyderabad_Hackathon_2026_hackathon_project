@@ -658,4 +658,14 @@ Member 4 screens (done 16:16 IST): built receipts/, stock/, settings/ folders ea
 
 Commit ID: `4edf63262e92c733763ebbaf8c8aab62784e5b8b` / Short: `4edf632` — Message: `Feat: add Member 4 screens in index-app-style format (receipts, stock, settings)`
 
-Branch combine + merge prep (done 17:05 IST): merged origin/main (Tasks 7-9 glass UI, PDF cleanup, gitignore) into features — resolved dashboard/* to the live-API versions, unioned .gitignore, kept this log; merged origin/feature/standalone-auth (React auth module subtree); removed all UI mock data (live API everywhere); restored main dashboard; added server/seed-demo-data.mjs; integrated branch JWT auth with login-first flow and demo@stocksense.io identity; 10/10 Playwright checks green. No push yet — awaiting merge permit.
+Branch combine + merge prep (done 17:05 IST): merged origin/main (Tasks 7-9 glass UI, PDF cleanup, gitignore) into features — resolved dashboard/* to the live-API versions, unioned .gitignore, kept this log; merged origin/feature/standalone-auth (React auth module subtree); removed all UI mock data (live API everywhere); restored main dashboard; added server/seed-demo-data.mjs; integrated branch JWT auth with login-first flow and demo@stocksense.io identity; 10/10 Playwright checks green.
+
+Commit ID: `dd5ba837536b62748512ff715726455a8702d16a` / Short: `dd5ba83` — Message: `Docs: rewrite README with usage guide and requirements; demo server serves full seeded app`
+
+MongoDB Atlas Integration + Persistence Setup (done 17:10 IST):
+- Configured MongoDB Atlas connection string into `.env` and `.env.example`.
+- Upgraded `server/index.js` to support both `MONGO_URI` and `MONGODB_URI`, auto-seeding on empty collections, and zero-config in-memory MongoDB fallback.
+- Added root `package.json` with scripts for `npm start` and `npm run dev`.
+- Tested and verified live REST endpoints `/api/health` and `/api/products`.
+
+Commit ID: `f61082728f5ae2ea7008779b5cfa79a5180cefe0` / Short: `f610827` — Message: `Feat: configure MongoDB Atlas connection, fallback, auto-seed, and environment variables`
