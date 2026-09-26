@@ -276,5 +276,13 @@
 Every future assistant response that completes a task MUST:
 1. Run verification (tests / `git status` / file checks as appropriate).
 2. `git add -A`, `git commit -m "<type>: <detail>"`, `git push`.
-3. Append a new `Task N` entry in Section 1 + new `Commit N` entry in Section 2 + update Section 3, with exact commands and outputs.
+3. Append one paragraph per task in `journey.md` below with commit ID + message.
 4. Commit + push the `journey.md` update itself, so GitHub always reflects the latest journey.
+
+---
+
+## 6. Simplified Log (from 2026-09-26 onwards — one para per task)
+
+Simplified workflow adopted per user request: no more extreme detail, just one paragraph per task with commit ID and message. Updated README to reflect this and fixed branch from `main` to `features` (current branch `features` tracking `origin/features`).
+
+Commit ID: `a0b9be1f8d13589957118881b8cd7e86b1b9524d` / Short: `a0b9be1` — Message: `Docs: simplify journey.md workflow to one para plus branch fix`
