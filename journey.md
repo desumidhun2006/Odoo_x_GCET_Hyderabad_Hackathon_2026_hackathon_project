@@ -336,3 +336,7 @@ Stitch swap (done 15:32 IST, 1h28 left, shipped in f89e25e below): unzipped orig
 Commit ID: `f89e25ea3da27c7bb0f5af5d90addf6380c5f3e0` / Short: `f89e25e` — Message: `Feat: add demo login gate and working logout for stitch UI`
 
 Logout fix (done 15:32 IST, 1h28 left): sidebar logout was dead mock href — added stitch/login.html demo gate, sign-out clears session and redirects, profile shows toast; logout-watch 7/7 PASS headed with zero errors (clearly marked DEMO until member-2 real auth lands).
+
+Commit ID: `da72a47dd694254b2da22b018f6e333b0a49b7a3` / Short: `da72a47` — Message: `Fix: remove internal demo-auth note from login page`
+
+Login cleanup (done 15:33 IST, 1h27 left): removed the internal DEMO/member-2 note from the login card per request; verified served page has zero matches and Playwright screenshot shows a clean sign-in card.
