@@ -298,3 +298,7 @@ Commit ID: `b8a214f725dd22daa3c48491b43c8d26cac8f5c6` / Short: `b8a214f` — Mes
 Task 3 Receipts/Deliveries (done 12:39 IST, 4h21 left): implemented receipts validate (+stock) and deliveries validate (−stock with insufficient guard) with status filters and ledger writes; server syntax+health green, DB ops need MONGO_URI.
 
 Commit ID: `5428b65040f0152ec2fa8199e4bc76c86573986c` / Short: `5428b65` — Message: `Feat: implement receipts and deliveries with validate stock logic`
+
+Task 4 Transfers/Adjustments (done 12:40 IST, 4h20 left): implemented internal transfer validate (source check, −from/+to, total unchanged) and adjustment flow (recorded vs counted diff, auto stock set + ledger); syntax verified.
+
+Commit ID: `a2eb28de0d86050cdd0c6b95e288b46da7fa781d` / Short: `a2eb28d` — Message: `Feat: implement internal transfers and stock adjustments with ledger`
