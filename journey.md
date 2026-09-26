@@ -339,4 +339,8 @@ Logout fix (done 15:32 IST, 1h28 left): sidebar logout was dead mock href — ad
 
 Commit ID: `da72a47dd694254b2da22b018f6e333b0a49b7a3` / Short: `da72a47` — Message: `Fix: remove internal demo-auth note from login page`
 
+Data wipe (done 15:37 IST, 1h23 left): added EMPTY_SEED=1 flag to live-demo.js and restarted :5025 fresh — API returns [] products, [] ledger, all KPIs 0; empty dashboard renders with LIVE badges and zero errors.
+
+Commit ID: `765556d8903597986dcd911c405e9c0974aa8504` / Short: `765556d` — Message: `Feat: add EMPTY_SEED flag and restart site with fully erased data`
+
 Login cleanup (done 15:33 IST, 1h27 left): removed the internal DEMO/member-2 note from the login card per request; verified served page has zero matches and Playwright screenshot shows a clean sign-in card.
