@@ -290,3 +290,7 @@ Commit ID: `a0b9be1f8d13589957118881b8cd7e86b1b9524d` / Short: `a0b9be1` — Mes
 Task 1 Scaffold (done 12:37 IST, 4h23 left to 17:00): scaffolded MERN server (Express+Mongoose, health check verified on :5001) and Vite React client with inventory route shells and auth stub for M2, keeping ownership boundaries for parallel branches.
 
 Commit ID: `76bd4db3a865529fd70c9090883b8393fabdffc3` / Short: `76bd4db` — Message: `Feat: scaffold MERN server client and inventory route shells`
+
+Task 2 Models (done 12:38 IST, 4h22 left): added Product/Warehouse/Stock/Ledger/Receipt/Delivery/Transfer/Adjustment models plus products CRUD/search/stock-view, warehouses API, stock bump helper and demo seed; health check still green.
+
+Commit ID: `b8a214f725dd22daa3c48491b43c8d26cac8f5c6` / Short: `b8a214f` — Message: `Feat: add product warehouse stock models CRUD search and seed`
