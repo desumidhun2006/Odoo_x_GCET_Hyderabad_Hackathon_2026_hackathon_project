@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>StockSense — Receipts & Incoming Goods (Member 4)</title>
+  <meta name="description" content="Track, log and verify incoming inventory shipments." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;600&family=IBM+Plex+Sans:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <header class="topbar">
+    <div class="brand">StockSense<small>Member 4 · Feature Screens</small></div>
+    <nav class="nav">
+      <a href="../stitch/dashboard.html">Dashboard</a>
+      <a href="./index.html" class="active">Receipts</a>
+      <a href="../stock/index.html">Stock</a>
+      <a href="../settings/index.html">Settings</a>
+    </nav>
+  </header>
+
+  <main class="wrap">
+    <div>
+      <div class="crumb">Operations / Receipts · UI-only mock (no backend needed)</div>
+      <h1>Receipts & Incoming Goods</h1>
+      <p class="sub">Track, log and verify incoming inventory shipments.</p>
+    </div>
+
+    <section class="kpis">
+      <div class="kpi"><div class="t">Pending receipts</div><div class="v" id="kpiPending">–</div></div>
+      <div class="kpi"><div class="t">Arriving today</div><div class="v" id="kpiToday">–</div></div>
+      <div class="kpi"><div class="t">Validated (Done)</div><div class="v" id="kpiDone">–</div></div>
+      <div class="kpi"><div class="t">Total units inbound</div><div class="v" id="kpiUnits">–</div></div>
+    </section>
+
+    <section class="toolbar">
+      <input id="q" type="text" placeholder="Search receipt, supplier or SKU..." />
+      <select id="statusF">
+        <option value="">All statuses</option>
+        <option>Draft</option><option>Waiting</option><option>Ready</option><option>Done</option>
+      </select>
+      <button class="btn primary" id="newBtn">+ Log Receipt</button>
+    </section>
+
+    <section class="card">
+      <div class="card-h"><h2>Incoming shipments</h2><span class="count" id="count">0 receipts</span></div>
+      <div style="overflow-x:auto">
+      <table>
+        <thead><tr><th>Receipt</th><th>Supplier / PO</th><th>Lines</th><th class="mono">Qty</th><th>Status</th><th style="text-align:right">Actions</th></tr></thead>
+        <tbody id="rows"></tbody>
+      </table>
+      </div>
+      <div class="empty hidden" id="empty">No receipts match your filters.</div>
+    </section>
+  </main>
+
+  <div class="modal-back hidden" id="modal">
+    <div class="modal">
+      <h3>Log incoming receipt</h3>
+      <div class="grid2">
+        <div class="full"><label>Supplier</label><input id="fSupplier" placeholder="e.g. Metallo Industrial Supplies" /></div>
+        <div><label>PO reference</label><input id="fPo" placeholder="PO-94021" /></div>
+        <div><label>Warehouse</label>
+          <select id="fWh"><option>Main DC</option><option>North Hub</option><option>Production Plant A</option></select>
+        </div>
+        <div><label>Product</label>
+          <select id="fProduct"><option>Structural Steel Rods 12mm (STL-ROD-012)</option><option>High-Strength Hex Bolts M12 (BLT-M12-050)</option><option>Ergonomic Task Chairs (CHR-ERG-09)</option></select>
+        </div>
+        <div><label>Qty</label><input id="fQty" type="number" min="1" value="10" /></div>
+      </div>
+      <div class="modal-foot">
+        <button class="btn" id="cancelBtn">Cancel</button>
+        <button class="btn primary" id="saveBtn">Save Receipt</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="toast hidden" id="toast"></div>
+  <script src="app.js"></script>
+</body>
+</html>

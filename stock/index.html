@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>StockSense — Inventory Stock Management (Member 4)</title>
+  <meta name="description" content="View, add, edit and delete warehouse items." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;600&family=IBM+Plex+Sans:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <header class="topbar">
+    <div class="brand">StockSense<small>Member 4 · Feature Screens</small></div>
+    <nav class="nav">
+      <a href="../stitch/dashboard.html">Dashboard</a>
+      <a href="../receipts/index.html">Receipts</a>
+      <a href="./index.html" class="active">Stock</a>
+      <a href="../settings/index.html">Settings</a>
+    </nav>
+  </header>
+
+  <main class="wrap">
+    <div>
+      <div class="crumb">Master Data / Stock · UI-only mock (no backend needed)</div>
+      <h1>Inventory Stock Management</h1>
+      <p class="sub">Core screen — view, add, edit and delete warehouse items.</p>
+    </div>
+
+    <section class="kpis">
+      <div class="kpi"><div class="t">Total SKUs</div><div class="v" id="kpiSkus">–</div></div>
+      <div class="kpi"><div class="t">Total units</div><div class="v" id="kpiUnits">–</div></div>
+      <div class="kpi"><div class="t">Low stock</div><div class="v" id="kpiLow">–</div></div>
+      <div class="kpi"><div class="t">Out of stock</div><div class="v" id="kpiOut">–</div></div>
+    </section>
+
+    <section class="toolbar">
+      <input id="q" type="text" placeholder="Search name or SKU..." />
+      <select id="catF"><option value="">All categories</option><option>Metals</option><option>Hardware</option><option>Furniture</option><option>Consumables</option></select>
+      <select id="statusF"><option value="">All statuses</option><option value="in">In Stock</option><option value="low">Low Stock</option><option value="out">Out of Stock</option></select>
+      <button class="btn" id="exportBtn">Export</button>
+      <button class="btn primary" id="addBtn">+ Add Item</button>
+    </section>
+
+    <section class="card">
+      <div class="card-h"><h2>Warehouse items</h2><span class="count" id="count">0 items</span></div>
+      <div style="overflow-x:auto">
+      <table>
+        <thead><tr><th>Product & SKU</th><th>Category</th><th>UOM</th><th style="text-align:right">On hand</th><th style="text-align:right">Reorder</th><th style="text-align:center">Status</th><th style="text-align:right">Actions</th></tr></thead>
+        <tbody id="rows"></tbody>
+      </table>
+      </div>
+      <div class="empty hidden" id="empty">No items match your filters.</div>
+    </section>
+  </main>
+
+  <div class="modal-back hidden" id="modal">
+    <div class="modal">
+      <h3 id="modalTitle">Add item</h3>
+      <input id="fId" type="hidden" />
+      <div class="grid2">
+        <div class="full"><label>Product name</label><input id="fName" placeholder="e.g. Structural Steel Rods 12mm" /></div>
+        <div><label>SKU</label><input id="fSku" placeholder="STL-ROD-012" /></div>
+        <div><label>Category</label><select id="fCat"><option>Metals</option><option>Hardware</option><option>Furniture</option><option>Consumables</option></select></div>
+        <div><label>UOM</label><select id="fUom"><option>Units</option><option>Box (100 pcs)</option><option>kg</option><option>Tubes</option></select></div>
+        <div><label>Reorder level</label><input id="fReorder" type="number" min="0" value="10" /></div>
+        <div><label>Warehouse</label><select id="fWh"><option>Main DC</option><option>North Hub</option><option>Production Plant A</option></select></div>
+        <div><label>On-hand qty</label><input id="fQty" type="number" min="0" value="0" /></div>
+      </div>
+      <div class="modal-foot">
+        <button class="btn" id="cancelBtn">Cancel</button>
+        <button class="btn primary" id="saveBtn">Save Item</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="toast hidden" id="toast"></div>
+  <script src="app.js"></script>
+</body>
+</html>

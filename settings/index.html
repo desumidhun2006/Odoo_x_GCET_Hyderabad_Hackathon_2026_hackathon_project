@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>StockSense — Settings & Profile (Member 4)</title>
+  <meta name="description" content="Manage user preferences and system configuration." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;600&family=IBM+Plex+Sans:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <header class="topbar">
+    <div class="brand">StockSense<small>Member 4 · Feature Screens</small></div>
+    <nav class="nav">
+      <a href="../stitch/dashboard.html">Dashboard</a>
+      <a href="../receipts/index.html">Receipts</a>
+      <a href="../stock/index.html">Stock</a>
+      <a href="./index.html" class="active">Settings</a>
+    </nav>
+  </header>
+
+  <main class="wrap">
+    <div>
+      <div class="crumb">Configuration / Settings · saved in this browser (UI-only mock)</div>
+      <h1>Settings & Profile Management</h1>
+      <p class="sub">Manage user preferences and system configuration.</p>
+    </div>
+
+    <div class="cols">
+      <section class="card">
+        <div class="card-h"><h2>My Profile</h2><span class="avatar" id="avatar">ER</span></div>
+        <div class="pad">
+          <label>Full name</label><input id="pName" placeholder="Elena Rodriguez" />
+          <label>Email</label><input id="pEmail" type="email" placeholder="elena@stocksense.io" />
+          <div class="grid2">
+            <div><label>Role</label><select id="pRole"><option>Inventory Lead</option><option>Warehouse Manager</option><option>Administrator</option><option>Auditor</option></select></div>
+            <div><label>Phone</label><input id="pPhone" placeholder="+91 90000 00000" /></div>
+          </div>
+          <button class="btn primary wide" id="saveProfile">Save Profile</button>
+        </div>
+      </section>
+
+      <section class="card">
+        <div class="card-h"><h2>Security</h2></div>
+        <div class="pad">
+          <label>Current password</label><input id="curPass" type="password" />
+          <label>New password</label><input id="newPass" type="password" />
+          <label>Confirm new password</label><input id="confirmPass" type="password" />
+          <button class="btn wide" id="passBtn">Update Password</button>
+        </div>
+      </section>
+
+      <section class="card">
+        <div class="card-h"><h2>Preferences</h2></div>
+        <div class="pad">
+          <div class="grid2">
+            <div><label>Theme</label><select id="prefTheme"><option value="light">Light</option><option value="dark">Dark</option></select></div>
+            <div><label>Default facility</label><select id="prefWh"><option>All Warehouses</option><option>Main DC</option><option>North Hub</option><option>Production Plant A</option></select></div>
+            <div><label>Items per page</label><select id="prefSize"><option>10</option><option>25</option><option>50</option></select></div>
+            <div><label>Date format</label><select id="prefDate"><option>DD/MM/YYYY</option><option>MM/DD/YYYY</option><option>YYYY-MM-DD</option></select></div>
+          </div>
+          <label class="check"><span>Low-stock alerts</span><input id="nLow" type="checkbox" checked /></label>
+          <label class="check"><span>Receipt notifications</span><input id="nRec" type="checkbox" checked /></label>
+          <label class="check"><span>Delivery notifications</span><input id="nDel" type="checkbox" /></label>
+          <button class="btn primary wide" id="savePrefs">Save Preferences</button>
+        </div>
+      </section>
+
+      <section class="card">
+        <div class="card-h"><h2>System</h2><span class="mono" id="apiState">mock mode</span></div>
+        <div class="pad">
+          <p class="sub">Member 4 scope: Receipts (../receipts/), Stock (../stock/), Settings (this page).</p>
+          <div class="btnrow">
+            <button class="btn danger" id="clearBtn">Clear demo data</button>
+            <button class="btn" id="resetBtn">Reset all settings</button>
+          </div>
+        </div>
+      </section>
+    </div>
+  </main>
+
+  <div class="toast hidden" id="toast"></div>
+  <script src="app.js"></script>
+</body>
+</html>
