@@ -302,3 +302,7 @@ Commit ID: `5428b65040f0152ec2fa8199e4bc76c86573986c` / Short: `5428b65` — Mes
 Task 4 Transfers/Adjustments (done 12:40 IST, 4h20 left): implemented internal transfer validate (source check, −from/+to, total unchanged) and adjustment flow (recorded vs counted diff, auto stock set + ledger); syntax verified.
 
 Commit ID: `a2eb28de0d86050cdd0c6b95e288b46da7fa781d` / Short: `a2eb28d` — Message: `Feat: implement internal transfers and stock adjustments with ledger`
+
+Task 5 Ledger/Dashboard/UI (done 12:59 IST, 4h01 left): added ledger filters, low-stock alerts, dashboard-summary for M3, inventory React pages with build green and Playwright Chromium screenshot verified rendering.
+
+Commit ID: `dc86764522b56a3bf6f967d6eaea0e6c749e0d6c` / Short: `dc86764` — Message: `Feat: add ledger filters low-stock dashboard summary and inventory UI`
