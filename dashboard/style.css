@@ -607,11 +607,11 @@ body.light-glass-theme {
 /* ═══════════════════════ EXECUTIVE HEADER ═══════════════════════ */
 .exec-header {
   display: flex;
-  align-items: flex-end;
+  align-items: flex-start;
   justify-content: space-between;
   flex-wrap: wrap;
   gap: 1.5rem;
-  padding: 0.5rem 0 0.85rem 0;
+  padding: 0.25rem 0 0.5rem 0;
 }
 
 .exec-meta-bar {
