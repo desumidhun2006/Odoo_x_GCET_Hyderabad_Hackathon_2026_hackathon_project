@@ -1,0 +1,603 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>StockSense — Inventory Dashboard</title>
+  <meta name="description" content="StockSense – A modern, real-time Inventory Management Dashboard for tracking stock, receipts, deliveries, and transfers." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+  <!-- ═══════════════════════ TOP NAV ═══════════════════════ -->
+  <nav class="navbar" id="navbar">
+    <div class="nav-brand">
+      <span class="nav-logo">📦</span>
+      <span class="nav-title">StockSense</span>
+    </div>
+    <ul class="nav-links" id="navLinks">
+      <li><a href="#" class="nav-link active" data-view="dashboard" onclick="switchView('dashboard',this)">Dashboard</a></li>
+      <li class="nav-dropdown">
+        <a href="#" class="nav-link" id="opsLink">Operations ▾</a>
+        <ul class="dropdown-menu" id="opsMenu">
+          <li><a href="#" onclick="switchView('receipts',null)">Receipts</a></li>
+          <li><a href="#" onclick="switchView('deliveries',null)">Delivery Orders</a></li>
+          <li><a href="#" onclick="switchView('adjustments',null)">Adjustments</a></li>
+        </ul>
+      </li>
+      <li><a href="#" class="nav-link" data-view="products" onclick="switchView('products',this)">Products</a></li>
+      <li><a href="#" class="nav-link" data-view="history" onclick="switchView('history',this)">Move History</a></li>
+      <li class="nav-dropdown">
+        <a href="#" class="nav-link">Settings ▾</a>
+        <ul class="dropdown-menu">
+          <li><a href="#">Warehouse</a></li>
+          <li><a href="#">Locations</a></li>
+        </ul>
+      </li>
+    </ul>
+    <div class="nav-right">
+      <div class="nav-search">
+        <input type="text" id="globalSearch" placeholder="Search products, refs…" oninput="globalSearchHandler(this.value)" />
+        <span class="search-icon">🔍</span>
+      </div>
+      <div class="nav-avatar" id="navAvatar" onclick="toggleProfileMenu()">A</div>
+      <div class="profile-menu hidden" id="profileMenu">
+        <div class="profile-header">
+          <div class="profile-avatar-lg">A</div>
+          <div>
+            <div class="profile-name">Admin User</div>
+            <div class="profile-email">admin@stocksense.io</div>
+          </div>
+        </div>
+        <hr />
+        <a href="#">👤 My Profile</a>
+        <a href="#">🚪 Logout</a>
+      </div>
+    </div>
+  </nav>
+
+  <!-- ═══════════════════════ VIEWS CONTAINER ═══════════════════════ -->
+  <main class="main-content">
+
+    <!-- ─────────── DASHBOARD VIEW ─────────── -->
+    <section class="view active" id="view-dashboard">
+      <div class="page-header">
+        <div>
+          <h1 class="page-title">Inventory Dashboard</h1>
+          <p class="page-subtitle">Real-time snapshot of your warehouse operations</p>
+        </div>
+        <div class="header-actions">
+          <span class="date-badge" id="currentDate"></span>
+          <button class="btn btn-primary" onclick="refreshDashboard()">↻ Refresh</button>
+        </div>
+      </div>
+
+      <!-- KPI Cards -->
+      <div class="kpi-grid">
+        <div class="kpi-card kpi-blue" onclick="switchView('products',null)">
+          <div class="kpi-icon">📦</div>
+          <div class="kpi-body">
+            <div class="kpi-value" id="kpiTotalProducts">248</div>
+            <div class="kpi-label">Total Products in Stock</div>
+          </div>
+          <div class="kpi-trend trend-up">↑ 12% this week</div>
+        </div>
+        <div class="kpi-card kpi-red" onclick="filterLowStock()">
+          <div class="kpi-icon">⚠️</div>
+          <div class="kpi-body">
+            <div class="kpi-value" id="kpiLowStock">14</div>
+            <div class="kpi-label">Low / Out of Stock Items</div>
+          </div>
+          <div class="kpi-trend trend-down">↑ 3 new alerts</div>
+        </div>
+        <div class="kpi-card kpi-orange" onclick="switchView('receipts',null)">
+          <div class="kpi-icon">📥</div>
+          <div class="kpi-body">
+            <div class="kpi-value" id="kpiPendingReceipts">6</div>
+            <div class="kpi-label">Pending Receipts</div>
+          </div>
+          <div class="kpi-trend trend-neutral">4 to receive</div>
+        </div>
+        <div class="kpi-card kpi-green" onclick="switchView('deliveries',null)">
+          <div class="kpi-icon">📤</div>
+          <div class="kpi-body">
+            <div class="kpi-value" id="kpiPendingDeliveries">4</div>
+            <div class="kpi-label">Pending Deliveries</div>
+          </div>
+          <div class="kpi-trend trend-neutral">2 waiting · 1 late</div>
+        </div>
+        <div class="kpi-card kpi-purple">
+          <div class="kpi-icon">🔄</div>
+          <div class="kpi-body">
+            <div class="kpi-value" id="kpiTransfers">3</div>
+            <div class="kpi-label">Internal Transfers Scheduled</div>
+          </div>
+          <div class="kpi-trend trend-neutral">Today</div>
+        </div>
+      </div>
+
+      <!-- Operation Widgets -->
+      <div class="widget-row">
+        <div class="op-widget receipt-widget" onclick="switchView('receipts',null)">
+          <div class="op-widget-header">
+            <span class="op-icon">📥</span>
+            <span class="op-title">Receipts</span>
+          </div>
+          <div class="op-stat-row">
+            <div class="op-stat">
+              <span class="op-stat-num">4</span>
+              <span class="op-stat-label">to receive</span>
+            </div>
+            <div class="op-divider"></div>
+            <div class="op-stat">
+              <span class="op-stat-num late">1</span>
+              <span class="op-stat-label">Late</span>
+            </div>
+            <div class="op-divider"></div>
+            <div class="op-stat">
+              <span class="op-stat-num">6</span>
+              <span class="op-stat-label">operations</span>
+            </div>
+          </div>
+          <button class="op-btn">View All Receipts →</button>
+        </div>
+
+        <div class="op-widget delivery-widget" onclick="switchView('deliveries',null)">
+          <div class="op-widget-header">
+            <span class="op-icon">📤</span>
+            <span class="op-title">Delivery Orders</span>
+          </div>
+          <div class="op-stat-row">
+            <div class="op-stat">
+              <span class="op-stat-num">4</span>
+              <span class="op-stat-label">to deliver</span>
+            </div>
+            <div class="op-divider"></div>
+            <div class="op-stat">
+              <span class="op-stat-num late">1</span>
+              <span class="op-stat-label">Late</span>
+            </div>
+            <div class="op-divider"></div>
+            <div class="op-stat">
+              <span class="op-stat-num waiting">2</span>
+              <span class="op-stat-label">Waiting</span>
+            </div>
+          </div>
+          <button class="op-btn">View All Deliveries →</button>
+        </div>
+
+        <div class="op-widget transfer-widget">
+          <div class="op-widget-header">
+            <span class="op-icon">🔄</span>
+            <span class="op-title">Internal Transfers</span>
+          </div>
+          <div class="op-stat-row">
+            <div class="op-stat">
+              <span class="op-stat-num">3</span>
+              <span class="op-stat-label">scheduled</span>
+            </div>
+            <div class="op-divider"></div>
+            <div class="op-stat">
+              <span class="op-stat-num">2</span>
+              <span class="op-stat-label">in progress</span>
+            </div>
+          </div>
+          <button class="op-btn">View Transfers →</button>
+        </div>
+      </div>
+
+      <!-- Dashboard Filters -->
+      <div class="filter-bar">
+        <span class="filter-label">Filter by:</span>
+        <div class="filter-group">
+          <button class="filter-chip active" onclick="filterByType('all',this)">All</button>
+          <button class="filter-chip" onclick="filterByType('receipts',this)">Receipts</button>
+          <button class="filter-chip" onclick="filterByType('deliveries',this)">Delivery</button>
+          <button class="filter-chip" onclick="filterByType('internal',this)">Internal</button>
+          <button class="filter-chip" onclick="filterByType('adjustments',this)">Adjustments</button>
+        </div>
+        <div class="filter-group">
+          <select class="filter-select" id="statusFilter" onchange="applyFilters()">
+            <option value="">All Statuses</option>
+            <option>Draft</option>
+            <option>Waiting</option>
+            <option>Ready</option>
+            <option>Done</option>
+            <option>Canceled</option>
+          </select>
+          <select class="filter-select" id="warehouseFilter" onchange="applyFilters()">
+            <option value="">All Warehouses</option>
+            <option>Main Warehouse (WH)</option>
+            <option>Production Floor</option>
+            <option>Warehouse 2</option>
+          </select>
+          <select class="filter-select" id="categoryFilter" onchange="applyFilters()">
+            <option value="">All Categories</option>
+            <option>Raw Materials</option>
+            <option>Finished Goods</option>
+            <option>Consumables</option>
+          </select>
+        </div>
+      </div>
+
+      <!-- Stock Summary Table -->
+      <div class="section-card">
+        <div class="section-header">
+          <h2 class="section-title">📋 Stock Summary</h2>
+          <div class="section-actions">
+            <input type="text" class="table-search" id="stockSearch" placeholder="Search product or SKU…" oninput="filterStockTable(this.value)" />
+            <button class="btn btn-secondary" onclick="exportStock()">⬇ Export</button>
+          </div>
+        </div>
+        <div class="table-wrapper">
+          <table class="data-table" id="stockTable">
+            <thead>
+              <tr>
+                <th onclick="sortTable('stockTable',0)">Product ↕</th>
+                <th onclick="sortTable('stockTable',1)">SKU</th>
+                <th onclick="sortTable('stockTable',2)">Category</th>
+                <th onclick="sortTable('stockTable',3)">Location</th>
+                <th onclick="sortTable('stockTable',4)">Per Unit Cost ↕</th>
+                <th onclick="sortTable('stockTable',5)">On Hand ↕</th>
+                <th onclick="sortTable('stockTable',6)">Free to Use ↕</th>
+                <th>Status</th>
+                <th>Actions</th>
+              </tr>
+            </thead>
+            <tbody id="stockTableBody"></tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- Recent Activity + Alerts -->
+      <div class="two-col-grid">
+        <div class="section-card">
+          <div class="section-header">
+            <h2 class="section-title">🕐 Recent Activity</h2>
+          </div>
+          <ul class="activity-feed" id="activityFeed"></ul>
+        </div>
+        <div class="section-card">
+          <div class="section-header">
+            <h2 class="section-title">⚠️ Low Stock Alerts</h2>
+            <span class="badge badge-red" id="alertCount">14</span>
+          </div>
+          <ul class="alert-list" id="alertList"></ul>
+        </div>
+      </div>
+    </section>
+
+    <!-- ─────────── RECEIPTS VIEW ─────────── -->
+    <section class="view hidden" id="view-receipts">
+      <div class="page-header">
+        <div>
+          <h1 class="page-title">📥 Receipts</h1>
+          <p class="page-subtitle">Incoming goods from vendors</p>
+        </div>
+        <div class="header-actions">
+          <button class="btn btn-secondary" id="receiptViewToggle" onclick="toggleReceiptsView()">⊞ Kanban</button>
+          <button class="btn btn-primary" onclick="openReceiptForm('new')">+ New Receipt</button>
+        </div>
+      </div>
+      <div class="filter-bar">
+        <input type="text" class="table-search wide" id="receiptSearch" placeholder="Search by reference or contact…" oninput="filterReceiptsTable(this.value)" />
+        <select class="filter-select" id="receiptStatusFilter" onchange="filterReceiptsTable('')">
+          <option value="">All Statuses</option>
+          <option>Draft</option><option>Ready</option><option>Done</option><option>Canceled</option>
+        </select>
+      </div>
+      <div id="receiptListView">
+        <div class="section-card">
+          <div class="table-wrapper">
+            <table class="data-table" id="receiptsTable">
+              <thead>
+                <tr>
+                  <th>Reference</th><th>From</th><th>To</th><th>Contact</th>
+                  <th>Schedule Date</th><th>Status</th><th>Actions</th>
+                </tr>
+              </thead>
+              <tbody id="receiptsTableBody"></tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+      <div class="kanban-view hidden" id="receiptKanbanView"></div>
+      <!-- Receipt Form -->
+      <div class="section-card hidden" id="receiptFormPanel">
+        <div class="form-stepper">
+          <div class="step active" id="rs-draft"><span>1</span> Draft</div>
+          <div class="step-line"></div>
+          <div class="step" id="rs-ready"><span>2</span> Ready</div>
+          <div class="step-line"></div>
+          <div class="step" id="rs-done"><span>3</span> Done</div>
+        </div>
+        <div class="form-actions">
+          <button class="btn btn-primary" onclick="validateReceipt()">✓ Validate</button>
+          <button class="btn btn-secondary" onclick="showToast('🖨 Printing receipt…')">🖨 Print</button>
+          <button class="btn btn-danger" onclick="cancelReceipt()">✕ Cancel</button>
+          <button class="btn btn-ghost" onclick="closeReceiptForm()">← Back to List</button>
+        </div>
+        <div class="form-grid">
+          <div class="form-field">
+            <label>Reference</label>
+            <input type="text" id="rf-ref" readonly />
+          </div>
+          <div class="form-field">
+            <label>Receive From</label>
+            <input type="text" id="rf-vendor" placeholder="Vendor name…" />
+          </div>
+          <div class="form-field">
+            <label>Responsible</label>
+            <input type="text" id="rf-responsible" value="Admin User" readonly />
+          </div>
+          <div class="form-field">
+            <label>Schedule Date</label>
+            <input type="date" id="rf-date" />
+          </div>
+        </div>
+        <div class="section-title" style="margin:1.5rem 0 0.75rem">Products</div>
+        <table class="data-table">
+          <thead><tr><th>Product</th><th>Quantity</th><th></th></tr></thead>
+          <tbody id="rfProductsBody">
+            <tr>
+              <td><input type="text" class="inline-input" value="[DESK001] Desk" /></td>
+              <td><input type="number" class="inline-input short" value="10" /></td>
+              <td><button class="btn-icon" onclick="removeRow(this)">🗑</button></td>
+            </tr>
+          </tbody>
+        </table>
+        <button class="btn btn-ghost" style="margin-top:.75rem" onclick="addRfRow()">+ New Product</button>
+      </div>
+    </section>
+
+    <!-- ─────────── DELIVERIES VIEW ─────────── -->
+    <section class="view hidden" id="view-deliveries">
+      <div class="page-header">
+        <div>
+          <h1 class="page-title">📤 Delivery Orders</h1>
+          <p class="page-subtitle">Outgoing stock to customers</p>
+        </div>
+        <div class="header-actions">
+          <button class="btn btn-secondary" id="deliveryViewToggle" onclick="toggleDeliveryView()">⊞ Kanban</button>
+          <button class="btn btn-primary" onclick="openDeliveryForm('new')">+ New Delivery</button>
+        </div>
+      </div>
+      <div class="filter-bar">
+        <input type="text" class="table-search wide" id="deliverySearch" placeholder="Search by reference or contact…" oninput="filterDeliveriesTable(this.value)" />
+        <select class="filter-select" id="deliveryStatusFilter" onchange="filterDeliveriesTable('')">
+          <option value="">All Statuses</option>
+          <option>Draft</option><option>Waiting</option><option>Ready</option><option>Done</option><option>Canceled</option>
+        </select>
+      </div>
+      <div id="deliveryListView">
+        <div class="section-card">
+          <div class="table-wrapper">
+            <table class="data-table" id="deliveriesTable">
+              <thead>
+                <tr>
+                  <th>Reference</th><th>From</th><th>To</th><th>Contact</th>
+                  <th>Schedule Date</th><th>Status</th><th>Actions</th>
+                </tr>
+              </thead>
+              <tbody id="deliveriesTableBody"></tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+      <div class="kanban-view hidden" id="deliveryKanbanView"></div>
+      <!-- Delivery Form -->
+      <div class="section-card hidden" id="deliveryFormPanel">
+        <div class="form-stepper">
+          <div class="step active" id="ds-draft"><span>1</span> Draft</div>
+          <div class="step-line"></div>
+          <div class="step" id="ds-waiting"><span>2</span> Waiting</div>
+          <div class="step-line"></div>
+          <div class="step" id="ds-ready"><span>3</span> Ready</div>
+          <div class="step-line"></div>
+          <div class="step" id="ds-done"><span>4</span> Done</div>
+        </div>
+        <div class="form-actions">
+          <button class="btn btn-primary" onclick="validateDelivery()">✓ Validate</button>
+          <button class="btn btn-secondary" onclick="showToast('🖨 Printing delivery order…')">🖨 Print</button>
+          <button class="btn btn-danger" onclick="cancelDelivery()">✕ Cancel</button>
+          <button class="btn btn-ghost" onclick="closeDeliveryForm()">← Back to List</button>
+        </div>
+        <div class="form-grid">
+          <div class="form-field">
+            <label>Reference</label>
+            <input type="text" id="df-ref" readonly />
+          </div>
+          <div class="form-field">
+            <label>Delivery Address</label>
+            <input type="text" id="df-address" placeholder="Destination address…" />
+          </div>
+          <div class="form-field">
+            <label>Responsible</label>
+            <input type="text" id="df-responsible" value="Admin User" readonly />
+          </div>
+          <div class="form-field">
+            <label>Schedule Date</label>
+            <input type="date" id="df-date" />
+          </div>
+          <div class="form-field">
+            <label>Operation Type</label>
+            <select id="df-optype">
+              <option>Delivery Orders</option>
+              <option>Internal Transfers</option>
+            </select>
+          </div>
+        </div>
+        <div class="section-title" style="margin:1.5rem 0 0.75rem">Products</div>
+        <table class="data-table">
+          <thead><tr><th>Product</th><th>Quantity</th><th>Stock Status</th><th></th></tr></thead>
+          <tbody id="dfProductsBody">
+            <tr>
+              <td><input type="text" class="inline-input" value="[CHAIR001] Office Chair" /></td>
+              <td><input type="number" class="inline-input short" value="10" /></td>
+              <td><span class="badge badge-green">In Stock</span></td>
+              <td><button class="btn-icon" onclick="removeRow(this)">🗑</button></td>
+            </tr>
+          </tbody>
+        </table>
+        <button class="btn btn-ghost" style="margin-top:.75rem" onclick="addDfRow()">+ New Product</button>
+      </div>
+    </section>
+
+    <!-- ─────────── PRODUCTS VIEW ─────────── -->
+    <section class="view hidden" id="view-products">
+      <div class="page-header">
+        <div>
+          <h1 class="page-title">🏷 Products</h1>
+          <p class="page-subtitle">Manage your product catalog and stock levels</p>
+        </div>
+        <div class="header-actions">
+          <button class="btn btn-primary" onclick="openProductModal()">+ New Product</button>
+        </div>
+      </div>
+      <div class="filter-bar">
+        <input type="text" class="table-search wide" id="productSearch" placeholder="Search by name, SKU, or category…" oninput="filterProductsTable(this.value)" />
+        <select class="filter-select" id="productCategoryFilter" onchange="filterProductsTable('')">
+          <option value="">All Categories</option>
+          <option>Raw Materials</option><option>Finished Goods</option><option>Consumables</option>
+        </select>
+      </div>
+      <div class="section-card">
+        <div class="table-wrapper">
+          <table class="data-table" id="productsTable">
+            <thead>
+              <tr>
+                <th>Product Name</th><th>SKU / Code</th><th>Category</th><th>Unit</th>
+                <th>On Hand</th><th>Reorder Point</th><th>Cost (₹)</th><th>Status</th><th>Actions</th>
+              </tr>
+            </thead>
+            <tbody id="productsTableBody"></tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+    <!-- ─────────── MOVE HISTORY VIEW ─────────── -->
+    <section class="view hidden" id="view-history">
+      <div class="page-header">
+        <div>
+          <h1 class="page-title">📜 Move History</h1>
+          <p class="page-subtitle">All stock movements between locations</p>
+        </div>
+      </div>
+      <div class="filter-bar">
+        <input type="text" class="table-search wide" id="historySearch" placeholder="Search by reference, product…" oninput="filterHistoryTable(this.value)" />
+        <select class="filter-select" id="historyTypeFilter" onchange="filterHistoryTable('')">
+          <option value="">All Types</option>
+          <option>IN</option><option>OUT</option><option>Internal</option>
+        </select>
+      </div>
+      <div class="section-card">
+        <div class="table-wrapper">
+          <table class="data-table" id="historyTable">
+            <thead>
+              <tr>
+                <th>Reference</th><th>Date</th><th>Product</th><th>Contact</th>
+                <th>From</th><th>To</th><th>Quantity</th><th>Type</th><th>Status</th>
+              </tr>
+            </thead>
+            <tbody id="historyTableBody"></tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+    <!-- ─────────── ADJUSTMENTS VIEW ─────────── -->
+    <section class="view hidden" id="view-adjustments">
+      <div class="page-header">
+        <div>
+          <h1 class="page-title">🔧 Stock Adjustments</h1>
+          <p class="page-subtitle">Fix mismatches between recorded and physical counts</p>
+        </div>
+        <div class="header-actions">
+          <button class="btn btn-primary" onclick="applyAdjustment()">✓ Apply All Adjustments</button>
+        </div>
+      </div>
+      <div class="section-card">
+        <div class="table-wrapper">
+          <table class="data-table" id="adjustmentsTable">
+            <thead>
+              <tr>
+                <th>Product</th><th>Location</th><th>Recorded Qty</th>
+                <th>Physical Count</th><th>Difference</th><th>Action</th>
+              </tr>
+            </thead>
+            <tbody id="adjustmentsTableBody"></tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- ═══════════════════════ PRODUCT MODAL ═══════════════════════ -->
+  <div class="modal-overlay hidden" id="productModal">
+    <div class="modal">
+      <div class="modal-header">
+        <h2 id="productModalTitle">New Product</h2>
+        <button class="modal-close" onclick="closeProductModal()">✕</button>
+      </div>
+      <div class="form-grid">
+        <div class="form-field">
+          <label>Product Name *</label>
+          <input type="text" id="pf-name" placeholder="e.g. Steel Rods" />
+        </div>
+        <div class="form-field">
+          <label>SKU / Code *</label>
+          <input type="text" id="pf-sku" placeholder="e.g. STL001" />
+        </div>
+        <div class="form-field">
+          <label>Category</label>
+          <select id="pf-category">
+            <option>Raw Materials</option>
+            <option>Finished Goods</option>
+            <option>Consumables</option>
+          </select>
+        </div>
+        <div class="form-field">
+          <label>Unit of Measure</label>
+          <select id="pf-uom">
+            <option>Units</option><option>kg</option><option>Liters</option><option>Meters</option>
+          </select>
+        </div>
+        <div class="form-field">
+          <label>Initial Stock</label>
+          <input type="number" id="pf-stock" value="0" min="0" />
+        </div>
+        <div class="form-field">
+          <label>Per Unit Cost (₹)</label>
+          <input type="number" id="pf-cost" value="0" min="0" step="0.01" />
+        </div>
+        <div class="form-field">
+          <label>Reorder Point</label>
+          <input type="number" id="pf-reorder" value="10" min="0" />
+        </div>
+        <div class="form-field">
+          <label>Location</label>
+          <select id="pf-location">
+            <option>Main Warehouse (WH)</option>
+            <option>Production Floor</option>
+            <option>Warehouse 2</option>
+          </select>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn-ghost" onclick="closeProductModal()">Cancel</button>
+        <button class="btn btn-primary" onclick="saveProduct()">Save Product</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══════════════════════ TOAST ═══════════════════════ -->
+  <div class="toast hidden" id="toast"></div>
+
+  <script src="app.js"></script>
+</body>
+</html>
