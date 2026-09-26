@@ -14,6 +14,7 @@ app.get('/api/health', (_req, res) => res.json({ ok: true, service: 'stocksense-
 
 // Feature routers (owned by `features` branch) — mounted in one block to avoid merge clashes with M2/M3
 import products from './routes/products.js';
+import warehouses from './routes/warehouses.js';
 import receipts from './routes/receipts.js';
 import deliveries from './routes/deliveries.js';
 import transfers from './routes/transfers.js';
@@ -21,6 +22,7 @@ import adjustments from './routes/adjustments.js';
 import ledger from './routes/ledger.js';
 
 app.use('/api/products', products);
+app.use('/api/warehouses', warehouses);
 app.use('/api/receipts', receipts);
 app.use('/api/deliveries', deliveries);
 app.use('/api/transfers', transfers);
