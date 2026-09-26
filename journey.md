@@ -344,21 +344,93 @@
 - **Related task:** Task 5 (core feature implementation)
 - **Purpose:** Deliver the complete interactive StockSense dashboard satisfying all PDF and Excalidraw mockup specifications.
 
-### Commit 8 — (this update, to be filled after push)
-- **Intended message:** `Docs: update journey.md for Task 5 StockSense dashboard + backfill Commit 6`
-- **Contents:** This edit — adds Task 5 entry, backfills Commit 6 (`57840ef`) full details, adds Commit 7 (`c38805b`) details, updates Current State + Next Steps.
-- **Note to avoid infinite recursion:** Each `journey.md` sync documents the *previous* commit(s), not itself. Commit 8 details will be documented at the start of the next task.
+### Commit 8 — `efcdf31a1fe52a65492160d5bfa3a81232822a76`
+- **Short hash:** `efcdf31`
+- **Full hash:** `efcdf31a1fe52a65492160d5bfa3a81232822a76`
+- **Message:** `Docs: update journey.md for Task 5 StockSense dashboard + backfill Commit 6`
+- **Author:** `Gemini CLI <gemini-cli@example.com>`
+- **Committer:** `Gemini CLI <gemini-cli@example.com>`
+- **Date (ISO):** `2026-09-26 14:02:15 +0530`
+- **Parent:** `c38805b5edff169bb92effda5b9766a49112f594`
+- **Branch:** `main` → pushed `c38805b..efcdf31 main -> main` to `origin/main`
+- **Files changed:** 1 file (`journey.md`, +112 lines)
+- **Purpose:** Document Task 5 implementation, backfill Commit 6 details, and sync GitHub repository documentation.
+
+### Task 6 — Pure Light Theme Liquid Glass UI, Interactive Analytics Charts, and Navigation Dropdown Fix
+- **Date:** 2026-09-26 ~15:48 IST
+- **Requests verbatim:**
+  1. “see i don't like this UI i want to enhance this UI to peak beautiful and peak beautiful like i want zero AI evidance and cimatic dashboard peak liquid glass effect”
+  2. “i want only light theme”
+  3. “let's add some charts and when i hover like operations and warehouse i can't click the options”
+- **Root Cause Analysis & Design Enhancements:**
+  1. **Dropdown Hover/Click Bug:**
+     - In `dashboard/style.css`, `.crystal-dropdown` was positioned with `top: calc(100% + 14px)`.
+     - When moving cursor downward from the button toward the menu items, the cursor crossed the 14px empty air gap, immediately breaking `:hover` state on `.nav-dropdown-trigger` and causing the dropdown to collapse instantly before options could be clicked.
+     - **Fix:** Positioned dropdown at `top: 100%` with a transparent `::before` pseudo-element bridge (`top: -14px; height: 16px;`) so the mouse never loses focus. Added `visibility`/`opacity` transitions with `pointer-events: auto`.
+     - Added robust click support in `dashboard/app.js`: clicking "Operations" or "Warehouse" toggles an `.open` state, and outside clicks automatically dismiss open menus. Clicking any option executes the link and closes the dropdown cleanly.
+  2. **Exclusively Pure Light Theme (Zero Dark Mode / Zero AI Clutter):**
+     - Completely removed all dark/dune toggles, dark style rules, and artificial sci-fi pill tags ("OPS DECK").
+     - Designed an authentic **VisionOS daylight crystal frosted liquid glass** interface:
+       - Translucent frosted glass cards (`rgba(255, 255, 255, 0.76)` with `backdrop-filter: blur(28px)`).
+       - Specular white highlight rims (`inset 0 1px 1.5px rgba(255, 255, 255, 0.95)`).
+       - Soft, natural ambient slate drop shadows (`0 20px 45px -15px rgba(30, 41, 59, 0.07)`).
+       - Deep executive contrast typography using `Plus Jakarta Sans` and `JetBrains Mono` (`#0f172a` headings, `#334155` body, `#64748b` muted labels).
+  3. **Interactive Analytics & Velocity Charts Deck (Chart.js Integration):**
+     - Integrated `Chart.js` engine via CDN into `dashboard/index.html`.
+     - **Chart 1: Stock Movement & Velocity Trajectory:**
+       - Spline line/area chart comparing inbound supplier receipts vs outbound customer dispatches.
+       - Day/range selector buttons: `7D` (default), `30D`, `90D` with animated data swaps.
+       - Light theme gradient fills: Royal Indigo (`#4f46e5`) and Sky Cyan (`#0284c7`) fading smoothly to transparency.
+       - Frosted light glass custom tooltips and summary metrics (Total Inbound, Total Outbound, Net Flow).
+     - **Chart 2: Inventory Valuation & Category Share:**
+       - Frosted doughnut chart (`74%` cutout) with interactive center unit and valuation display (`248 UNITS / ₹3.42L`).
+       - Category breakdown list (Raw Materials, Finished Goods, Consumables) with percentage badges and click-to-filter capability.
+     - **Chart 3: Facility Storage Allocation:**
+       - Live horizontal utilization tracks for Main Warehouse (WH), Production Floor, and Warehouse 2 with instant click-to-filter.
+  4. **Active Warehouse Filtering:**
+     - Added `selectWarehouse(name)` function in `dashboard/app.js` which switches to dashboard view, syncs the warehouse filter dropdown, filters the stock table, and triggers an affirmative toast notification.
+- **Exact commands executed:**
+  ```powershell
+  git add dashboard/app.js dashboard/index.html dashboard/style.css
+  git commit -m "Feat: transform dashboard to pure light theme crystal liquid glass UI, add interactive analytics charts, and fix navigation dropdowns"
+  git push
+  ```
+- **Verification:**
+  - `curl.exe -I http://localhost:3333/index.html` returned `HTTP/1.0 200 OK` (47,112 bytes).
+  - Code committed and pushed to `origin/main` successfully (`efcdf31..63782b4`).
+- **Commit associated:** `63782b410423ed4b55d4336086fc254e66e24a6f` — see commit history section.
+
+### Commit 9 — `63782b410423ed4b55d4336086fc254e66e24a6f`
+- **Short hash:** `63782b4`
+- **Full hash:** `63782b410423ed4b55d4336086fc254e66e24a6f`
+- **Message:** `Feat: transform dashboard to pure light theme crystal liquid glass UI, add interactive analytics charts, and fix navigation dropdowns`
+- **Author:** `Gemini CLI <gemini-cli@example.com>`
+- **Committer:** `Gemini CLI <gemini-cli@example.com>`
+- **Date (ISO):** `2026-09-26 15:48:20 +0530`
+- **Parent:** `efcdf31a1fe52a65492160d5bfa3a81232822a76`
+- **Branch:** `main` → pushed `efcdf31..63782b4 main -> main` to `origin/main`
+- **Files changed:** 3 files
+  - `dashboard/app.js | 875 ++++++++++++-----`
+  - `dashboard/index.html | 1213 +++++++++++++++--------`
+  - `dashboard/style.css | 2598 +++++++++++++++++++++++++++++++++++---------------`
+- **Stat summary:** `3 files changed, 3312 insertions(+), 1374 deletions(-)`
+- **Related task:** Task 6 (Light theme crystal UI overhaul, Chart.js analytics deck, navigation dropdown hover & click fix)
+
+### Commit 10 — (this update, to be filled after push)
+- **Intended message:** `Docs: update journey.md for Task 6 pure light theme, charts, and dropdown fix`
+- **Contents:** Documents Task 6 in full detail, backfills Commit 8 details, documents Commit 9, and updates Current State.
 
 ---
 
-## 3. Current State (as of 2026-09-26 13:57:03 IST, after Commit 7 push)
+## 3. Current State (as of 2026-09-26 15:48:20 IST, after Commit 9 push)
 
-- **Branch:** `main`, up to date with `origin/main` (Commit 7 pushed, before this journey edit).
-- **Working tree (before this edit):** Modified `journey.md` to add Task 5 + backfill Commit 6 + document Commit 7.
+- **Branch:** `main`, up to date with `origin/main` (Commit 9 pushed, before this journey edit).
+- **Working tree:** Modified `journey.md` to document Task 6 and Commit 9.
 - **Remote:** `origin` → `https://github.com/desumidhun2006/Odoo_x_GCET_Hyderabad_Hackathon_2026_hackathon_project.git`
-- **Last pushed commit:** `c38805b5edff169bb92effda5b9766a49112f594`
+- **Last pushed commit:** `63782b410423ed4b55d4336086fc254e66e24a6f`
 - **Files in repo:** `README.md`, `journey.md`, `StockSense.pdf`, `dashboard/index.html`, `dashboard/style.css`, `dashboard/app.js`, `.git/`
-- **Pending:** Commit + push this `journey.md` update itself (will become Commit 8).
+- **Local Server:** Serving `dashboard/` on `http://localhost:3333` with live HTTP 200 response.
+- **Pending:** Commit + push this `journey.md` update itself (will become Commit 10).
 
 ---
 
@@ -371,9 +443,10 @@
 - [x] Backfill Commit 4 details in journey (done in Commit 6 `57840ef`).
 - [x] Analyze `StockSense.pdf` and Excalidraw wireframe (done in Task 5).
 - [x] Implement complete interactive StockSense dashboard (done in Commit 7 `c38805b`).
-- [ ] Push this journey update as Commit 8 to keep GitHub in sync.
-- [ ] Await next hackathon project task, then repeat workflow: implement → verify → commit → push → update this file → commit+push journey update.
-- [ ] At start of next task, backfill Commit 8 full hash/date/stat.
+- [x] Push journey update for Task 5 (done in Commit 8 `efcdf31`).
+- [x] Overhaul UI to pure light theme crystal liquid glass, add Chart.js charts deck, fix dropdown hover/click bug (done in Commit 9 `63782b4`).
+- [ ] Push this journey update as Commit 10 to keep GitHub in sync.
+- [ ] Await user feedback or next module requests.
 
 ---
 
