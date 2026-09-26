@@ -326,3 +326,7 @@ Commit ID: `b521f81377d6d2118ca0319caf975481afee4647` / Short: `b521f81` — Mes
 Full Playwright run (done 15:08 IST, 1h52 left): live API :5023 + UI :4179 driven in Chromium via playwright-core — KPIs, product create, receipt create+validate, stock 70+5=75, ledger and history all PASS with zero console errors; no repo changes, servers stopped after.
 
 No new code commit (verification-only, tree clean).
+
+Live headed watch (done 15:12 IST, 1h48 left): user watched Chromium run the full flow visibly — KPIs, UI product create, UI receipt validate, stock 75, history update all PASS; single favicon 404 found, fixed with public/favicon.svg, headless re-check CLEAN with zero errors; demo API :5024 and UI :4180 left running for live exploration; replay video in /tmp.
+
+Commit ID: `645f6bcee9e55497088341038ca95b2fd3faef34` / Short: `645f6bc` — Message: `Fix: add favicon to kill 404 console error found in live test`
