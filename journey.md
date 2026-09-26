@@ -330,3 +330,9 @@ No new code commit (verification-only, tree clean).
 Live headed watch (done 15:12 IST, 1h48 left): user watched Chromium run the full flow visibly — KPIs, UI product create, UI receipt validate, stock 75, history update all PASS; single favicon 404 found, fixed with public/favicon.svg, headless re-check CLEAN with zero errors; demo API :5024 and UI :4180 left running for live exploration; replay video in /tmp.
 
 Commit ID: `645f6bcee9e55497088341038ca95b2fd3faef34` / Short: `645f6bc` — Message: `Fix: add favicon to kill 404 console error found in live test`
+
+Stitch swap (done 15:32 IST, 1h28 left, shipped in f89e25e below): unzipped original Stitch screens into stitch/ (dashboard/receipts/deliveries/transfers + DESIGN.md, screen.png previews dropped as visual duplicates), wired live API via stitch/live.js (sidebar nav, live KPI badges, live ledger rows, real validate flows), express serves stitch/ at /, deleted duplicated React client/; all 4 pages CLEAN, stitch-watch 8/8 flows PASS headed.
+
+Commit ID: `f89e25ea3da27c7bb0f5af5d90addf6380c5f3e0` / Short: `f89e25e` — Message: `Feat: add demo login gate and working logout for stitch UI`
+
+Logout fix (done 15:32 IST, 1h28 left): sidebar logout was dead mock href — added stitch/login.html demo gate, sign-out clears session and redirects, profile shows toast; logout-watch 7/7 PASS headed with zero errors (clearly marked DEMO until member-2 real auth lands).
