@@ -89,9 +89,11 @@
 - **Actions in this task:**
   1. Queried `git log --pretty=full --stat` + `git remote -v` + `git status` for ground truth.
   2. Queried `git log --pretty=format:"%H|%an|%ae|%ad|%s" --date=iso` to capture full hash, author, date.
-  3. Created this `journey.md` file (first version) documenting Tasks 1–3 and Commit 1.
-  4. Will commit + push this file as Commit 2 (details appended below after push).
-- **Outcome:** In progress — file creation done, commit+push next.
+  3. Created this `journey.md` file (first version, 157 lines) documenting Tasks 1–3 and Commit 1.
+  4. Committed + pushed as Commit 2 `d5c0e5c2bb0c26f3474909dd4d42f844862060ff`.
+  5. Updated this file with Commit 2 full details, committed + pushed as Commit 3 `d2d31baf335d7375b1ed99e88fde62c8ef3d6b3d`.
+  6. Final update (this edit) to document Commit 3 and close Task 3, to be pushed as Commit 4.
+- **Outcome:** Completed — workflow rule is now active and documented, all commits tracked below.
 
 ---
 
@@ -145,24 +147,54 @@
 - **Related task:** Task 3 (first half)
 - **Purpose:** Establish `journey.md` as living progress/commit tracker per new workflow rule.
 
+### Commit 3 — `d2d31baf335d7375b1ed99e88fde62c8ef3d6b3d`
+- **Short hash:** `d2d31ba`
+- **Full hash:** `d2d31baf335d7375b1ed99e88fde62c8ef3d6b3d`
+- **Message:** `Docs: update journey.md with Commit 2 full details`
+- **Author:** `desumidhun2006 <desumidhun2006@gmail.com>`
+- **Committer:** `desumidhun2006 <desumidhun2006@gmail.com>`
+- **Date (ISO):** `2026-09-26 11:15:52 +0530`
+- **Parent:** `d5c0e5c2bb0c26f3474909dd4d42f844862060ff`
+- **Branch:** `main` → pushed `d5c0e5c..d2d31ba main -> main` to `origin/main`
+- **Files changed:** 1 file
+  - `journey.md | 41 ++++++++++++++++++++++++++++++-----------` — 30 insertions, 11 deletions
+- **Stat summary:** `1 file changed, 30 insertions(+), 11 deletions(-)`
+- **How created:**
+  ```bash
+  git add journey.md
+  git commit -m "Docs: update journey.md with Commit 2 full details"
+  git push
+  git log --oneline -5
+  ```
+- **Push output:** `To https://github.com/desumidhun2006/Odoo_x_GCET_Hyderabad_Hackathon_2026_hackathon_project.git / d5c0e5c..d2d31ba  main -> main`
+- **Verification at time:** `git log --oneline -5` showed `d2d31ba`, `d5c0e5c`, `167388c` in order; working tree clean after push.
+- **Related task:** Task 3 (second half — backfill Commit 2 details)
+- **Purpose:** Keep `journey.md` accurate by replacing pending placeholder with full Commit 2 hash/date/stat/push log.
+
+### Commit 4 — (this update, to be filled after push)
+- **Intended message:** `Docs: finalize Task 3 and document Commit 3 in journey.md`
+- **Contents:** This edit — marks Task 3 completed, adds Commit 3 details above, updates Current State + Next Steps.
+- **Note to avoid infinite recursion:** Each `journey.md` sync documents the *previous* commit(s), not itself. Commit 4 details will be documented at the start of the next task.
+
 ---
 
-## 3. Current State (as of 2026-09-26 11:15:33 IST, after Commit 2 push)
+## 3. Current State (as of 2026-09-26 11:15:52 IST, after Commit 3 push)
 
-- **Branch:** `main`, up to date with `origin/main` (Commit 2 pushed).
-- **Working tree (before this edit):** Clean except this pending `journey.md` update to document Commit 2 details.
+- **Branch:** `main`, up to date with `origin/main` (Commit 3 pushed).
+- **Working tree (before this edit):** Modified `journey.md` to finalize Task 3 + document Commit 3.
 - **Remote:** `origin` → `https://github.com/desumidhun2006/Odoo_x_GCET_Hyderabad_Hackathon_2026_hackathon_project.git`
-- **Last pushed commit:** `d5c0e5c2bb0c26f3474909dd4d42f844862060ff`
-- **Pending:** Commit + push this `journey.md` update itself (will become Commit 3).
+- **Last pushed commit:** `d2d31baf335d7375b1ed99e88fde62c8ef3d6b3d`
+- **Pending:** Commit + push this `journey.md` update itself (will become Commit 4).
 
 ---
 
 ## 4. Next Steps
 
 - [x] Commit + push this `journey.md` (Commit 2 — done `d5c0e5c`).
-- [x] Update Commit 2 section above with full hash/date/stat/push log (done in this edit).
-- [ ] Push this update as Commit 3 to keep GitHub in sync.
+- [x] Update Commit 2 section above with full hash/date/stat/push log (done in Commit 3 `d2d31ba`).
+- [x] Document Commit 3 + finalize Task 3 (this edit, to be pushed as Commit 4).
 - [ ] Await next hackathon project task (e.g., scaffold Odoo module / app), then repeat workflow: implement → verify → commit → push → update this file → commit+push journey update.
+- [ ] At start of next task, backfill Commit 4 full hash/date/stat.
 - [ ] Keep commit messages descriptive: `Feat: ...`, `Fix: ...`, `Docs: ...`, etc., so this history remains useful.
 
 ---
