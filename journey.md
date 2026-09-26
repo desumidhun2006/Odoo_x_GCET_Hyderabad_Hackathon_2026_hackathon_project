@@ -314,3 +314,7 @@ Commit ID: `d25936b781deec301d7b6c23b9fcda5523c430f3` / Short: `d25936b` — Mes
 AFK hardening (done 13:04 IST, 3h56 left): e2e passes on in-memory Mongo (receipt/transfer/delivery/adjust/ledger/low-stock), hardened UI with product create form, ops create+validate forms, dashboard KPI panel for M3, build green and Playwright full-page screenshot verified with correct error states offline.
 
 Commit ID: `331dd75cc1ae886c3a156b018c49b534f54cead0` / Short: `331dd75` — Message: `Feat: harden inventory UI with forms validation dashboard panel plus e2e`
+
+Live HTTP e2e (done 13:05 IST, 3h55 left): warehouse/product/receipt/validate/stock/ledger/dashboard-summary all pass over real HTTP against in-memory Mongo, closing the earlier no-DB buffering gap.
+
+Commit ID: `e2d43ab0fdab7087f882b6f4a8caa5a9b573c835` / Short: `e2d43ab` — Message: `Test: add live HTTP e2e for warehouse product receipt ledger`
