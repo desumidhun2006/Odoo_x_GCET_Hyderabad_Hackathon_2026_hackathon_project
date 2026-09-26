@@ -3,74 +3,211 @@
  * Cinema-Grade Reactive State Engine
  */
 
-// ═══════════════════════ REACTIVE INVENTORY STATE ═══════════════════════
+// ═══════════════════════ REACTIVE INVENTORY STATE (live API — no mock data) ═══════════════════════
 const state = {
   currentView: 'dashboard',
   receiptViewMode: 'list', // 'list' | 'kanban'
   deliveryViewMode: 'list',
 
-  products: [
-    { id: 1, name: "Steel Rods 12mm", sku: "STL-001", category: "Raw Materials", location: "Main Warehouse (WH)", uom: "kg", cost: 65, onHand: 100, freeToUse: 80, reorderPoint: 30 },
-    { id: 2, name: "Office Ergonomic Chair", sku: "CHR-002", category: "Finished Goods", location: "Main Warehouse (WH)", uom: "Units", cost: 4200, onHand: 24, freeToUse: 14, reorderPoint: 10 },
-    { id: 3, name: "Standing Desk Wood Top", sku: "DSK-003", category: "Finished Goods", location: "Warehouse 2", uom: "Units", cost: 12500, onHand: 15, freeToUse: 5, reorderPoint: 8 },
-    { id: 4, name: "Industrial Hex Bolts M8", sku: "BLT-004", category: "Consumables", location: "Production Floor", uom: "Units", cost: 2.5, onHand: 8, freeToUse: 8, reorderPoint: 50 },
-    { id: 5, name: "Aluminum Sheets 4x8", sku: "ALM-005", category: "Raw Materials", location: "Main Warehouse (WH)", uom: "Units", cost: 850, onHand: 42, freeToUse: 42, reorderPoint: 15 },
-    { id: 6, name: "Packing Bubble Wrap 50m", sku: "PKG-006", category: "Consumables", location: "Main Warehouse (WH)", uom: "Units", cost: 180, onHand: 4, freeToUse: 4, reorderPoint: 12 },
-    { id: 7, name: "Heavy Duty Casters 4in", sku: "CST-007", category: "Raw Materials", location: "Production Floor", uom: "Units", cost: 140, onHand: 0, freeToUse: 0, reorderPoint: 20 },
-    { id: 8, name: "Acoustic Desk Partition", sku: "PRT-008", category: "Finished Goods", location: "Warehouse 2", uom: "Units", cost: 2100, onHand: 35, freeToUse: 35, reorderPoint: 10 },
-    { id: 9, name: "Hydraulic Gas Lift Cylinder", sku: "CYL-009", category: "Raw Materials", location: "Main Warehouse (WH)", uom: "Units", cost: 680, onHand: 18, freeToUse: 18, reorderPoint: 25 }
-  ],
-
-  receipts: [
-    { id: "WH/IN/0001", from: "Apex Steel Ltd", to: "WH/Stock1", contact: "Azure Interior", date: "2026-09-24", status: "Ready", isLate: false, items: [{ name: "Steel Rods 12mm", qty: 50 }] },
-    { id: "WH/IN/0002", from: "ErgoParts Supply", to: "WH/Stock1", contact: "Deco Addict", date: "2026-09-25", status: "Ready", isLate: false, items: [{ name: "Hydraulic Gas Lift Cylinder", qty: 25 }] },
-    { id: "WH/IN/0003", from: "Fastener Hub Inc", to: "WH/Stock2", contact: "Gemini Furniture", date: "2026-09-22", status: "Ready", isLate: true, items: [{ name: "Industrial Hex Bolts M8", qty: 200 }] },
-    { id: "WH/IN/0004", from: "Global Pack Co", to: "WH/Stock1", contact: "Azure Interior", date: "2026-09-28", status: "Draft", isLate: false, items: [{ name: "Packing Bubble Wrap 50m", qty: 20 }] },
-    { id: "WH/IN/0005", from: "Prime Aluminum Corp", to: "WH/Stock1", contact: "Lumber & Co", date: "2026-09-21", status: "Done", isLate: false, items: [{ name: "Aluminum Sheets 4x8", qty: 40 }] },
-    { id: "WH/IN/0006", from: "Zenith Components", to: "WH/Stock2", contact: "Vanguard Corp", date: "2026-09-29", status: "Draft", isLate: false, items: [{ name: "Heavy Duty Casters 4in", qty: 60 }] }
-  ],
-
-  deliveries: [
-    { id: "WH/OUT/0001", from: "WH/Stock1", to: "Azure Interior HQ", contact: "Azure Interior", date: "2026-09-23", status: "Ready", isLate: true, items: [{ name: "Office Ergonomic Chair", qty: 10 }] },
-    { id: "WH/OUT/0002", from: "WH/Stock1", to: "TechHub Hyderabad", contact: "Deco Addict", date: "2026-09-26", status: "Waiting", isLate: false, items: [{ name: "Standing Desk Wood Top", qty: 10 }] },
-    { id: "WH/OUT/0003", from: "WH/Stock2", to: "Metropolis Co-work", contact: "Metro Ltd", date: "2026-09-27", status: "Waiting", isLate: false, items: [{ name: "Acoustic Desk Partition", qty: 5 }] },
-    { id: "WH/OUT/0004", from: "WH/Stock1", to: "Nexus Innovations", contact: "Nexus Tech", date: "2026-09-28", status: "Ready", isLate: false, items: [{ name: "Office Ergonomic Chair", qty: 4 }] },
-    { id: "WH/OUT/0005", from: "WH/Stock1", to: "City Library", contact: "Govt Admin", date: "2026-09-20", status: "Done", isLate: false, items: [{ name: "Standing Desk Wood Top", qty: 8 }] },
-    { id: "WH/OUT/0006", from: "WH/Stock2", to: "Orbit Labs", contact: "Orbit Co", date: "2026-09-30", status: "Draft", isLate: false, items: [{ name: "Steel Rods 12mm", qty: 20 }] }
-  ],
-
-  transfers: [
-    { id: "WH/INT/0001", from: "Main Store", to: "Production Rack", product: "Steel Rods 12mm", qty: 20, date: "2026-09-26", status: "Ready" },
-    { id: "WH/INT/0002", from: "Rack A", to: "Rack B", product: "Industrial Hex Bolts M8", qty: 100, date: "2026-09-26", status: "Ready" },
-    { id: "WH/INT/0003", from: "Warehouse 1", to: "Warehouse 2", product: "Standing Desk Wood Top", qty: 5, date: "2026-09-27", status: "Draft" }
-  ],
-
-  history: [
-    { ref: "WH/IN/0005", date: "2026-09-21 14:30", product: "Aluminum Sheets 4x8", contact: "Prime Aluminum Corp", from: "Vendor", to: "WH/Stock1", qty: 40, type: "IN", status: "Done" },
-    { ref: "WH/OUT/0005", date: "2026-09-20 11:15", product: "Standing Desk Wood Top", contact: "Govt Admin", from: "WH/Stock1", to: "Customer", qty: -8, type: "OUT", status: "Done" },
-    { ref: "WH/INT/0000", date: "2026-09-19 16:45", product: "Steel Rods 12mm", contact: "Internal Staff", from: "Main Store", to: "Production Rack", qty: 25, type: "Internal", status: "Done" },
-    { ref: "ADJ/2026/001", date: "2026-09-18 09:20", product: "Industrial Hex Bolts M8", contact: "Warehouse Staff", from: "Count Adjustment", to: "Production Floor", qty: -5, type: "Adjustment", status: "Done" }
-  ],
-
-  activities: [
-    { icon: "📥", text: "Receipt <strong>WH/IN/0005</strong> validated (+40x Aluminum Sheets received)", time: "2 hours ago" },
-    { icon: "📤", text: "Delivery Order <strong>WH/OUT/0001</strong> picked & staged for Azure Interior", time: "4 hours ago" },
-    { icon: "🔄", text: "Internal Transfer scheduled from Main Store to Production Rack", time: "6 hours ago" },
-    { icon: "⚠️", text: "Low stock alert triggered for <strong>Industrial Hex Bolts M8</strong> (8 units remaining)", time: "Yesterday" }
-  ],
+  warehouses: [],   // [{ id, name, code, locations[] }] — from /api/warehouses
+  products: [],     // live-mapped: { id(_id), name, sku, category, location, uom, cost:0, onHand, freeToUse, reorderPoint, whId }
+  receipts: [],     // live-mapped: { _id, id(ref), from, to, contact, date, status, items[{name,qty,productId}], warehouseId }
+  deliveries: [],   // live-mapped: same shape as receipts
+  transfers: [],    // live-mapped: { _id, id(ref), from, to, product, qty, date, status }
+  history: [],      // from /api/ledger
+  activities: [],   // derived from latest ledger entries
 
   currentEditingReceipt: null,
-  currentEditingDelivery: null
+  currentEditingDelivery: null,
+  currentEditingProduct: null
 };
 
-// ═══════════════════════ INITIALIZATION ═══════════════════════
-document.addEventListener("DOMContentLoaded", () => {
+// ═══════════════════════ LIVE API LAYER ═══════════════════════
+async function api(method, path, body) {
+  const r = await fetch(path, {
+    method,
+    headers: { 'Content-Type': 'application/json' },
+    body: body ? JSON.stringify(body) : undefined,
+  });
+  const data = await r.json().catch(() => ({}));
+  if (!r.ok) throw new Error(data.error || ('HTTP ' + r.status));
+  return data;
+}
+
+const shortRef = (prefix, _id) => `${prefix}-${String(_id).slice(-6).toUpperCase()}`;
+const fmtDate = (iso) => { try { return new Date(iso).toLocaleDateString(); } catch (e) { return '—'; } };
+
+async function loadLive() {
+  const [warehouses, products, receipts, deliveries, transfers, ledger] = await Promise.all([
+    api('GET', '/api/warehouses').catch(() => []),
+    api('GET', '/api/products').catch(() => []),
+    api('GET', '/api/receipts').catch(() => []),
+    api('GET', '/api/deliveries').catch(() => []),
+    api('GET', '/api/transfers').catch(() => []),
+    api('GET', '/api/ledger').catch(() => []),
+  ]);
+
+  state.warehouses = warehouses.map(w => ({ id: w._id, name: w.name, code: w.code, locations: w.locations || ['Main Store'] }));
+
+  const mapped = [];
+  for (const p of products) {
+    let onHand = 0, locName = state.warehouses[0]?.name || '—', whId = state.warehouses[0]?.id || null, loc = 'Main Store';
+    try {
+      const st = await api('GET', `/api/products/${p._id}/stock`);
+      onHand = st.reduce((a, s) => a + (s.qty || 0), 0);
+      if (st.length) {
+        locName = (st[0].warehouse && st[0].warehouse.name) || locName;
+        whId = (st[0].warehouse && (st[0].warehouse._id || st[0].warehouse)) || whId;
+        loc = st[0].location || loc;
+      }
+    } catch (e) { /* no stock rows yet */ }
+    mapped.push({
+      id: p._id, name: p.name, sku: p.sku, category: p.category || 'General',
+      location: locName, uom: p.uom || 'units', cost: 0,
+      onHand, freeToUse: onHand, reorderPoint: p.reorderLevel ?? 10,
+      whId, loc,
+    });
+  }
+  state.products = mapped;
+
+  const prodName = (l) => (l.product && (l.product.name || l.product.sku)) || 'Item';
+  state.receipts = receipts.map(d => ({
+    _id: d._id, id: shortRef('IN', d._id),
+    from: d.supplier || '—', to: (d.warehouse && d.warehouse.name) || '—',
+    contact: d.supplier || '—', date: fmtDate(d.createdAt), status: d.status,
+    isLate: false,
+    items: (d.lines || []).map(l => ({ name: prodName(l), qty: l.qty, productId: (l.product && (l.product._id || l.product)) || null })),
+    warehouseId: (d.warehouse && (d.warehouse._id || d.warehouse)) || null,
+  }));
+
+  state.deliveries = deliveries.map(d => ({
+    _id: d._id, id: shortRef('OUT', d._id),
+    from: (d.warehouse && d.warehouse.name) || '—', to: d.customer || '—',
+    contact: d.customer || '—', date: fmtDate(d.createdAt), status: d.status,
+    isLate: false,
+    items: (d.lines || []).map(l => ({ name: prodName(l), qty: l.qty, productId: (l.product && (l.product._id || l.product)) || null })),
+    warehouseId: (d.warehouse && (d.warehouse._id || d.warehouse)) || null,
+  }));
+
+  state.transfers = transfers.map(d => ({
+    _id: d._id, id: shortRef('INT', d._id),
+    from: d.fromLocation || '—', to: d.toLocation || '—',
+    product: d.lines && d.lines.length ? prodName(d.lines[0]) : '—',
+    qty: d.lines ? d.lines.reduce((a, l) => a + l.qty, 0) : 0,
+    date: fmtDate(d.createdAt), status: d.status,
+  }));
+
+  const typeIcon = { Receipt: '📥', Delivery: '📤', Transfer: '🔄', Adjustment: '⚖️' };
+  const typeName = { Receipt: 'IN', Delivery: 'OUT', Transfer: 'Internal', Adjustment: 'Adjustment' };
+  state.history = ledger.map(l => ({
+    ref: shortRef('LED', l._id),
+    date: fmtDate(l.createdAt),
+    product: (l.product && (l.product.name || l.product.sku)) || 'Item',
+    contact: l.by || 'System',
+    from: l.location || '—', to: (l.warehouse && l.warehouse.name) || '—',
+    qty: l.delta, type: typeName[l.type] || l.type, status: 'Done',
+    _at: l.createdAt,
+  }));
+
+  state.activities = ledger.slice(0, 4).map(l => ({
+    icon: typeIcon[l.type] || '📦',
+    text: `<strong>${l.type}</strong> ${l.delta > 0 ? '+' + l.delta : l.delta} × ${((l.product && (l.product.name || l.product.sku)) || 'Item')}`,
+    time: fmtDate(l.createdAt),
+  }));
+  const low = state.products.filter(p => p.onHand <= p.reorderPoint);
+  if (low.length) {
+    state.activities.push({ icon: '⚠️', text: `Low stock alert: <strong>${low[0].name}</strong> (${low[0].onHand} units remaining)`, time: 'Now' });
+  }
+
+  populateLiveSelects();
+}
+
+async function refreshLive() {
+  try { await loadLive(); }
+  catch (e) { showToast('⚠️ API sync failed — ' + e.message); }
+  initDashboard();
+}
+
+function populateLiveSelects() {
+  const setOpts = (id, values, allLabel) => {
+    const el = document.getElementById(id);
+    if (!el) return;
+    const cur = el.value;
+    el.innerHTML = `<option value="">${allLabel}</option>` + values.map(v => `<option>${v}</option>`).join('');
+    if (values.includes(cur)) el.value = cur;
+  };
+  setOpts('warehouseFilter', state.warehouses.map(w => w.name), 'All Warehouses');
+  setOpts('categoryFilter', [...new Set(state.products.map(p => p.category))].sort(), 'All Categories');
+  setOpts('productCategoryFilter', [...new Set(state.products.map(p => p.category))].sort(), 'All Categories');
+  const pfLoc = document.getElementById('pf-location');
+  if (pfLoc) {
+    pfLoc.innerHTML = state.warehouses.map(w => `<option value="${w.id}">${w.name}</option>`).join('') || '<option value="">No warehouses</option>';
+  }
+  const dd = document.querySelector('.crystal-dropdown');
+  if (dd && state.warehouses.length) {
+    dd.innerHTML = state.warehouses.map(w => `
+      <a href="#" onclick="selectWarehouse('${w.name.replace(/'/g, "\\'")}'); return false;">
+        <span class="drop-icon wh">🏢</span>
+        <div class="drop-meta"><span class="drop-title">${w.name}</span><span class="drop-desc">${w.code}</span></div>
+      </a>`).join('');
+  }
+}
+
+// ═══════════════════════ INITIALIZATION (auth gate + live API first) ═══════════════════════
+async function requireAuth() {
+  try {
+    const r = await fetch('/api/auth/me', { credentials: 'include' });
+    if (r.ok) {
+      const data = await r.json().catch(() => ({}));
+      if (data.user) {
+        try {
+          localStorage.setItem('stocksense_profile', JSON.stringify({
+            name: data.user.name, email: data.user.email,
+            role: data.user.role === 'admin' ? 'Inventory Admin' : 'Inventory Staff',
+          }));
+        } catch (e) {}
+      }
+      return true;
+    }
+  } catch (e) {}
+  location.href = '/login/';
+  return false;
+}
+
+function renderDemoProfile() {
+  let prof = { name: 'Demo Manager', email: 'demo@stocksense.io', role: 'Inventory Admin' };
+  try {
+    const saved = JSON.parse(localStorage.getItem('stocksense_profile'));
+    if (saved && saved.email) prof = saved;
+  } catch (e) {}
+  const set = (sel, txt) => document.querySelectorAll(sel).forEach(el => { el.innerText = txt; });
+  set('.p-name', prof.name); set('.p-role', prof.role); set('.p-email', prof.email);
+  const ini = prof.name.trim().split(/\s+/).map(w => w[0]).join('').slice(0, 2).toUpperCase() || '?';
+  set('.profile-lg', ini); set('.avatar-inner', ini);
+}
+
+async function doLogout() {
+  try { await fetch('/api/auth/logout', { method: 'POST', credentials: 'include' }); } catch (e) {}
+  try { localStorage.removeItem('stocksense_profile'); } catch (e) {}
+  location.href = '/login/';
+}
+
+document.addEventListener("DOMContentLoaded", async () => {
+  if (!(await requireAuth())) return;
+  try {
+    await loadLive();
+  } catch (e) {
+    console.warn("API offline, rendering empty:", e.message);
+    const badgeEl = document.getElementById("stockCountBadge");
+    if (badgeEl) badgeEl.innerText = "API offline";
+  }
   initDashboard();
   initLiquidAtmosphere();
   initDropdownInteractions();
 });
 
 function initDashboard() {
+  renderDemoProfile();
   updateCurrentDate();
   renderKPIs();
   renderStockTable();
@@ -216,7 +353,7 @@ function renderStockTable(filteredList = null) {
   list.forEach(p => {
     let statusBadge = '';
     let gaugeClass = 'optimal';
-    let gaugePct = Math.min(100, Math.round((p.onHand / (p.reorderPoint * 2)) * 100));
+    let gaugePct = p.reorderPoint > 0 ? Math.min(100, Math.round((p.onHand / (p.reorderPoint * 2)) * 100)) : (p.onHand > 0 ? 100 : 0);
 
     if (p.onHand === 0) {
       statusBadge = '<span class="badge badge-red"><span class="beacon" style="background:#fb7185"></span>Out of Stock</span>';
@@ -491,20 +628,21 @@ function openReceiptForm(receiptId) {
 
   let receipt;
   if (receiptId === 'new') {
-    const nextNum = String(state.receipts.length + 1).padStart(4, '0');
+    const firstProd = state.products[0];
     receipt = {
-      id: `WH/IN/${nextNum}`,
+      _id: null, id: 'NEW',
       from: '',
-      to: 'WH/Stock1',
-      contact: 'Azure Interior',
+      to: state.warehouses[0]?.name || '',
+      contact: '',
       date: new Date().toISOString().split('T')[0],
       status: 'Draft',
       isLate: false,
-      items: [{ name: state.products[0].name, qty: 10 }]
+      items: firstProd ? [{ name: firstProd.name, qty: 10, productId: firstProd.id }] : [],
+      warehouseId: state.warehouses[0]?.id || null,
     };
-    state.receipts.unshift(receipt);
   } else {
-    receipt = state.receipts.find(r => r.id === receiptId);
+    receipt = state.receipts.find(r => r.id === receiptId || r._id === receiptId);
+    if (!receipt) { showToast('Receipt not found'); return; }
   }
 
   state.currentEditingReceipt = receipt;
@@ -550,7 +688,20 @@ function updateReceiptStepper(status) {
   }
 }
 
-function validateReceipt() {
+function resolveLines(items) {
+  // Map form line items (matched by name or SKU) to API { product, qty }
+  const lines = [];
+  for (const it of items) {
+    const key = String(it.name || '').toLowerCase().trim();
+    const p = state.products.find(p => p.name.toLowerCase() === key || p.sku.toLowerCase() === key);
+    if (!p) throw new Error(`Unknown product "${it.name}" — register it in Products first`);
+    lines.push({ product: p.id, qty: Number(it.qty) || 0 });
+  }
+  if (!lines.length) throw new Error('Add at least one line item');
+  return lines;
+}
+
+async function validateReceipt() {
   if (!state.currentEditingReceipt) return;
   const r = state.currentEditingReceipt;
 
@@ -559,68 +710,48 @@ function validateReceipt() {
     return;
   }
 
-  r.status = 'Done';
-  r.from = document.getElementById("rf-vendor")?.value || r.from || "Vendor Supplier";
-  updateReceiptStepper('Done');
-
-  // Increase stock for items received
-  r.items.forEach(it => {
-    const product = state.products.find(p => p.name.toLowerCase() === it.name.toLowerCase());
-    if (product) {
-      product.onHand += Number(it.qty);
-      product.freeToUse += Number(it.qty);
+  try {
+    r.from = document.getElementById("rf-vendor")?.value || r.from || "Vendor Supplier";
+    let docId = r._id;
+    if (!docId) {
+      if (!r.warehouseId) { showToast('⚠️ No warehouse available — create one via /api/warehouses first'); return; }
+      const created = await api('POST', '/api/receipts', {
+        supplier: r.from, warehouse: r.warehouseId, lines: resolveLines(r.items),
+      });
+      docId = created._id;
     }
-    state.history.unshift({
-      ref: r.id,
-      date: new Date().toLocaleString(),
-      product: it.name,
-      contact: r.from || r.contact,
-      from: "Vendor",
-      to: r.to,
-      qty: Number(it.qty),
-      type: "IN",
-      status: "Done"
-    });
-  });
-
-  addActivity("📥", `Receipt <strong>${r.id}</strong> validated (+${r.items.reduce((acc, x) => acc + Number(x.qty), 0)} units received)`);
-  showToast(`✓ Receipt ${r.id} validated! Stock auto-incremented.`);
-  renderKPIs();
-}
-
-function quickValidateReceipt(id) {
-  const r = state.receipts.find(x => x.id === id);
-  if (!r) return;
-  r.status = 'Done';
-  r.items.forEach(it => {
-    const product = state.products.find(p => p.name.toLowerCase() === it.name.toLowerCase());
-    if (product) {
-      product.onHand += Number(it.qty);
-      product.freeToUse += Number(it.qty);
-    }
-    state.history.unshift({
-      ref: r.id,
-      date: new Date().toLocaleString(),
-      product: it.name,
-      contact: r.from,
-      from: "Vendor",
-      to: r.to,
-      qty: Number(it.qty),
-      type: "IN",
-      status: "Done"
-    });
-  });
-  addActivity("📥", `Receipt <strong>${r.id}</strong> validated`);
-  showToast(`✓ Receipt ${r.id} validated successfully!`);
-  renderReceipts();
-  renderKPIs();
-}
-
-function cancelReceipt() {
-  if (state.currentEditingReceipt) {
-    state.currentEditingReceipt.status = 'Canceled';
-    showToast(`Receipt ${state.currentEditingReceipt.id} canceled.`);
+    await api('POST', `/api/receipts/${docId}/validate`, { location: 'Main Store' });
+    updateReceiptStepper('Done');
+    showToast(`✓ Receipt validated! Stock auto-incremented.`);
     closeReceiptForm();
+    await refreshLive();
+  } catch (e) {
+    showToast('⚠️ ' + e.message);
+  }
+}
+
+async function quickValidateReceipt(id) {
+  const r = state.receipts.find(x => x.id === id || x._id === id);
+  if (!r || !r._id) return;
+  try {
+    await api('POST', `/api/receipts/${r._id}/validate`, { location: 'Main Store' });
+    showToast(`✓ Receipt ${r.id} validated successfully!`);
+    await refreshLive();
+  } catch (e) {
+    showToast('⚠️ ' + e.message);
+  }
+}
+
+async function cancelReceipt() {
+  if (!state.currentEditingReceipt) return;
+  const r = state.currentEditingReceipt;
+  try {
+    if (r._id) await api('PATCH', `/api/receipts/${r._id}`, { status: 'Canceled' });
+    showToast(`Receipt ${r.id} canceled.`);
+    closeReceiptForm();
+    await refreshLive();
+  } catch (e) {
+    showToast('⚠️ ' + e.message);
   }
 }
 
@@ -643,23 +774,23 @@ function addRfRow() {
   tbody.appendChild(tr);
 }
 
-function createReorderReceipt(productName, qty) {
-  const nextNum = String(state.receipts.length + 1).padStart(4, '0');
-  const newReceipt = {
-    id: `WH/IN/${nextNum}`,
-    from: "Automated Reorder Pipeline",
-    to: "WH/Stock1",
-    contact: "Procurement Ops",
-    date: new Date().toISOString().split('T')[0],
-    status: "Ready",
-    isLate: false,
-    items: [{ name: productName, qty: qty }]
-  };
-  state.receipts.unshift(newReceipt);
-  addActivity("📥", `Automated reorder docket <strong>${newReceipt.id}</strong> raised for ${productName} (${qty} units)`);
-  showToast(`Created inbound reorder ${newReceipt.id} for ${productName}`);
-  renderReceipts();
-  renderKPIs();
+async function createReorderReceipt(productName, qty) {
+  try {
+    const key = String(productName).toLowerCase();
+    const p = state.products.find(p => p.name.toLowerCase() === key || p.sku.toLowerCase() === key);
+    if (!p) throw new Error(`Unknown product "${productName}"`);
+    if (!p.whId) throw new Error('No warehouse available');
+    await api('POST', '/api/receipts', {
+      supplier: 'Automated Reorder Pipeline',
+      warehouse: p.whId,
+      lines: [{ product: p.id, qty: Number(qty) || 0 }],
+      status: 'Ready',
+    });
+    showToast(`Created inbound reorder for ${productName}`);
+    await refreshLive();
+  } catch (e) {
+    showToast('⚠️ ' + e.message);
+  }
 }
 
 // ═══════════════════════ DELIVERIES OPERATIONS ═══════════════════════
@@ -783,20 +914,21 @@ function openDeliveryForm(deliveryId) {
 
   let delivery;
   if (deliveryId === 'new') {
-    const nextNum = String(state.deliveries.length + 1).padStart(4, '0');
+    const firstProd = state.products[0];
     delivery = {
-      id: `WH/OUT/${nextNum}`,
-      from: 'WH/Stock1',
+      _id: null, id: 'NEW',
+      from: state.warehouses[0]?.name || '',
       to: '',
-      contact: 'Azure Interior',
+      contact: '',
       date: new Date().toISOString().split('T')[0],
       status: 'Draft',
       isLate: false,
-      items: [{ name: state.products[1].name, qty: 5 }]
+      items: firstProd ? [{ name: firstProd.name, qty: 5, productId: firstProd.id }] : [],
+      warehouseId: state.warehouses[0]?.id || null,
     };
-    state.deliveries.unshift(delivery);
   } else {
-    delivery = state.deliveries.find(d => d.id === deliveryId);
+    delivery = state.deliveries.find(d => d.id === deliveryId || d._id === deliveryId);
+    if (!delivery) { showToast('Delivery not found'); return; }
   }
 
   state.currentEditingDelivery = delivery;
@@ -853,7 +985,7 @@ function updateDeliveryStepper(status) {
   }
 }
 
-function validateDelivery() {
+async function validateDelivery() {
   if (!state.currentEditingDelivery) return;
   const d = state.currentEditingDelivery;
 
@@ -862,91 +994,48 @@ function validateDelivery() {
     return;
   }
 
-  // Check inventory availability
-  for (let it of d.items) {
-    const p = state.products.find(prod => prod.name.toLowerCase() === it.name.toLowerCase());
-    if (p && p.onHand < Number(it.qty)) {
-      showToast(`⚠️ Insufficient stock for ${it.name} (Need ${it.qty}, have ${p.onHand})`);
-      d.status = 'Waiting';
-      updateDeliveryStepper('Waiting');
-      return;
+  try {
+    d.to = document.getElementById("df-address")?.value || d.to || "Customer Address";
+    let docId = d._id;
+    if (!docId) {
+      if (!d.warehouseId) { showToast('⚠️ No warehouse available — create one via /api/warehouses first'); return; }
+      const created = await api('POST', '/api/deliveries', {
+        customer: d.to, warehouse: d.warehouseId, lines: resolveLines(d.items),
+      });
+      docId = created._id;
     }
-  }
-
-  d.status = 'Done';
-  d.to = document.getElementById("df-address")?.value || d.to || "Customer Address";
-  updateDeliveryStepper('Done');
-
-  // Reduce inventory & log history
-  d.items.forEach(it => {
-    const p = state.products.find(prod => prod.name.toLowerCase() === it.name.toLowerCase());
-    if (p) {
-      p.onHand -= Number(it.qty);
-      p.freeToUse -= Number(it.qty);
-    }
-    state.history.unshift({
-      ref: d.id,
-      date: new Date().toLocaleString(),
-      product: it.name,
-      contact: d.to || d.contact,
-      from: d.from,
-      to: "Customer Destination",
-      qty: -Number(it.qty),
-      type: "OUT",
-      status: "Done"
-    });
-  });
-
-  addActivity("📤", `Delivery <strong>${d.id}</strong> dispatched to ${d.to} (-${d.items.reduce((acc, x) => acc + Number(x.qty), 0)} units)`);
-  showToast(`✓ Delivery ${d.id} dispatched! Stock deducted.`);
-  renderKPIs();
-}
-
-function quickValidateDelivery(id) {
-  const d = state.deliveries.find(x => x.id === id);
-  if (!d) return;
-
-  for (let it of d.items) {
-    const p = state.products.find(prod => prod.name.toLowerCase() === it.name.toLowerCase());
-    if (p && p.onHand < Number(it.qty)) {
-      showToast(`⚠️ Insufficient stock for ${it.name}`);
-      d.status = 'Waiting';
-      renderDeliveries();
-      return;
-    }
-  }
-
-  d.status = 'Done';
-  d.items.forEach(it => {
-    const p = state.products.find(prod => prod.name.toLowerCase() === it.name.toLowerCase());
-    if (p) {
-      p.onHand -= Number(it.qty);
-      p.freeToUse -= Number(it.qty);
-    }
-    state.history.unshift({
-      ref: d.id,
-      date: new Date().toLocaleString(),
-      product: it.name,
-      contact: d.to,
-      from: d.from,
-      to: "Customer Destination",
-      qty: -Number(it.qty),
-      type: "OUT",
-      status: "Done"
-    });
-  });
-
-  addActivity("📤", `Delivery <strong>${d.id}</strong> dispatched`);
-  showToast(`✓ Delivery ${d.id} validated!`);
-  renderDeliveries();
-  renderKPIs();
-}
-
-function cancelDelivery() {
-  if (state.currentEditingDelivery) {
-    state.currentEditingDelivery.status = 'Canceled';
-    showToast(`Delivery ${state.currentEditingDelivery.id} canceled.`);
+    await api('POST', `/api/deliveries/${docId}/validate`, { location: 'Main Store' });
+    updateDeliveryStepper('Done');
+    showToast(`✓ Delivery dispatched! Stock deducted.`);
     closeDeliveryForm();
+    await refreshLive();
+  } catch (e) {
+    showToast('⚠️ ' + e.message);
+  }
+}
+
+async function quickValidateDelivery(id) {
+  const d = state.deliveries.find(x => x.id === id || x._id === id);
+  if (!d || !d._id) return;
+  try {
+    await api('POST', `/api/deliveries/${d._id}/validate`, { location: 'Main Store' });
+    showToast(`✓ Delivery ${d.id} validated!`);
+    await refreshLive();
+  } catch (e) {
+    showToast('⚠️ ' + e.message);
+  }
+}
+
+async function cancelDelivery() {
+  if (!state.currentEditingDelivery) return;
+  const d = state.currentEditingDelivery;
+  try {
+    if (d._id) await api('PATCH', `/api/deliveries/${d._id}`, { status: 'Canceled' });
+    showToast(`Delivery ${d.id} canceled.`);
+    closeDeliveryForm();
+    await refreshLive();
+  } catch (e) {
+    showToast('⚠️ ' + e.message);
   }
 }
 
@@ -996,8 +1085,8 @@ function renderProducts(filteredList = null) {
       <td>${statusBadge}</td>
       <td>
         <div class="row-actions">
-          <button class="action-btn-sm" title="Edit SKU" onclick="editProduct(${p.id})">✏</button>
-          <button class="action-btn-sm danger" title="Delete" onclick="deleteProduct(${p.id})">🗑</button>
+          <button class="action-btn-sm" title="Edit SKU" onclick="editProduct('${p.id}')">✏</button>
+          <button class="action-btn-sm danger" title="Delete" onclick="deleteProduct('${p.id}')">🗑</button>
         </div>
       </td>
     `;
@@ -1023,65 +1112,91 @@ function filterProductsTable(query) {
 }
 
 function openProductModal() {
+  state.currentEditingProduct = null;
   document.getElementById("productModalTitle").innerText = "Add New Product to Catalog";
   document.getElementById("pf-name").value = "";
   document.getElementById("pf-sku").value = "";
   document.getElementById("pf-stock").value = "0";
+  document.getElementById("pf-stock").disabled = false;
   document.getElementById("pf-cost").value = "0";
   document.getElementById("pf-reorder").value = "10";
   document.getElementById("productModal")?.classList.remove("hidden");
 }
 
-function closeProductModal() {
-  document.getElementById("productModal")?.classList.add("hidden");
+function editProduct(id) {
+  const p = state.products.find(p => String(p.id) === String(id));
+  if (!p) return;
+  state.currentEditingProduct = p;
+  document.getElementById("productModalTitle").innerText = "Edit Product";
+  document.getElementById("pf-name").value = p.name;
+  document.getElementById("pf-sku").value = p.sku;
+  document.getElementById("pf-stock").value = p.onHand;
+  document.getElementById("pf-stock").disabled = true;
+  document.getElementById("pf-stock").title = "Stock changes via receipts & adjustments";
+  document.getElementById("pf-cost").value = p.cost || 0;
+  document.getElementById("pf-reorder").value = p.reorderPoint;
+  const catSel = document.getElementById("pf-category");
+  if (catSel && ![...catSel.options].some(o => o.value === p.category || o.text === p.category)) {
+    const o = document.createElement("option"); o.value = p.category; o.textContent = p.category; catSel.appendChild(o);
+  }
+  if (catSel) catSel.value = p.category;
+  const uomSel = document.getElementById("pf-uom");
+  if (uomSel && ![...uomSel.options].some(o => o.value === p.uom || o.text === p.uom)) {
+    const o = document.createElement("option"); o.value = p.uom; o.textContent = p.uom; uomSel.appendChild(o);
+  }
+  if (uomSel) uomSel.value = p.uom;
+  document.getElementById("productModal")?.classList.remove("hidden");
 }
 
-function saveProduct() {
+function closeProductModal() {
+  document.getElementById("productModal")?.classList.add("hidden");
+  state.currentEditingProduct = null;
+}
+
+async function saveProduct() {
   const name = document.getElementById("pf-name")?.value.trim();
   const sku = document.getElementById("pf-sku")?.value.trim();
   const category = document.getElementById("pf-category")?.value;
   const uom = document.getElementById("pf-uom")?.value;
   const onHand = Number(document.getElementById("pf-stock")?.value) || 0;
-  const cost = Number(document.getElementById("pf-cost")?.value) || 0;
   const reorderPoint = Number(document.getElementById("pf-reorder")?.value) || 10;
-  const location = document.getElementById("pf-location")?.value;
+  const warehouseId = document.getElementById("pf-location")?.value;
 
   if (!name || !sku) {
     showToast("⚠️ Product name and SKU identifier required.");
     return;
   }
 
-  const newProd = {
-    id: Date.now(),
-    name,
-    sku,
-    category,
-    location,
-    uom,
-    cost,
-    onHand,
-    freeToUse: onHand,
-    reorderPoint
-  };
-
-  state.products.unshift(newProd);
-  closeProductModal();
-  renderProducts();
-  renderStockTable();
-  renderKPIs();
-  addActivity("🏷", `SKU <strong>${sku}</strong> (${name}) cataloged into ${location}`);
-  showToast(`✓ Registered product "${name}"!`);
+  try {
+    if (state.currentEditingProduct) {
+      await api('PUT', `/api/products/${state.currentEditingProduct.id}`, { name, sku, category, uom, reorderLevel: reorderPoint });
+      showToast(`✓ Updated "${name}"`);
+    } else {
+      if (!warehouseId) { showToast('⚠️ No warehouse available — create one via /api/warehouses first'); return; }
+      const wh = state.warehouses.find(w => String(w.id) === String(warehouseId));
+      await api('POST', '/api/products', {
+        name, sku, category, uom, reorderLevel: reorderPoint,
+        warehouseId, location: (wh && wh.locations[0]) || 'Main Store', initialQty: onHand,
+      });
+      showToast(`✓ Registered product "${name}"!`);
+    }
+    closeProductModal();
+    await refreshLive();
+  } catch (e) {
+    showToast('⚠️ ' + e.message);
+  }
 }
 
-function deleteProduct(id) {
-  const idx = state.products.findIndex(p => p.id === id);
-  if (idx > -1) {
-    const pName = state.products[idx].name;
-    state.products.splice(idx, 1);
-    renderProducts();
-    renderStockTable();
-    renderKPIs();
-    showToast(`Removed ${pName}`);
+async function deleteProduct(id) {
+  const p = state.products.find(p => String(p.id) === String(id));
+  if (!p) return;
+  if (!confirm(`Delete '${p.name}' (${p.sku})?`)) return;
+  try {
+    await api('DELETE', `/api/products/${id}`);
+    showToast(`Removed ${p.name}`);
+    await refreshLive();
+  } catch (e) {
+    showToast('⚠️ ' + e.message);
   }
 }
 
@@ -1152,11 +1267,11 @@ function renderAdjustments() {
       <td><span style="font-size:0.83rem; color:var(--text-muted)">${p.location}</span></td>
       <td style="font-family:var(--font-mono); font-weight:700; color:var(--text-body)"><span id="adj-rec-${p.id}">${p.onHand}</span> ${p.uom}</td>
       <td>
-        <input type="number" class="inline-input short" id="adj-input-${p.id}" value="${p.onHand}" min="0" oninput="calculateAdjustmentDiff(${p.id}, ${p.onHand})" />
+        <input type="number" class="inline-input short" id="adj-input-${p.id}" value="${p.onHand}" min="0" oninput="calculateAdjustmentDiff('${p.id}', ${p.onHand})" />
       </td>
       <td><span id="adj-diff-${p.id}" style="font-family:var(--font-mono); font-weight:700; color:var(--text-dim)">0</span></td>
       <td>
-        <button class="glass-btn secondary sm-btn" onclick="applySingleAdjustment(${p.id})">Fix Delta</button>
+          <button class="glass-btn secondary sm-btn" onclick="applySingleAdjustment('${p.id}')">Fix Delta</button>
       </td>
     `;
     tbody.appendChild(tr);
@@ -1181,8 +1296,17 @@ function calculateAdjustmentDiff(productId, recordedQty) {
   }
 }
 
-function applySingleAdjustment(productId) {
-  const p = state.products.find(prod => prod.id === productId);
+async function postAdjustment(p, physical, reason) {
+  const wh = state.warehouses.find(w => String(w.id) === String(p.whId)) || state.warehouses[0];
+  if (!wh) throw new Error('No warehouse available');
+  await api('POST', '/api/adjustments', {
+    product: p.id, warehouse: wh.id, location: p.loc || (wh.locations && wh.locations[0]) || 'Main Store',
+    countedQty: physical, reason: reason || 'dashboard audit',
+  });
+}
+
+async function applySingleAdjustment(productId) {
+  const p = state.products.find(prod => String(prod.id) === String(productId));
   if (!p) return;
   const inputEl = document.getElementById(`adj-input-${productId}`);
   const physical = Number(inputEl.value) || 0;
@@ -1193,63 +1317,36 @@ function applySingleAdjustment(productId) {
     return;
   }
 
-  p.onHand = physical;
-  p.freeToUse = physical;
-
-  // Add ledger entry
-  state.history.unshift({
-    ref: `ADJ/${new Date().getFullYear()}/${String(state.history.length + 1).padStart(3, '0')}`,
-    date: new Date().toLocaleString(),
-    product: p.name,
-    contact: "Warehouse Physical Audit",
-    from: "Physical Shelf Count",
-    to: p.location,
-    qty: diff,
-    type: "Adjustment",
-    status: "Done"
-  });
-
-  addActivity("⚖️", `Stock reconciled for <strong>${p.name}</strong> (${diff > 0 ? '+' + diff : diff} units)`);
-  showToast(`✓ Stock for "${p.name}" adjusted to ${physical} ${p.uom}`);
-
-  renderAdjustments();
-  renderKPIs();
-  renderStockTable();
+  try {
+    await postAdjustment(p, physical, 'dashboard single audit');
+    showToast(`✓ Stock for "${p.name}" adjusted to ${physical} ${p.uom}`);
+    await refreshLive();
+  } catch (e) {
+    showToast('⚠️ ' + e.message);
+  }
 }
 
-function applyAdjustment() {
+async function applyAdjustment() {
   let adjustmentsCount = 0;
-  state.products.forEach(p => {
+  let failed = null;
+  for (const p of state.products) {
     const inputEl = document.getElementById(`adj-input-${p.id}`);
     if (inputEl) {
       const physical = Number(inputEl.value);
       if (!isNaN(physical) && physical !== p.onHand) {
-        const diff = physical - p.onHand;
-        p.onHand = physical;
-        p.freeToUse = physical;
-        adjustmentsCount++;
-
-        state.history.unshift({
-          ref: `ADJ/${new Date().getFullYear()}/${String(state.history.length + 1).padStart(3, '0')}`,
-          date: new Date().toLocaleString(),
-          product: p.name,
-          contact: "Annual Stock Audit",
-          from: "Physical Shelf Count",
-          to: p.location,
-          qty: diff,
-          type: "Adjustment",
-          status: "Done"
-        });
+        try {
+          await postAdjustment(p, physical, 'dashboard bulk audit');
+          adjustmentsCount++;
+        } catch (e) { failed = e.message; }
       }
     }
-  });
+  }
 
   if (adjustmentsCount > 0) {
-    addActivity("⚖️", `Bulk inventory audit reconciled ${adjustmentsCount} discrepant SKUs`);
     showToast(`✓ Reconciled ${adjustmentsCount} physical stock differences`);
-    renderAdjustments();
-    renderKPIs();
-    renderStockTable();
+    await refreshLive();
+  } else if (failed) {
+    showToast('⚠️ ' + failed);
   } else {
     showToast("No count discrepancies to reconcile.");
   }
@@ -1412,32 +1509,40 @@ function selectWarehouse(warehouseName) {
 let velocityChartInstance = null;
 let categoryDonutChartInstance = null;
 
-const chartDataSets = {
-  '7d': {
-    labels: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'],
-    inbound: [18, 26, 14, 32, 22, 12, 18],
-    outbound: [12, 19, 16, 24, 20, 15, 12],
-    inboundTotal: '142 units',
-    outboundTotal: '118 units',
-    netFlow: '+24 units'
-  },
-  '30d': {
-    labels: ['Week 1', 'Week 2', 'Week 3', 'Week 4'],
-    inbound: [110, 145, 125, 162],
-    outbound: [95, 130, 118, 140],
-    inboundTotal: '542 units',
-    outboundTotal: '483 units',
-    netFlow: '+59 units'
-  },
-  '90d': {
-    labels: ['Jul 2026', 'Aug 2026', 'Sep 2026'],
-    inbound: [460, 520, 590],
-    outbound: [420, 480, 535],
-    inboundTotal: '1,570 units',
-    outboundTotal: '1,435 units',
-    netFlow: '+135 units'
+// Velocity datasets are computed from the live stock ledger (no mock series).
+function velocityDataset(range = '7d') {
+  const now = new Date();
+  const days = range === '90d' ? 90 : range === '30d' ? 30 : 7;
+  const buckets = range === '90d' ? 3 : range === '30d' ? 4 : 7;
+  const span = days / buckets;
+  const labels = [], inbound = new Array(buckets).fill(0), outbound = new Array(buckets).fill(0);
+
+  for (let i = 0; i < buckets; i++) {
+    const end = new Date(now.getTime() - (buckets - 1 - i) * span * 864e5);
+    if (range === '90d') labels.push(end.toLocaleDateString('en-US', { month: 'short', year: 'numeric' }));
+    else if (range === '30d') labels.push('Week ' + (i + 1));
+    else labels.push(end.toLocaleDateString('en-US', { weekday: 'short' }));
   }
-};
+
+  (state.history || []).forEach(h => {
+    if (!h._at) return;
+    const ageDays = (now - new Date(h._at)) / 864e5;
+    if (ageDays < 0 || ageDays > days) return;
+    const idx = Math.min(buckets - 1, Math.floor((days - ageDays) / span));
+    if (h.type === 'IN') inbound[idx] += Math.abs(h.qty);
+    else if (h.type === 'OUT') outbound[idx] += Math.abs(h.qty);
+  });
+
+  const inTot = inbound.reduce((a, b) => a + b, 0);
+  const outTot = outbound.reduce((a, b) => a + b, 0);
+  const net = inTot - outTot;
+  return {
+    labels, inbound, outbound,
+    inboundTotal: inTot + ' units',
+    outboundTotal: outTot + ' units',
+    netFlow: (net >= 0 ? '+' : '') + net + ' units',
+  };
+}
 
 function initCharts() {
   renderVelocityChart('7d');
@@ -1455,7 +1560,7 @@ function renderVelocityChart(range = '7d') {
   const canvas = document.getElementById('velocityChart');
   if (!canvas || typeof Chart === 'undefined') return;
 
-  const dataset = chartDataSets[range] || chartDataSets['7d'];
+  const dataset = velocityDataset(range);
 
   // Update bottom stats
   const inEl = document.getElementById('cStatInbound');
@@ -1569,23 +1674,21 @@ function renderCategoryDonutChart() {
   const canvas = document.getElementById('categoryDonutChart');
   if (!canvas || typeof Chart === 'undefined') return;
 
-  // Compute category statistics from state.products
-  const catMap = {
-    'Raw Materials': { units: 0, cost: 0, color: '#4f46e5' },
-    'Finished Goods': { units: 0, cost: 0, color: '#0284c7' },
-    'Consumables': { units: 0, cost: 0, color: '#d97706' }
-  };
+  // Compute category statistics from live state.products (dynamic categories)
+  const PALETTE = ['#4f46e5', '#0284c7', '#d97706', '#059669', '#7c3aed', '#e11d48', '#0891b2'];
+  const catMap = {};
+  let colorIdx = 0;
 
   let totalUnits = 0;
   let totalValuation = 0;
 
   state.products.forEach(p => {
-    if (catMap[p.category]) {
-      catMap[p.category].units += p.onHand;
-      catMap[p.category].cost += (p.onHand * p.cost);
-    }
+    const cat = p.category || 'General';
+    if (!catMap[cat]) catMap[cat] = { units: 0, cost: 0, color: PALETTE[colorIdx++ % PALETTE.length] };
+    catMap[cat].units += p.onHand;
+    catMap[cat].cost += (p.onHand * (p.cost || 0));
     totalUnits += p.onHand;
-    totalValuation += (p.onHand * p.cost);
+    totalValuation += (p.onHand * (p.cost || 0));
   });
 
   // Update center readouts
@@ -1671,27 +1774,29 @@ function renderWarehouseCapacity() {
   const totalEl = document.getElementById('whCapacityTotal');
   if (!listEl) return;
 
-  const warehouses = [
-    { name: 'Main Warehouse (WH)', capacity: 180, color: 'var(--primary)' },
-    { name: 'Production Floor', capacity: 90, color: 'var(--cyan)' },
-    { name: 'Warehouse 2', capacity: 110, color: 'var(--emerald)' }
-  ];
+  // Live warehouses from the API; allocated units summed from live stock.
+  const COLORS = ['var(--primary)', 'var(--cyan)', 'var(--emerald)', 'var(--violet)', 'var(--amber)'];
+  const warehouses = state.warehouses.length
+    ? state.warehouses.map((w, i) => ({ name: w.name, color: COLORS[i % COLORS.length] }))
+    : [];
 
   let totalAllocated = 0;
-  let totalCapacity = 380;
-
-  const html = warehouses.map(wh => {
+  const perWh = warehouses.map(wh => {
     const allocated = state.products
       .filter(p => p.location === wh.name)
       .reduce((sum, p) => sum + p.onHand, 0);
     totalAllocated += allocated;
-    const pct = Math.min(100, Math.round((allocated / wh.capacity) * 100));
+    return { ...wh, allocated };
+  });
+
+  const html = perWh.map(wh => {
+    const pct = totalAllocated > 0 ? Math.min(100, Math.round((wh.allocated / totalAllocated) * 100)) : 0;
 
     return `
       <div class="wh-cap-row" onclick="selectWarehouse('${wh.name}')" style="cursor:pointer" title="Click to filter by ${wh.name}">
         <div class="wh-cap-row-meta">
           <span class="wh-cap-loc-name">${wh.name}</span>
-          <span class="wh-cap-loc-pct">${allocated} / ${wh.capacity} (${pct}%)</span>
+          <span class="wh-cap-loc-pct">${wh.allocated} units (${pct}% of stocked)</span>
         </div>
         <div class="wh-cap-bar-track">
           <div class="wh-cap-bar-fill" style="width: ${pct}%; background: ${wh.color}"></div>
@@ -1701,7 +1806,7 @@ function renderWarehouseCapacity() {
   }).join('');
 
   listEl.innerHTML = html;
-  if (totalEl) totalEl.innerText = `${totalAllocated} / ${totalCapacity} Units`;
+  if (totalEl) totalEl.innerText = `${totalAllocated} Units stocked`;
 }
 
 function filterByCategory(cat) {

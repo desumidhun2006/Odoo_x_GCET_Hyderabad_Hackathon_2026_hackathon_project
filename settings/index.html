@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>StockSense — Settings & Profile (Member 4)</title>
+  <meta name="description" content="Manage user preferences and system configuration. UI-only mock." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:opsz,wght@8..60,500;8..60,600;8..60,700&family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet" />
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='24' fill='%234f46e5'/><path d='M30 40 L50 28 L70 40 L50 52 Z M30 44 L50 56 L50 74 L30 62 Z M70 44 L50 56 L50 74 L70 62 Z' fill='none' stroke='white' stroke-width='4' stroke-linejoin='round'/></svg>" />
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body class="light-glass-theme">
+
+  <!-- CRYSTAL LIQUID PRISM BACKGROUND -->
+  <div class="crystal-ambient" aria-hidden="true">
+    <div class="prism-orb prism-indigo"></div>
+    <div class="prism-orb prism-cyan"></div>
+    <div class="prism-orb prism-amber"></div>
+    <div class="prism-orb prism-rose"></div>
+    <div class="crystal-caustic"></div>
+    <div class="crystal-mesh"></div>
+    <div class="crystal-grain"></div>
+  </div>
+
+  <!-- ═══════════════════════ TOP GLASS BAR ═══════════════════════ -->
+  <nav class="glass-navbar" id="navbar">
+    <div class="nav-container">
+      <div class="nav-brand" onclick="location.href='/dashboard/'">
+        <div class="brand-cube">
+          <svg viewBox="0 0 32 32" class="cube-svg">
+            <path d="M16 3 L28 10 L16 17 L4 10 Z" fill="url(#brandGrad1)" />
+            <path d="M4 11 L16 18 L16 29 L4 22 Z" fill="url(#brandGrad2)" />
+            <path d="M28 11 L16 18 L16 29 L28 22 Z" fill="url(#brandGrad3)" />
+            <defs>
+              <linearGradient id="brandGrad1" x1="0" y1="0" x2="1" y2="1">
+                <stop offset="0%" stop-color="#6366f1" />
+                <stop offset="100%" stop-color="#4f46e5" />
+              </linearGradient>
+              <linearGradient id="brandGrad2" x1="0" y1="0" x2="1" y2="1">
+                <stop offset="0%" stop-color="#4338ca" />
+                <stop offset="100%" stop-color="#312e81" />
+              </linearGradient>
+              <linearGradient id="brandGrad3" x1="0" y1="0" x2="1" y2="1">
+                <stop offset="0%" stop-color="#06b6d4" />
+                <stop offset="100%" stop-color="#0284c7" />
+              </linearGradient>
+            </defs>
+          </svg>
+        </div>
+        <div class="brand-text">
+          <span class="brand-name">StockSense</span>
+          <span class="brand-tag"><span class="beacon"></span>Enterprise Ledger</span>
+        </div>
+      </div>
+
+      <ul class="nav-pills" id="navLinks">
+        <li><button class="nav-pill" onclick="location.href='/dashboard/'">Dashboard</button></li>
+        <li><button class="nav-pill" onclick="location.href='/receipts/'">Receipts</button></li>
+        <li><button class="nav-pill" onclick="location.href='/stock/'">Stock</button></li>
+        <li><button class="nav-pill active">Settings</button></li>
+      </ul>
+
+      <div class="nav-actions">
+        <div class="user-profile-btn">
+          <div class="avatar-ring"><div class="avatar-inner" id="navAvatar">M4</div></div>
+        </div>
+      </div>
+    </div>
+  </nav>
+
+  <!-- ═══════════════════════ MAIN VIEWPORT ═══════════════════════ -->
+  <main class="app-viewport">
+    <section class="view">
+      <div class="view-header">
+        <div>
+          <div class="view-breadcrumb">CONFIGURATION <span>/</span> PROFILE · MEMBER 4</div>
+          <h1 class="view-title">Settings & Profile Management</h1>
+          <p class="view-desc">Manage user preferences and system configuration. Saved in this browser (UI-only mock).</p>
+        </div>
+      </div>
+
+      <div class="twin-stream-grid">
+        <div style="display:flex; flex-direction:column; gap:1.5rem;">
+          <!-- PROFILE -->
+          <div class="crystal-card table-section">
+            <div class="table-section-header">
+              <div class="t-title-wrap"><h2 class="t-section-title">My Profile</h2><span class="t-count-badge" id="avatar">?</span></div>
+            </div>
+            <div style="padding: 1.5rem;">
+              <div class="crystal-form-grid">
+                <div class="form-group" style="grid-column: 1 / -1;"><label>Full Name</label><input type="text" id="pName" placeholder="Elena Rodriguez" /></div>
+                <div class="form-group" style="grid-column: 1 / -1;"><label>Email</label><input type="email" id="pEmail" placeholder="elena@stocksense.io" /></div>
+                <div class="form-group"><label>Role</label>
+                  <select id="pRole" class="crystal-select full"><option>Inventory Lead</option><option>Warehouse Manager</option><option>Administrator</option><option>Auditor</option></select>
+                </div>
+                <div class="form-group"><label>Phone</label><input type="text" id="pPhone" placeholder="+91 90000 00000" /></div>
+              </div>
+              <div class="modal-bottom"><button class="crystal-btn primary" id="saveProfile">Save Profile</button></div>
+            </div>
+          </div>
+
+          <!-- SECURITY -->
+          <div class="crystal-card table-section">
+            <div class="table-section-header">
+              <div class="t-title-wrap"><h2 class="t-section-title">Security</h2><span class="t-count-badge">Mock</span></div>
+            </div>
+            <div style="padding: 1.5rem;">
+              <div class="crystal-form-grid">
+                <div class="form-group" style="grid-column: 1 / -1;"><label>Current Password</label><input type="password" id="curPass" /></div>
+                <div class="form-group"><label>New Password</label><input type="password" id="newPass" /></div>
+                <div class="form-group"><label>Confirm Password</label><input type="password" id="confirmPass" /></div>
+              </div>
+              <div class="modal-bottom"><button class="crystal-btn secondary" id="passBtn">Update Password</button></div>
+            </div>
+          </div>
+        </div>
+
+        <div style="display:flex; flex-direction:column; gap:1.5rem;">
+          <!-- PREFERENCES -->
+          <div class="crystal-card table-section">
+            <div class="table-section-header">
+              <div class="t-title-wrap"><h2 class="t-section-title">Preferences</h2></div>
+            </div>
+            <div style="padding: 1.5rem;">
+              <div class="crystal-form-grid">
+                <div class="form-group"><label>Theme</label>
+                  <select id="prefTheme" class="crystal-select full"><option value="light">Light Crystal Glass</option></select>
+                </div>
+                <div class="form-group"><label>Default Facility</label>
+                  <select id="prefWh" class="crystal-select full"><option>All Warehouses</option><option>Main DC</option><option>North Hub</option><option>Production Plant A</option></select>
+                </div>
+                <div class="form-group"><label>Items Per Page</label>
+                  <select id="prefSize" class="crystal-select full"><option>10</option><option>25</option><option>50</option></select>
+                </div>
+                <div class="form-group"><label>Date Format</label>
+                  <select id="prefDate" class="crystal-select full"><option>DD/MM/YYYY</option><option>MM/DD/YYYY</option><option>YYYY-MM-DD</option></select>
+                </div>
+                <div class="form-group"><label>Low-Stock Alerts</label>
+                  <select id="nLow" class="crystal-select full"><option value="on">Enabled</option><option value="off">Disabled</option></select>
+                </div>
+                <div class="form-group"><label>Receipt Notifications</label>
+                  <select id="nRec" class="crystal-select full"><option value="on">Enabled</option><option value="off">Disabled</option></select>
+                </div>
+                <div class="form-group"><label>Delivery Notifications</label>
+                  <select id="nDel" class="crystal-select full"><option value="on">Enabled</option><option value="off">Disabled</option></select>
+                </div>
+              </div>
+              <div class="modal-bottom"><button class="crystal-btn primary" id="savePrefs">Save Preferences</button></div>
+            </div>
+          </div>
+
+          <!-- SYSTEM -->
+          <div class="crystal-card table-section">
+            <div class="table-section-header">
+              <div class="t-title-wrap"><h2 class="t-section-title">System</h2><span class="t-count-badge" id="apiState">mock mode</span></div>
+            </div>
+            <div style="padding: 1.5rem;">
+              <p class="view-desc">Member 4 scope: Receipts (../receipts/), Stock (../stock/), Settings (this page).</p>
+              <div class="modal-bottom" style="justify-content:flex-start;">
+                <button class="crystal-btn danger" id="signOutBtn">Sign Out</button>
+                <button class="crystal-btn secondary" id="resetBtn">Reset All Settings</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- ═══════════════════════ TOAST ═══════════════════════ -->
+  <div class="crystal-toast hidden" id="toast"></div>
+  <script src="app.js"></script>
+</body>
+</html>

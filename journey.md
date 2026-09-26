@@ -581,7 +581,81 @@
 Every future assistant response that completes a task MUST:
 1. Run verification (tests / `git status` / file checks as appropriate).
 2. `git add -A`, `git commit -m "<type>: <detail>"`, `git push`.
-3. Append a new `Task N` entry in Section 1 + new `Commit N` entry in Section 2 + update Section 3, with exact commands and outputs.
+3. Append one paragraph per task in `journey.md` below with commit ID + message.
 4. Commit + push the `journey.md` update itself, so GitHub always reflects the latest journey.
 
 
+
+---
+
+## 6. Simplified Log (from 2026-09-26 onwards — one para per task)
+
+Simplified workflow adopted per user request: no more extreme detail, just one paragraph per task with commit ID and message. Updated README to reflect this and fixed branch from `main` to `features` (current branch `features` tracking `origin/features`).
+
+Commit ID: `a0b9be1f8d13589957118881b8cd7e86b1b9524d` / Short: `a0b9be1` — Message: `Docs: simplify journey.md workflow to one para plus branch fix`
+
+Task 1 Scaffold (done 12:37 IST, 4h23 left to 17:00): scaffolded MERN server (Express+Mongoose, health check verified on :5001) and Vite React client with inventory route shells and auth stub for M2, keeping ownership boundaries for parallel branches.
+
+Commit ID: `76bd4db3a865529fd70c9090883b8393fabdffc3` / Short: `76bd4db` — Message: `Feat: scaffold MERN server client and inventory route shells`
+
+Task 2 Models (done 12:38 IST, 4h22 left): added Product/Warehouse/Stock/Ledger/Receipt/Delivery/Transfer/Adjustment models plus products CRUD/search/stock-view, warehouses API, stock bump helper and demo seed; health check still green.
+
+Commit ID: `b8a214f725dd22daa3c48491b43c8d26cac8f5c6` / Short: `b8a214f` — Message: `Feat: add product warehouse stock models CRUD search and seed`
+
+Task 3 Receipts/Deliveries (done 12:39 IST, 4h21 left): implemented receipts validate (+stock) and deliveries validate (−stock with insufficient guard) with status filters and ledger writes; server syntax+health green, DB ops need MONGO_URI.
+
+Commit ID: `5428b65040f0152ec2fa8199e4bc76c86573986c` / Short: `5428b65` — Message: `Feat: implement receipts and deliveries with validate stock logic`
+
+Task 4 Transfers/Adjustments (done 12:40 IST, 4h20 left): implemented internal transfer validate (source check, −from/+to, total unchanged) and adjustment flow (recorded vs counted diff, auto stock set + ledger); syntax verified.
+
+Commit ID: `a2eb28de0d86050cdd0c6b95e288b46da7fa781d` / Short: `a2eb28d` — Message: `Feat: implement internal transfers and stock adjustments with ledger`
+
+Task 5 Ledger/Dashboard/UI (done 12:59 IST, 4h01 left): added ledger filters, low-stock alerts, dashboard-summary for M3, inventory React pages with build green and Playwright Chromium screenshot verified rendering.
+
+Commit ID: `dc86764522b56a3bf6f967d6eaea0e6c749e0d6c` / Short: `dc86764` — Message: `Feat: add ledger filters low-stock dashboard summary and inventory UI`
+
+Task 6 Integration (done 13:00 IST, 4h00 left): added API contract + demo flow doc for M2/M3/M1 parallel work, verified server syntax, client build green and browser screenshot; features module complete on `features` branch.
+
+Commit ID: `d25936b781deec301d7b6c23b9fcda5523c430f3` / Short: `d25936b` — Message: `Docs: add features API contract and demo flow for parallel team`
+
+AFK hardening (done 13:04 IST, 3h56 left): e2e passes on in-memory Mongo (receipt/transfer/delivery/adjust/ledger/low-stock), hardened UI with product create form, ops create+validate forms, dashboard KPI panel for M3, build green and Playwright full-page screenshot verified with correct error states offline.
+
+Commit ID: `331dd75cc1ae886c3a156b018c49b534f54cead0` / Short: `331dd75` — Message: `Feat: harden inventory UI with forms validation dashboard panel plus e2e`
+
+Live HTTP e2e (done 13:05 IST, 3h55 left): warehouse/product/receipt/validate/stock/ledger/dashboard-summary all pass over real HTTP against in-memory Mongo, closing the earlier no-DB buffering gap.
+
+Commit ID: `e2d43ab0fdab7087f882b6f4a8caa5a9b573c835` / Short: `e2d43ab` — Message: `Test: add live HTTP e2e for warehouse product receipt ledger`
+
+Live demo (done 13:07 IST, 3h53 left): seeded PDF flow served over real HTTP, rebuilt client against it and Playwright screenshot shows live KPIs (2 products) and product list rendering — full stack proven; cleaned up demo processes.
+
+Commit ID: `b521f81377d6d2118ca0319caf975481afee4647` / Short: `b521f81` — Message: `Test: add live demo server with seeded PDF flow for UI verification`
+
+Full Playwright run (done 15:08 IST, 1h52 left): live API :5023 + UI :4179 driven in Chromium via playwright-core — KPIs, product create, receipt create+validate, stock 70+5=75, ledger and history all PASS with zero console errors; no repo changes, servers stopped after.
+
+No new code commit (verification-only, tree clean).
+
+Live headed watch (done 15:12 IST, 1h48 left): user watched Chromium run the full flow visibly — KPIs, UI product create, UI receipt validate, stock 75, history update all PASS; single favicon 404 found, fixed with public/favicon.svg, headless re-check CLEAN with zero errors; demo API :5024 and UI :4180 left running for live exploration; replay video in /tmp.
+
+Commit ID: `645f6bcee9e55497088341038ca95b2fd3faef34` / Short: `645f6bc` — Message: `Fix: add favicon to kill 404 console error found in live test`
+
+Stitch swap (done 15:32 IST, 1h28 left, shipped in f89e25e below): unzipped original Stitch screens into stitch/ (dashboard/receipts/deliveries/transfers + DESIGN.md, screen.png previews dropped as visual duplicates), wired live API via stitch/live.js (sidebar nav, live KPI badges, live ledger rows, real validate flows), express serves stitch/ at /, deleted duplicated React client/; all 4 pages CLEAN, stitch-watch 8/8 flows PASS headed.
+
+Commit ID: `f89e25ea3da27c7bb0f5af5d90addf6380c5f3e0` / Short: `f89e25e` — Message: `Feat: add demo login gate and working logout for stitch UI`
+
+Logout fix (done 15:32 IST, 1h28 left): sidebar logout was dead mock href — added stitch/login.html demo gate, sign-out clears session and redirects, profile shows toast; logout-watch 7/7 PASS headed with zero errors (clearly marked DEMO until member-2 real auth lands).
+
+Commit ID: `da72a47dd694254b2da22b018f6e333b0a49b7a3` / Short: `da72a47` — Message: `Fix: remove internal demo-auth note from login page`
+
+Data wipe (done 15:37 IST, 1h23 left): added EMPTY_SEED=1 flag to live-demo.js and restarted :5025 fresh — API returns [] products, [] ledger, all KPIs 0; empty dashboard renders with LIVE badges and zero errors.
+
+Commit ID: `765556d8903597986dcd911c405e9c0974aa8504` / Short: `765556d` — Message: `Feat: add EMPTY_SEED flag and restart site with fully erased data`
+
+Login cleanup (done 15:33 IST, 1h27 left): removed the internal DEMO/member-2 note from the login card per request; verified served page has zero matches and Playwright screenshot shows a clean sign-in card.
+
+Commit ID: `775370e3587a413bc2df5db27eae3894cbb4490c` / Short: `775370e` — Message: `Docs: update journey.md for data wipe`
+
+Member 4 screens (done 16:16 IST): built receipts/, stock/, settings/ folders each in index.html + app.js + style.css format per request — Receipts with log/validate flow, Stock with view/add/edit/delete + CSV export, Settings with profile/preferences/security saved in browser; all UI-only mock via localStorage, node --check clean and python http.server 200 on all three pages.
+
+Commit ID: `4edf63262e92c733763ebbaf8c8aab62784e5b8b` / Short: `4edf632` — Message: `Feat: add Member 4 screens in index-app-style format (receipts, stock, settings)`
+
+Branch combine + merge prep (done 17:05 IST): merged origin/main (Tasks 7-9 glass UI, PDF cleanup, gitignore) into features — resolved dashboard/* to the live-API versions, unioned .gitignore, kept this log; merged origin/feature/standalone-auth (React auth module subtree); removed all UI mock data (live API everywhere); restored main dashboard; added server/seed-demo-data.mjs; integrated branch JWT auth with login-first flow and demo@stocksense.io identity; 10/10 Playwright checks green. No push yet — awaiting merge permit.
